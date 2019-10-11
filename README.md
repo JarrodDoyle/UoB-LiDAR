@@ -12,7 +12,7 @@ When assessing the feasibility of an offshore wind farm it is necessary to measu
    - simple standard calculations
    - Rˆ2 correlations
    - bin filling calculations
-- Outputs: this is the interesting part, we need to take into account the requirements of different stakeholders which would include: us (the technical advisor and independent assessor of the KPIs), the wind farm developer (who wants the validation completed as quickly as possible but is typically not very technical), the floating LiDAR manufacturer (who is very technical and wants to know how well their device is performing) and investors (who want to know the right boxes have been ticked but have little to no interest in how any of this is achieved). When we get started I’ve got a flow diagram of how I think the data flows that I can share with you.How you suggest we balance the outputs for each of these stakeholders is something I’ll be very interested in.In terms of measuring success, I would suggest that it needs to as a minimum: 1. Get the right answer; 2.Save us time; 3. Be intuitive to use.Constraints: I’m not aware of any constraints at this point. In terms of what tools you use to solve this problem that’s completely up to you.
+- Outputs: this is the interesting part, we need to take into account the requirements of different stakeholders which would include: us (the technical advisor and independent assessor of the KPIs), the wind farm developer (who wants the validation completed as quickly as possible but is typically not very technical), the floating LiDAR manufacturer (who is very technical and wants to know how well their device is performing) and investors (who want to know the right boxes have been ticked but have little to no interest in how any of this is achieved). When we get started I’ve got a flow diagram of how I think the data flows that I can share with you.How you suggest we balance the outputs for each of these stakeholders is something I’ll be very interested in.
 
 ## Stakeholders
 - Lloyd's
@@ -24,5 +24,8 @@ When assessing the feasibility of an offshore wind farm it is necessary to measu
   who is very technical and wants to know how well their device is performing
 - investors
   who want to know the right boxes have been ticked but have little to no interest in how any of this is achieved
+
+## Requirements
+In terms of measuring success, I would suggest that it needs to as a minimum: 1. Get the right answer; 2.Save us time; 3. Be intuitive to use.Constraints: I’m not aware of any constraints at this point. In terms of what tools you use to solve this problem that’s completely up to you.
 
 IP: Happy for the solutions to be open-source.
