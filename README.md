@@ -29,3 +29,38 @@ When assessing the feasibility of an offshore wind farm it is necessary to measu
 In terms of measuring success, I would suggest that it needs to as a minimum: 1. Get the right answer; 2.Save us time; 3. Be intuitive to use.Constraints: I’m not aware of any constraints at this point. In terms of what tools you use to solve this problem that’s completely up to you.
 
 IP: Happy for the solutions to be open-source.
+
+# Processes
+## GitHub
+Fundamentally the GitHub will have at least two branches at any time.
+| **Name** | **Function** | **Restrictions** |
+|----------|--------------|------------------|
+| Master   | Holds the current production code. <br/> Will always be in working state <br/>Will be continuously integrated with the production servers i.e. this is the code the client uses| No one can commit directly to master <br/> Commits must be merged from the dev branch using pull requests|
+| Dev      | Holds working code to be tested before being merged to master | Can only be merged into via pull requests. <br/> Pull requests must be peered reviewed by another member of the team |
+| *Feature branch* | Branch used to develop a single feature | Must be deleted upon merger with Dev branch |
+
+Commits should be named such that *"By applying this commit you will \<message\>"* forms a grammatically correct English sentence.
+
+## Jira
+- Each sprint shall be contained within a single Epic
+- Sprints should last ~2 weeks
+- ???Different epic boards for front/backend????
+
+# Style Guide
+In order to work effectively as a team, a code style ethos will be followed
+
+## Indentation
+- Spaces must be used
+- Soft tabs must be enabled to use spaces upon pressing tab key
+- Each indentation level must be 4 spaces wide
+
+## Naming conventions
+- Single letter variables names must only be used within a method
+- Single letter variables should only be used for either mathematical formulae or iteration counters
+- Variable names shall be descriptive of the data they contain
+- Variable names shall be concise without loosing meaning
+
+## Methods
+- Methods should not be longer than ~30 lines
+- Methods shall be named descriptively
+- Method names must follow the verb-noun pattern
