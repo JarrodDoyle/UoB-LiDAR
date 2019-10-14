@@ -33,6 +33,7 @@ IP: Happy for the solutions to be open-source.
 # Processes
 ## GitHub
 Fundamentally the GitHub will have at least two branches at any time.
+
 Name | Function | Restrictions
 --- | --- | ---
 Master   | Holds the current production code. br/ Will always be in working state br/Will be continuously integrated with the production servers i.e. this is the code the client uses| No one can commit directly to master br/ Commits must be merged from the dev branch using pull requests
