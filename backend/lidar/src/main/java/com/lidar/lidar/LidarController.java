@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 public class LidarController {
 
-    @RequestMapping("/")
+    @RequestMapping("/test")
     public String test(@RequestParam(name="a", required=false, defaultValue="aaa") String a, @RequestParam(name="b", required=false, defaultValue="bbb") String b) {
-        return "<!DOCTYPE HTML><html><head><title>Getting Started: Serving Web Content</title></head><body><p style='color:red'>hello</p></body></html>";
+        return "test";
     }
 
 }
