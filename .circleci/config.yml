@@ -15,7 +15,7 @@ jobs:
       # - image: circleci/postgres:9.4
 
         #    working_directory: ~/repo/backend/lidar
-        working_directory: ~/project/backend/lidar
+        working_directory: ~/LiDAR/backend/lidar
 
     environment:
       # Customize the JVM maximum heap limit
