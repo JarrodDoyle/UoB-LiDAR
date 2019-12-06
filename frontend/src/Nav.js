@@ -1,14 +1,21 @@
 import React from 'react';
+import {
+  Link
+} from "react-router-dom";
 
-function navBtn(props){
-  return <a herf="#">{props.name}</a>;
+function NavBtn(props){
+  return (
+    <button>
+      <Link to={props.page}>{props.name}</Link>
+    </button>
+  );
 }
 
 function Nav(){
   return (
     <nav>
-      <navBtn name="hello"/>
-      <navBtn name="wow"/>
+      <NavBtn name="Login" page="Login"/>
+      <NavBtn name="Dashboard" page="Dashboard"/>
     </nav>
   );
 }
