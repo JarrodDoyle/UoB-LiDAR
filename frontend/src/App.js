@@ -9,30 +9,37 @@ import {
 import Dashboard from './Dashboard.js';
 import Nav from './Nav.js';
 
+function Page(props){
+  if (props.nav === "true"){
+    return (
+      <div>
+        <Nav/>
+        {props.page}
+      </div>
+    );
+  }else{
+    return (
+      <div>
+        {props.page}
+      </div>
+    );
+  }
+}
+
 export default function App() {
   return (
     <Router>
-      <Nav/>
-          <hr />
-
-        {/*
-          A <Switch> looks through all its children <Route>
-          elements and renders the first one whose path
-          matches the current URL. Use a <Switch> any time
-          you have multiple routes, but you want only one
-          of them to render at a time
-        */}
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-        </Switch>
+      <Switch>
+        <Route exact path="/">
+          <Page nav="false" page="Home"/>
+        </Route>
+        <Route exact path="/login">
+          <Page nav="false" page="Login"/>
+        </Route>
+        <Route path="/dashboard">
+          <Page nav="true" page="Dashboard"/>
+        </Route>
+      </Switch>
     </Router>
   );
 }
