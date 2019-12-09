@@ -5,12 +5,12 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 import Dashboard from './Dashboard.js';
 import Lidars from './Lidars.js';
 import Nav from './Nav.js';
 import './App.css';
-import 'https://kit.fontawesome.com/b5b28e0ac4.js';
 
 function NavPage(){
   return (
@@ -31,6 +31,9 @@ function NavPage(){
 export default function App() {
   return (
     <Router>
+      <Helmet>
+        <script src="https://kit.fontawesome.com/b5b28e0ac4.js" crossorigin="anonymous"></script>
+      </Helmet>
       <Switch>
         <Route exact path="/">
           <Home/>
