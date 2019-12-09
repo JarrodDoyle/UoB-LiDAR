@@ -7,23 +7,25 @@ import {
 } from "react-router-dom";
 
 import Dashboard from './Dashboard.js';
+import Lidars from './Lidars.js';
 import Nav from './Nav.js';
+import './App.css';
+import 'https://kit.fontawesome.com/b5b28e0ac4.js';
 
-function Page(props){
-  if (props.nav === "true"){
-    return (
-      <div>
-        <Nav/>
-        {props.page}
-      </div>
-    );
-  }else{
-    return (
-      <div>
-        {props.page}
-      </div>
-    );
-  }
+function NavPage(){
+  return (
+    <div className="nav-page">
+    <Nav/>
+    <Switch>
+      <Route exact path="/lidars">
+        <Lidars/>
+      </Route>
+      <Route exact path="/dashboard">
+        <Dashboard/>
+      </Route>
+    </Switch>
+    </div>
+  );
 }
 
 export default function App() {
@@ -31,13 +33,13 @@ export default function App() {
     <Router>
       <Switch>
         <Route exact path="/">
-          <Page nav="false" page="Home"/>
+          <Home/>
         </Route>
         <Route exact path="/login">
-          <Page nav="false" page="Login"/>
+          <Login/>
         </Route>
-        <Route path="/dashboard">
-          <Page nav="true" page="Dashboard"/>
+        <Route path="*">
+          <NavPage/>
         </Route>
       </Switch>
     </Router>
@@ -46,7 +48,6 @@ export default function App() {
 
 // You can think of these components as "pages"
 // in your app.
-//
 
 function Home(){
   return (
@@ -63,7 +64,8 @@ function Home(){
 function Login() {
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Please login to the system</h2>
+      <Link to="/Lidar">Login</Link>
     </div>
   );
 }

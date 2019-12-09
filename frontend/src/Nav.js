@@ -5,16 +5,17 @@ import {
 
 function NavBtn(props){
   return (
-    <button>
-      <Link to={props.page}>{props.name}</Link>
-    </button>
+    <Link to={props.page}>
+      <i class="{props.icons}"></i>
+      <span>{props.name}</span>
+    </Link>
   );
 }
 
 function Nav(){
   return (
-    <nav>
-      <NavBtn name="Login" page="Login"/>
+    <nav className="Nav">
+      <NavBtn name="LiDARs" page="Lidars"/>
       <NavBtn name="Dashboard" page="Dashboard"/>
     </nav>
   );

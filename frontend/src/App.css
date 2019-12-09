@@ -1,38 +1,43 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans|Oxygen:300,400&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root{
+  --headfont: 'Fira Sans', sans-serif;
+  --bodyfont: 'Oxygen', sans-serif;
+  --thinfont: 'Oxygen Light';
+  --white: #ffffff;
+  --darkgray: #333333;
+  --gray: #4D4D4D;
+  --lightgray: #999999;
+  --green: #C2E15F;
+  --orange: #FDA333;
+  --purple: #D3A4F9;
+  --red: #FB4485;
+  --blue: #6CE0F1;
+  --salmon: #fa8a90;
+  font-family: var(--bodyfont);
+  color: var(--gray);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h1,h2,h3,h4,h5,h6{
+  font-family: var(--headfont);
+  color: var(--gray);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.nav-page{
+  display:grid;
+  width: 100vw;
+  height: 100vh;
+  grid-template-columns: 64px 1fr;
+  grid-template-rows: 1fr 4fr;
+  grid-template-areas: "nav head" "nav body";
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Nav{
+  grid-area: nav;
+  background-color: var(--salmon);
 }
