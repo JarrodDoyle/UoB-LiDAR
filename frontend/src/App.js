@@ -68,7 +68,7 @@ function Login() {
   return (
     <div>
       <h2>Please login to the system</h2>
-      <Link to="/Lidar">Login</Link>
+      <Link to="/Lidars">Login</Link>
     </div>
   );
 }
