@@ -5,13 +5,20 @@ import GridLayout from 'react-grid-layout';
 
 function Card(props) {
   return (
-    <div class="dash-card">
-      <h3>{props.title} {props.cardID}</h3>
-      <p>{props.content}</p>
-      <Link to={props.page}>
-        <span>More details</span>
-      </Link>
-    </div>
+    <>
+      <div className="card-content">
+        <h3>{props.title} {props.cardID}</h3>
+        <div className="kpi-indicator">
+          <span>Passing</span>
+        </div>
+        <p className="text">{props.content}</p>
+      </div>
+      <div className="card-buttons">
+        <Link to={props.page}>
+          <span className="text">More details</span>
+        </Link>
+      </div>
+    </>
   );
 }
 
@@ -19,10 +26,9 @@ class CardGrid extends React.Component {
   static defaultProps = {
     className: "layout",
     items: 16,
-    rowHeight: 30,
     onLayoutChange: function() {},
     cols: 4,
-    width: 1830,
+    width: 1830-80,
     autoSize: true,
     isDraggable: false,
     isResizable: false,
@@ -41,9 +47,9 @@ class CardGrid extends React.Component {
     return _.map(new Array(p.items), function(item, i) {
       return {
         x: (i % 4),
-        y: Math.floor(i / 4) * 3,
+        y: Math.floor(i / 4),
         w: 1,
-        h: 3,
+        h: 1,
         i: i.toString()
       };
     });
@@ -53,9 +59,7 @@ class CardGrid extends React.Component {
     return _.map(_.range(this.props.items), function(i) {
       return (
         <div key={i}>
-          {/* <span className="text">Card number {i1}</span> */}
-          <Card key={i} title="Card" content="Epic card" page="/card-details" cardID={i}/>
-
+          <Card title="KPI" content="Epic card" page="/dashboard" cardID={i}/>
         </div>
       );
     });
@@ -81,14 +85,11 @@ class CardGrid extends React.Component {
 
 function Dashboard(props) {
   return (
-    <>
-    <div>
+    <div className="page-body">
       <h2>Dashboard</h2>
-    </div>
-    <div>
+      <hr className="hr"></hr>
       <CardGrid/>
     </div>
-    </>
   );
 }
 
