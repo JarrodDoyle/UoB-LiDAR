@@ -156,3 +156,86 @@ nav a span{
 .hr{
   margin: 20px 0px;
 }
+
+.Login-container{
+  display: grid; 
+  width: 100vw;
+  height: 100vh;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 1fr auto 1fr;
+  grid-template-areas: ". . ." ". center ." ". . .";
+  background: url('https://pixabay.com/get/5fe8d142495ab114b2d98774c320347d1322dfe054577041702673d1/sunset-984138.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.Login{
+  grid-area: center;
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  box-shadow: 5px 5px 10px var(--darkgray);
+  padding: 15px 10px;
+  background-color: var(--white);
+}
+
+.Login h2{
+  margin: -15px -10px 0px -10px;
+  padding: 15px 0px;
+  text-align: center;
+  background-color: var(--salmon);
+}
+
+.Login label{
+  margin-top: 20px;
+}
+
+.Login div{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Login div a{
+  color: var(--gray);
+}
+
+.login-btn{
+  text-decoration: none;
+  text-align: center;
+  background-color: var(--salmon);
+  padding: 5px 5px; 
+  border-radius: 90px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 23px;
+  margin-right: 10px;
+  color: var(--white) !important;
+}
+
+input{
+  border: none;
+  border-bottom: 1px solid var(--lightgray);
+  background-color: transparent;
+}
+
+input:valid{
+  border: none;
+  border-bottom: 1px solid var(--green);
+}
+
+input:invalid{
+  border: none;
+  border-bottom: 1px solid var(--red);
+}
+
+input:empty{
+  border: none;
+  border-bottom: 1px solid var(--lightgray);
+}
+

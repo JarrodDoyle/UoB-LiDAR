@@ -3,12 +3,14 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
   Link
 } from "react-router-dom";
 import {Helmet} from "react-helmet";
 
 import Dashboard from './Dashboard.js';
 import Lidars from './Lidars.js';
+import Login from './Login.js';
 import Nav from './Nav.js';
 import './App.css';
 
@@ -36,7 +38,7 @@ export default function App() {
       </Helmet>
       <Switch>
         <Route exact path="/">
-          <Home/>
+          <Redirect to="/login"/>
         </Route>
         <Route exact path="/login">
           <Login/>
@@ -48,28 +50,3 @@ export default function App() {
     </Router>
   );
 }
-
-// You can think of these components as "pages"
-// in your app.
-
-function Home(){
-  return (
-    <div>
-      <h1>Welcome to LiDAR</h1>
-      <p>Please login:</p>
-      <button>
-       <Link to="/Login">Login</Link>
-      </button>
-    </div>
-  );
-}
-
-function Login() {
-  return (
-    <div>
-      <h2>Please login to the system</h2>
-      <Link to="/Lidar">Login</Link>
-    </div>
-  );
-}
-
