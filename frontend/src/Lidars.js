@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  Card, CardImg, CardText, CardBody,
+  CardTitle, CardSubtitle, Button, Container
+} from 'reactstrap';
+import styles from './lidars.module.css';
+import { Map, GoogleApiWrapper } from 'google-maps-react';
 
 function Lidar(props){
   return (
@@ -11,11 +17,47 @@ function Lidar(props){
 }
 
 export default function Lidars() {
-  return (
-    <ul>
-      <Lidar name="LiDAR 1" loc="USA"/>
-      <Lidar name="LiDAR 2" loc="UK"/>
-      <Lidar name="LiDAR 3" loc="Japan"/>
-    </ul>
-  );
-}
+    return (
+        <div>
+        <h1>Home</h1>
+            <div className={styles.container}>
+        
+                <div id={styles.content}>
+                <h2>Site 1</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae orci vel enim pretium scelerisque. Pellentesque eleifend nec odio imperdiet pretium. Mauris ullamcorper mi erat.</p> 
+                </div>
+                
+                <div id={styles.map}>
+                map
+                </div>
+        
+            </div>
+        
+            <div className={styles.container}>
+        
+                <div id={styles.content}>
+                <h2>Site 2</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae orci vel enim pretium scelerisque. Pellentesque eleifend nec odio imperdiet pretium. Mauris ullamcorper mi erat.</p> 
+                </div>
+        
+                <div id={styles.map}>
+                map
+                </div>
+            </div>
+        
+            <div className={styles.container}>
+        
+                <div id={styles.content}>
+                <h2>Site 3</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae orci vel enim pretium scelerisque. Pellentesque eleifend nec odio imperdiet pretium. Mauris ullamcorper mi erat.</p> 
+                </div>
+        
+                <div id={styles.map}>
+                map
+                </div>
+            </div>
+        </div>
+  )
+};
+
+
