@@ -1,6 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import _ from "lodash";
 import GridLayout from 'react-grid-layout';
+
+function Card(props) {
+  return (
+    <div class="dash-card">
+      <h3>{props.title} {props.cardID}</h3>
+      <p>{props.content}</p>
+      <Link to={props.page}>
+        <span>More details</span>
+      </Link>
+    </div>
+  );
+}
 
 class CardGrid extends React.Component {
   static defaultProps = {
@@ -9,7 +22,7 @@ class CardGrid extends React.Component {
     rowHeight: 30,
     onLayoutChange: function() {},
     cols: 4,
-    width: 1800,
+    width: 1830,
     autoSize: true,
     isDraggable: false,
     isResizable: false,
@@ -28,9 +41,9 @@ class CardGrid extends React.Component {
     return _.map(new Array(p.items), function(item, i) {
       return {
         x: (i % 4),
-        y: Math.floor(i / 4),
+        y: Math.floor(i / 4) * 3,
         w: 1,
-        h: 1,
+        h: 3,
         i: i.toString()
       };
     });
@@ -40,7 +53,9 @@ class CardGrid extends React.Component {
     return _.map(_.range(this.props.items), function(i) {
       return (
         <div key={i}>
-          <span className="text">Card number {i}</span>
+          {/* <span className="text">Card number {i1}</span> */}
+          <Card key={i} title="Card" content="Epic card" page="/card-details" cardID={i}/>
+
         </div>
       );
     });
@@ -51,7 +66,6 @@ class CardGrid extends React.Component {
   }
 
   render() {
-    // layout is an array of objects, see the demo for more complete usage
     return (
       <GridLayout 
         className="layout" 
