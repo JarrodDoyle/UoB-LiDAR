@@ -164,7 +164,7 @@ nav a span{
   grid-template-columns: 1fr auto 1fr;
   grid-template-rows: 1fr auto 1fr;
   grid-template-areas: ". . ." ". center ." ". . .";
-  background: url('https://pixabay.com/get/5fe8d142495ab114b2d98774c320347d1322dfe054577041702673d1/sunset-984138.jpg') no-repeat center center fixed;
+  background: no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
