@@ -109,11 +109,9 @@ class CardGrid extends React.Component {
 
 function Dashboard(props) {
   return (
-    <div className="page-body">
-      <h2>Dashboard</h2>
-      <hr className="hr"></hr>
+    <main>
       <CardGrid/>
-    </div>
+    </main>
   );
 }
 

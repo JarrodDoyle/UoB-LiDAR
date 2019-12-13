@@ -21,9 +21,15 @@ function NavPage(){
     <Nav/>
     <Switch>
       <Route exact path="/lidars">
+        <header>
+          <h1>Home</h1>
+        </header>
         <Lidars/>
       </Route>
       <Route exact path="/dashboard">
+        <header>
+          <h1>Dashboard</h1>
+        </header>
         <Dashboard/>
       </Route>
       <Route exact path="/map">
