@@ -11,6 +11,7 @@ import {Helmet} from "react-helmet";
 import Dashboard from './Dashboard.js';
 import Lidars from './Lidars.js';
 import Login from './Login.js';
+import Settings from './Settings.js';
 import Nav from './Nav.js';
 import './App.css';
 
@@ -24,6 +25,12 @@ function NavPage(){
       </Route>
       <Route exact path="/dashboard">
         <Dashboard/>
+      </Route>
+      <Route exact path="/map">
+        <h1>Map coming soon</h1>
+      </Route>
+      <Route exact path="/settings">
+        <Settings/>
       </Route>
     </Switch>
     </div>
