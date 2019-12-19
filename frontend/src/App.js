@@ -14,6 +14,7 @@ import Login from './Login.js';
 import Settings from './Settings.js';
 import Nav from './Nav.js';
 import './App.css';
+import './Material-Inp.css';
 
 function NavPage(){
   return (

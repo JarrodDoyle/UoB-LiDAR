@@ -1,0 +1,81 @@
+.Material-Inp-Group{
+  position: relative;  
+  display: block !important;
+}
+
+.Material-Inp-Group input{
+  border: none;
+  border-bottom: 1px solid var(--lightgray);
+  background-color: transparent;
+  font-size:14px;
+  padding:10px 10px 10px 5px;
+  width: calc(100% - 15px);
+}
+
+.Material-Inp-Group input:invalid{
+  border-bottom: 1px solid var(--lightgray);
+  box-shadow: none;
+}
+
+.Material-Inp-Group label{
+  color: var(--gray); 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+}
+
+/* active state */
+.Material-Inp-Group input:focus ~ label, .Material-Inp-Group input:valid ~ label {
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+  color: var(--salmon)
+}
+
+.Material-Inp-Group .bar  { position:relative; display:block; width:100%; }
+.Material-Inp-Group .bar:before, .Material-Inp-Group .bar:after {
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:1px; 
+  position:absolute;
+  background:#5264AE; 
+  background: var(--salmon);
+  transition:0.2s ease all; 
+}
+.Material-Inp-Group .bar:before {
+  left:50%;
+}
+.Material-Inp-Group .bar:after {
+  right:50%; 
+}
+
+/* active state */
+.Material-Inp-Group input:focus ~ .bar:before, .Material-Inp-Group input:focus ~ .bar:after {
+  width:50%;
+}
+
+.Material-Inp-Group .highlight {
+  position:absolute;
+  height:60%;
+  width:inherit;
+  top:25%;
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
+}
+
+/* active state */
+input:focus ~ .highlight {
+  animation:inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@keyframes inputHighlighter {
+  from  { background:#5264AE; }
+  to    { width:0; background:transparent; }
+}

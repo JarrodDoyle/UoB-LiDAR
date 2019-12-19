@@ -192,12 +192,8 @@ nav a span{
   background-color: var(--salmon);
 }
 
-.Login label{
-  margin-top: 20px;
-}
-
 .Login div{
-  margin-top: 20px;
+  margin-top: 25px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -221,25 +217,3 @@ nav a span{
   margin-right: 10px;
   color: var(--white) !important;
 }
-
-input{
-  border: none;
-  border-bottom: 1px solid var(--lightgray);
-  background-color: transparent;
-}
-
-input:valid{
-  border: none;
-  border-bottom: 1px solid var(--green);
-}
-
-input:invalid{
-  border: none;
-  border-bottom: 1px solid var(--red);
-}
-
-input:empty{
-  border: none;
-  border-bottom: 1px solid var(--lightgray);
-}
-
