@@ -161,7 +161,32 @@ nav a span{
   padding: 4px 10px;
 }
 
-.Login-container{
+/* ------ LIDARS PAGE ---- */
+
+.react-grid-item .lidars-card-content {
+    margin: 20px;
+}
+.lidars-card-text {
+  padding: 4px 10px;
+  height: 90px;
+  width: 30%;
+  float: left;
+  background-color: aqua;
+}
+
+.lidars-card-map {
+  padding: 4px 10px;
+  height: 90px;
+  width: 67%;
+  float: left; 
+  background-color: antiquewhite;  
+}
+
+
+.Login-container {
+  height: 100%;
+  width: 30%;
+  float: left;
   display: grid; 
   width: 100vw;
   height: 100vh;
