@@ -13,24 +13,25 @@ function Card(props) {
     <>
       <div className="lidars-card-content">
         <h3>{props.title}</h3>
-        <div className="lidars-card-text">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae orci vel enim pretium scelerisque. Pellentesque eleifend nec odio imperdiet pretium. Mauris ullamcorper mi erat.</p> 
-            <div className="card-buttons">
-                <Link to="/Dashboard">
-                  <span className="text">Dashboard</span>
-                </Link>
-            </div>
-        </div>
-        <div className="lidars-card-map">
-            <WrappedMap
-            googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAuy0y-1edccXfqufhhq3JFUa0NCBtUzsE"
-            loadingElement={<div style={{ height: `100%` }} />}
-            containerElement={<div style={{ height: `400px` }} />}
-            mapElement={<div style={{ height: `100%` }} />}
-            />
+        <div>
+          <div className="lidars-card-text">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae orci vel enim pretium scelerisque. Pellentesque eleifend nec odio imperdiet pretium. Mauris ullamcorper mi erat.</p> 
+          </div>
+          <div className="lidars-card-map">
+              <WrappedMap
+              googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAuy0y-1edccXfqufhhq3JFUa0NCBtUzsE"
+              loadingElement={<div style={{ height: `100%` }} />}
+              containerElement={<div style={{ height: `100%` }} />}
+              mapElement={<div style={{ height: `100%` }} />}
+              />
+          </div>
         </div>
       </div>    
-      
+      <div className="card-buttons">
+        <Link to="/Dashboard">
+          <span className="text">Dashboard</span>
+        </Link>
+      </div>
     </>
   );
 }
@@ -52,7 +53,7 @@ class CardGrid extends React.Component {
         items: CardCount,
         onLayoutChange: function() {},
         cols: { lg: 1, md: 1, sm: 1, xs: 1, xxs: 1 },
-        rowHeight: 175,
+        rowHeight: 300,
         autoSize: true,
         isDraggable: false,
         isResizable: false,

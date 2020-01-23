@@ -119,8 +119,10 @@ nav a span{
 }
 
 .react-grid-item .card-buttons{
-  padding: 10px;
+  padding: 20px;
   align-items: center;
+  position: absolute;
+  bottom: 0;
   /* border-top: 1px solid var(--lightgray); */
 }
 
@@ -164,21 +166,26 @@ nav a span{
 /* ------ LIDARS PAGE ---- */
 
 .react-grid-item .lidars-card-content {
-    margin: 20px;
+  margin: 20px;
+  box-sizing: border-box;
 }
 .lidars-card-text {
-  padding: 4px 10px;
-  height: 90px;
-  width: 30%;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 60%;
+  height: 175px;
   float: left;
   background-color: aqua;
 }
 
 .lidars-card-map {
-  padding: 4px 10px;
-  height: 90px;
-  width: 67%;
-  float: left; 
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 10px;
+  width: 40%;
+  height: 175px;
+  float: right; 
   background-color: antiquewhite;  
 }
 
