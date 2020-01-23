@@ -65,16 +65,10 @@ class CardGrid extends React.Component {
       layouts: { lg: this.props.initialLayout },
       cards: this.generateCards(),
       currentBreakpoint: "lg",
-      compactType: "vertical",
-      mounted: false,
     }
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
   }
 
-  componentDidMount() {
-    this.setState({ mounted: true });
-  }
-    
   generateCards() {
     return [{title: "LiDAR Site 1"},{title: "LiDAR Site 2"},{title: "LiDAR Site 3"}]
   }
@@ -110,9 +104,6 @@ class CardGrid extends React.Component {
         layouts={this.state.layouts}
         onBreakpointChange={this.onBreakpointChange}
         onLayoutChange={this.onLayoutChange}
-        measureBeforeMount={true}
-        compactType={this.state.compactType}
-        preventCollision={!this.state.compactType}
         {...this.props} 
       >
         {this.generateDOM()}

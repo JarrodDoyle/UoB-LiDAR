@@ -46,13 +46,7 @@ class CardGrid extends React.Component {
       layouts: { lg: this.props.initialLayout },
       cards: this.generateCards(),
       currentBreakpoint: "lg",
-      compactType: "vertical", 
-      mounted: false,
     }
-  }
-
-  componentDidMount() {
-    this.setState({ mounted: true});
   }
 
   generateCards() {
@@ -101,9 +95,6 @@ class CardGrid extends React.Component {
         layouts={this.state.layouts}
         onBreakPointChange={this.onBreakpointChange}
         onLayoutChange={this.onLayoutChange}
-        measureBeforeMount={true}
-        compactType={this.state.compactType}
-        preventCollision={!this.state.compactType}
         {...this.props} 
       >
         {this.generateDOM()}
