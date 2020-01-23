@@ -3,7 +3,10 @@ import styles from './lidars.module.css';
 import { GoogleMap, withScriptjs, withGoogleMap } from 'react-google-maps';
 import { Link } from "react-router-dom";
 import _ from "lodash";
-import GridLayout from 'react-grid-layout';
+import { Responsive, WidthProvider } from 'react-grid-layout';
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
+const CardCount = 3;
 
 function Card(props) {
   return (
@@ -46,43 +49,37 @@ const WrappedMap = withScriptjs(withGoogleMap(Map))
 class CardGrid extends React.Component {
     static defaultProps = {
         className: "layout",
-        items: 3,
+        items: CardCount,
         onLayoutChange: function() {},
-        cols: 1,
-        rows: 3,
+        cols: { lg: 1, md: 1, sm: 1, xs: 1, xxs: 1 },
         rowHeight: 175,
-        width: 1830-80,
         autoSize: true,
         isDraggable: false,
         isResizable: false,
+        initialLayout: generateLayout(),
   };
 
-    constructor(props) {
-        super(props)
-        this.state = {
-          layout: this.generateLayout(),
-          cards: this.generateCards(),
-        }
+  constructor(props) {
+    super(props)
+    this.state = {
+      layouts: { lg: this.props.initialLayout },
+      cards: this.generateCards(),
+      currentBreakpoint: "lg",
+      compactType: "vertical",
+      mounted: false,
     }
-    
-    generateCards() {
-        return [{title: "LiDAR Site"},{title: "LiDAR Site"},{title: "LiDAR Site"}]
-    }
-
-    generateLayout() {
-    const p = this.props;
-    return _.map(new Array(p.items), function(item, i) {
-      return {
-        x: (i % p.cols),
-        y: Math.floor(i / p.cols),
-        w: 1,
-        h: 1,
-        i: i.toString()
-      };
-    });
+    this.onBreakpointChange = this.onBreakpointChange.bind(this);
   }
 
-    generateDOM() {
+  componentDidMount() {
+    this.setState({ mounted: true });
+  }
+    
+  generateCards() {
+    return [{title: "LiDAR Site 1"},{title: "LiDAR Site 2"},{title: "LiDAR Site 3"}]
+  }
+
+  generateDOM() {
     var cards = this.state.cards
     return _.map(_.range(this.props.items), function(i) {
       return (
@@ -96,25 +93,44 @@ class CardGrid extends React.Component {
         </div>
       );
     });
-    }
+  }
 
-    onLayoutChange(layout) {
+  onBreakpointChange(breakpoint) {
+    this.setState({ currentBreakpoint: breakpoint });
+  }
+
+  onLayoutChange(layout) {
     this.props.onLayoutChange(layout);
   }
 
-    render() {
-        return (
-          <GridLayout 
-            className="layout" 
-            layout={this.state.layout}
-            onLayoutChange={this.onLayoutChange}
-            {...this.props} 
-          >
-            {this.generateDOM()}
-          </GridLayout>
-        )
-      }
+  render() {
+    return (
+      <ResponsiveGridLayout 
+        className="layout" 
+        layouts={this.state.layouts}
+        onBreakpointChange={this.onBreakpointChange}
+        onLayoutChange={this.onLayoutChange}
+        measureBeforeMount={true}
+        compactType={this.state.compactType}
+        preventCollision={!this.state.compactType}
+        {...this.props} 
+      >
+        {this.generateDOM()}
+      </ResponsiveGridLayout>
+    )
+  }
+}
 
+function generateLayout() {
+  return _.map(new Array(CardCount), function(item, i) {
+    return {
+      x: 1,
+      y: i,
+      w: 1,
+      h: 1,
+      i: i.toString()
+    };
+  });
 }
 
 function LiDARS(props) {
