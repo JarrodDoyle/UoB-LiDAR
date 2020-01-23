@@ -4,6 +4,8 @@ import com.lidar.lidar.database.*;
 
 import java.util.Optional;
 
+import java.io.FileReader;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,13 @@ public class LidarDBServer {
     @Autowired
     TestTable tests;
 
+    @Autowired
+    LoadedFileTable loadedFiles;
+
     public static void main(String[] args) {
         SpringApplication.run(LidarDBServer.class, args);
+
+        
     }
 
     @RequestMapping("/test/database/create")
