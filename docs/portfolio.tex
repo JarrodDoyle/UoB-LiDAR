@@ -15,6 +15,24 @@
 \maketitle
 \begin{multicols}{2}
     \section{Introduction}
+    % The client
+    Our client is \textit{David Pullinger} from the renewable energy department of Lloyds Registrar.
+    \par Lloyds Registrar focuses on providing professional services primarily around assurance and certification. In the context of the renewable energy department they provide three services:
+    \begin{enumerate}
+        \item Assuring a site's wind velocity is acceptable
+        \item Assuring accuracy of surveying LiDAR
+        \item Assuring the construction meets the appropriate building and safety regulations
+    \end{enumerate}
+    % The domain
+    Lloyds Registrar has two possible approaches to survey the wind velocity at a site. 
+    \par One method is to build a tower on the site which has several hundred anemometers. This approach is an expensive investment with high risk of loss if the site is not suitable.
+    \par Now that LiDAR technology has improved it can reduce the risk and investment needed to survey a site. 
+
+    % The problem
+
+    % The vision
+
+    \subsection{Old}
     Lloyds Registrar has requested a web-based solution to visualize and compute various statistics between two sets of data: LiDAR and the existing trusted fixed measurement device. This is to build confidence that the LiDAR system is fully functional and giving accurate readouts before being deployed to any potential windfarm location.
 \par Before the LiDAR system can be deemed accurate it must pass all KPIs (key performance indicators). Each of the KPIs will be displayed in the web application in relevant charts to show whether the KPI has been met. Each of the KPIs will be implemented in different releases with the ones giving the most information of the technical performance implemented first.
 \par The team envisions the product to have two views: a simplified investor view and a technical view both of which display the data in a clean concise way appropriate for the respective viewer. An inaugural mockup that represents our vision for the GUI on our platform can be seen below:
@@ -59,8 +77,8 @@
         Overall post processed data availability & $ \geq 85$ & Ignore - easy to add later buy 100\% for data sample \\
         Data coverage & 
         \begin{enumerate}
-            \item Minimum of 40 data points in each $1ms^{-1}$ wide reference wind speed bin centred between $2.5ms^{-1}$ and $11.5ms^{-1}$ i.e. covering a range between 2 and $12ms^{-1}$
-            \item Minimum of 40 data points required in each $2ms^{-1}$ wide reference wind speed bin centred on $13ms^{-1}$ and $15ms^{-1}$ i.e. covering a range between 12 and $16ms^{-1}$
+            \item Minimum of 40 data points in each $1ms^{-1}$ wide reference wind speed bin centred between $2.5ms^{-1}$ and $11.5ms^{-1}$ i.e.\ covering a range between 2 and $12ms^{-1}$
+            \item Minimum of 40 data points required in each $2ms^{-1}$ wide reference wind speed bin centred on $13ms^{-1}$ and $15ms^{-1}$ i.e.\ covering a range between 12 and $16ms^{-1}$
         \end{enumerate}
     \end{tabularx}
     \vfill\null\columnbreak{}
