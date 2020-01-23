@@ -30,13 +30,11 @@ class CardGrid extends React.Component {
     className: "layout",
     items: 10,
     onLayoutChange: function() {},
-    cols: { lg: 3, sm: 2, xxs: 1 },
+    cols: { lg: 3, md: 2, sm: 2, xs: 1, xxs: 1 },
     rowHeight: 175,
-    // width: 1830-80,
-    // autoSize: true,
-    // isDraggable: false,
-    // isResizable: false,
-    // initialLayout: this.generateLayout(),
+    autoSize: true,
+    isDraggable: false,
+    isResizable: false,
     initialLayout: generateLayout(),
   };
 
@@ -46,7 +44,7 @@ class CardGrid extends React.Component {
       layouts: { lg: this.props.initialLayout },
       cards: this.generateCards(),
       currentBreakpoint: "lg",
-      CompactType: "vertical", 
+      compactType: "vertical", 
       mounted: false,
     }
   }
@@ -68,19 +66,6 @@ class CardGrid extends React.Component {
       {title: "Turbulence Intensity", content: ["Slope - x", "Correlation Co-efficient - x"]},
       {title: "Wind Shear", content: ["Shear exponent - x"]},
     ]
-  }
-
-  generateLayout() {
-    const p = this.props;
-    return _.map(new Array(p.items), function(item, i) {
-      return {
-        x: (i % p.cols),
-        y: Math.floor(i / p.cols),
-        w: 1,
-        h: 1,
-        i: i.toString()
-      };
-    });
   }
 
   generateDOM() {
@@ -126,7 +111,7 @@ class CardGrid extends React.Component {
 }
 
 function generateLayout() {
-  return _.map(_.range(0, 25), function(item, i) {
+  return _.map(_.range(0, 10), function(item, i) {
     return {
       x: i % 3,
       y: Math.floor(i / 3),
