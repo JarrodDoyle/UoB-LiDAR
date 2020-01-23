@@ -205,6 +205,8 @@ nav a span{
   display: flex;
   flex-direction: column;
   min-width: 250px;
+  width: 50vw;
+  max-width: 350px;
   box-shadow: 5px 5px 10px var(--darkgray);
   padding: 15px 10px;
   background-color: var(--white);
