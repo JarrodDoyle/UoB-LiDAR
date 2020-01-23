@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import _ from "lodash";
-import GridLayout from 'react-grid-layout';
+import { Responsive, WidthProvider } from 'react-grid-layout';
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 function Card(props) {
   return (
@@ -29,20 +30,29 @@ class CardGrid extends React.Component {
     className: "layout",
     items: 10,
     onLayoutChange: function() {},
-    cols: 3,
+    cols: { lg: 3, sm: 2, xxs: 1 },
     rowHeight: 175,
-    width: 1830-80,
-    autoSize: true,
-    isDraggable: false,
-    isResizable: false,
+    // width: 1830-80,
+    // autoSize: true,
+    // isDraggable: false,
+    // isResizable: false,
+    // initialLayout: this.generateLayout(),
+    initialLayout: generateLayout(),
   };
 
   constructor(props) {
     super(props)
     this.state = {
-      layout: this.generateLayout(),
+      layouts: { lg: this.props.initialLayout },
       cards: this.generateCards(),
+      currentBreakpoint: "lg",
+      CompactType: "vertical", 
+      mounted: false,
     }
+  }
+
+  componentDidMount() {
+    this.setState({ mounted: true});
   }
 
   generateCards() {
@@ -89,22 +99,42 @@ class CardGrid extends React.Component {
     });
   }
 
-  onLayoutChange(layout) {
-    this.props.onLayoutChange(layout);
+  onBreakpointChange(breakpoint) {
+    this.setState({ currentBreakpoint: breakpoint });
+  }
+
+  onLayoutChange(layout, layouts) {
+    this.props.onLayoutChange(layout, layouts);
   }
 
   render() {
     return (
-      <GridLayout 
+      <ResponsiveGridLayout 
         className="layout" 
-        layout={this.state.layout}
+        layouts={this.state.layouts}
+        onBreakPointChange={this.onBreakpointChange}
         onLayoutChange={this.onLayoutChange}
+        measureBeforeMount={true}
+        compactType={this.state.compactType}
+        preventCollision={!this.state.compactType}
         {...this.props} 
       >
         {this.generateDOM()}
-      </GridLayout>
+      </ResponsiveGridLayout>
     )
   }
+}
+
+function generateLayout() {
+  return _.map(_.range(0, 25), function(item, i) {
+    return {
+      x: i % 3,
+      y: Math.floor(i / 3),
+      w: 1,
+      h: 1,
+      i: i.toString(),
+    };
+  });
 }
 
 function Dashboard(props) {
