@@ -27,10 +27,23 @@ public class FileLoader {
     }*/
 
     public void loadFiles() {
-        loadedFiles.findAll();
+        Iterable<LoadedFile> lFiles = loadedFiles.findAll();
 
         for (final File f : new File(".").listFiles()) {
-            System.out.println(f.getName() + "\n");
+            if (f.isFile()) {
+                Boolean loaded = false;
+                for (LoadedFile lf : lFiles) {
+                    if (f.getName().equals(lf.getName())) {
+                        loaded = true;
+                    }
+                }
+
+                if (!loaded) {
+                    LoadedFile nlf = new LoadedFile(f.getName());
+                    loadedFiles.save(nlf);
+                    System.out.println("Saved: " + nlf.toString() + "\n");
+                }
+            }
         }
     }
 }

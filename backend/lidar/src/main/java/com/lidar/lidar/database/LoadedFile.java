@@ -26,6 +26,10 @@ public class LoadedFile {
         this.name = name;
     }
 
+    public LoadedFile() {
+
+    }
+    
     public LoadedFile(String name) {
         this.name = name;
     }
