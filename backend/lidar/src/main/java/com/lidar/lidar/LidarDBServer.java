@@ -28,6 +28,9 @@ public class LidarDBServer {
     @Autowired
     LoadedFileTable loadedFiles;
 
+    @Autowired
+    FileLoader fileLoader;
+
     public static void main(String[] args) {
         SpringApplication.run(LidarDBServer.class, args);
 
@@ -74,5 +77,11 @@ public class LidarDBServer {
         else {
             return "Entry not found.";
         }
+    }
+
+    @RequestMapping("/test/readfiles")
+    public String testReadFiles() {
+        fileLoader.loadFiles();
+        return "AAAAA";
     }
 }

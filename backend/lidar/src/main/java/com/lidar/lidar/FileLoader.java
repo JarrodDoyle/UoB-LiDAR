@@ -19,19 +19,18 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class FileLoader {
     @Autowired
-    TestTable tests;
-
-    @Autowired
     LoadedFileTable loadedFiles;
 
-    @Bean(name="fileLoader")
+    /*@Bean(name="fileLoader")
     public FileLoader fileLoader() {
         return new FileLoader();
-    }
+    }*/
 
     public void loadFiles() {
-        Iterable<LoadedFile> lFiles = loadedFiles.findAll();
+        loadedFiles.findAll();
 
-        //for (final File f : "./")
+        for (final File f : new File(".").listFiles()) {
+            System.out.println(f.getName() + "\n");
+        }
     }
 }

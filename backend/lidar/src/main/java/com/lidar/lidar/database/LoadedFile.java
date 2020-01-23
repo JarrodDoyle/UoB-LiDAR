@@ -2,7 +2,7 @@ package com.lidar.lidar.database;
 
 import javax.persistence.*;
 
-@Entity @Table(name = "loadedFiles")
+@Entity @Table(name = "loaded_files")
 public class LoadedFile {
     @Id @GeneratedValue @Column(name = "id")
     Long id;
