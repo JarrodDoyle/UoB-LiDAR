@@ -2,7 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 import { Responsive, WidthProvider } from 'react-grid-layout';
+
 const ResponsiveGridLayout = WidthProvider(Responsive);
+const CardCount = 10;
 
 function Card(props) {
   return (
@@ -28,7 +30,7 @@ function Card(props) {
 class CardGrid extends React.Component {
   static defaultProps = {
     className: "layout",
-    items: 10,
+    items: CardCount,
     onLayoutChange: function() {},
     cols: { lg: 3, md: 2, sm: 2, xs: 1, xxs: 1 },
     rowHeight: 175,
@@ -111,7 +113,7 @@ class CardGrid extends React.Component {
 }
 
 function generateLayout() {
-  return _.map(_.range(0, 10), function(item, i) {
+  return _.map(_.range(0, CardCount), function(item, i) {
     return {
       x: i % 3,
       y: Math.floor(i / 3),
