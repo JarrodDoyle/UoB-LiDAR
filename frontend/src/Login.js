@@ -1,5 +1,6 @@
 import React from "react";
 import {Switch, Redirect, Route,Link} from "react-router-dom";
+import {MaterialInput} from './Material-Inp.js';
 import i1 from './res/login-bg1.jpg';
 import i2 from './res/login-bg2.jpg';
 import i3 from './res/login-bg3.jpg';
@@ -8,18 +9,6 @@ import i5 from './res/login-bg5.jpg';
 import i6 from './res/login-bg6.jpg';
 import i7 from './res/login-bg7.jpg';
 import i8 from './res/login-bg8.jpg';
-
-function MaterialInput(props){
-  console.log(props.required);
-  return (
-    <div className="Material-Inp-Group">
-      <input type={props.type} name={props.name} required></input>
-      <span className="highlight"></span>
-      <span className="bar"></span>
-      <label htmlFor={props.name}>{props.label}</label>
-    </div>
-  );
-}
 
 function LoginForm(){
   return (
