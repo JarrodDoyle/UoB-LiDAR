@@ -40,7 +40,7 @@ function RegistrationForm(){
         <Link to="/login" className="login-btn"><i className="fas fa-chevron-right"/></Link>
       </div>
       <div>
-        <Link to="/login/">Ive got a login</Link>
+        <Link to="/login/">I've got a login</Link>
       </div>
     </form>
   );
@@ -56,7 +56,7 @@ function ForgotForm(){
         <Link to="/login/forgot-sent" className="login-btn"><i className="fas fa-chevron-right"/></Link>
       </div>
       <div>
-        <Link to="/login/">Ive got a login</Link>
+        <Link to="/login/">I've got a login</Link>
       </div>
     </form>
   );
@@ -90,7 +90,7 @@ export default function Login() {
           <ForgotSent/>
         </Route>
         <Route path="*">
-          <h1>noo</h1>
+          <Redirect to="/login"/>
         </Route>
       </Switch>
     </div>

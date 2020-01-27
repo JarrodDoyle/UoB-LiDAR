@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
   Redirect,
-  Link
 } from "react-router-dom";
 import {Helmet} from "react-helmet";
 
