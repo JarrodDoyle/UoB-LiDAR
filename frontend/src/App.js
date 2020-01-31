@@ -52,9 +52,9 @@ export default function App() {
       </Helmet>
       <Switch>
         <Route exact path="/">
-          <Redirect to="/login"/>
+          <Redirect to="/login/"/>
         </Route>
-        <Route exact path="/login">
+        <Route path="/login*">
           <Login/>
         </Route>
         <Route path="*">
