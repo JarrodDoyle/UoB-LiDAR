@@ -67,12 +67,14 @@ const cards = [
 ];
 function LiDARS(props) {
   return (
-  <main className="lidars-grid">
-    {cards.map (card => {
-      return(
-        <Card title = {card.title}  desc = {card.desc} location = {card.location}/>
-      )
-    })}
+  <main>
+    <div className="lidars-grid">
+      {cards.map (card => {
+        return(
+          <Card title = {card.title}  desc = {card.desc} location = {card.location}/>
+        )
+      })}
+    </div>
   </main>
   );
 }
