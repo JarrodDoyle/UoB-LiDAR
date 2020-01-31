@@ -21,8 +21,6 @@
 .kpi-indicator{
     display: inline-flex;
     float: right;
-    /* top: 20px;
-    right: 20px; */
     border-radius: 16px;
     background-color: var(--green);
     color: var(--white);
