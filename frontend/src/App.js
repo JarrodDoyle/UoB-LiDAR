@@ -16,6 +16,7 @@ import './App.css';
 import './Material-Inp.css';
 import Map from'./MapPage.js';
 import MapPage from "./MapPage.js";
+import icon from "./res/turbine-fin.gif";
 
 function NavPage(){
   return (
@@ -52,6 +53,8 @@ export default function App() {
   return (
     <Router>
       <Helmet>
+        <title>LiDAR</title>
+        <link rel="shortcut icon" href={icon}/>
         <script src="https://kit.fontawesome.com/b5b28e0ac4.js" crossorigin="anonymous"></script>
       </Helmet>
       <Switch>
