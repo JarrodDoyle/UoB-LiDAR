@@ -12,12 +12,10 @@ import Lidars from './Lidars.js';
 import Login from './Login.js';
 import Settings from './Settings.js';
 import Nav from './Nav.js';
-import './App.css';
-import './Material-Inp.css';
-import Map from'./MapPage.js';
 import MapPage from "./MapPage.js";
 import icon from "./res/turbine-fin.gif";
-
+import './App.css';
+import './Material-Inp.css';
 function NavPage(){
   return (
     <div className="nav-page">
