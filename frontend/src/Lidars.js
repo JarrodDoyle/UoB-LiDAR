@@ -30,7 +30,7 @@ function Card(props) {
 function Map(props) {
   return(
     <GoogleMap 
-      defaultZoom={7}
+      defaultZoom={6}
       defaultCenter={props.location}
       defaultOptions={{
         fullscreenControl: false,
@@ -41,8 +41,8 @@ function Map(props) {
         draggable: false,
         draggableCursor: "default",
         mapTypeId: "terrain",
-        minZoom: 7,
-        maxZoom: 7,
+        minZoom: 6,
+        maxZoom: 6,
         gestureHandling: "none",
       }}
     >
@@ -55,28 +55,30 @@ function Map(props) {
 }
 
 const WrappedMap = withScriptjs(withGoogleMap(Map))
+
 const cards = [
   {
     title: "Brighton Off-Shore 1",
     desc: "This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1",
-    location: {lat: 50.780519,lng: -0.152488}
+    location: {lat: 50.643758,lng: -0.257144}
   },
   {
     title: "Brighton Off-Shore 2",
     desc: "This is an offshore windfarm 2",
-    location: {lat: 20.780519,lng: -0.135288}
+    location: {lat: 53.852400,lng: -3.697895}
   },
   {
-    title: "Brighton Off-Shore 3",
+    title: "North Sea Site 1",
     desc: "This is an offshore windfarm 3",
-    location: {lat: 50.780519,lng: -0.152488}
+    location: {lat: 53.415865,lng: 0.689438}
   },
   {
-    title: "Brighton Off-Shore 4",
+    title: "North Sea Site 2",
     desc: "This is an offshore windfarm 4",
-    location: {lat: 50.780519,lng: -0.152488}
+    location: {lat: 50.510669,lng: -2.240459}
   }
 ];
+
 function LiDARS(props) {
   return (
   <main className="lidars-wrapper">
