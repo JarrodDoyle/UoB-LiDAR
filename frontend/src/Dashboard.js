@@ -85,35 +85,37 @@ function Card(props) {
 
 function Dashboard(props) {
   return (
-    <main className="lidars-grid">
-      <Card title="System Availability" content={["1 month average - 91%", "Campaign average - 97%"]}/>
-      <Card title="Post Processed Data Availability" content={["1 month average - 88%", "Campaign average - 88%"]}/>
-      <Card title="Data Coverage" content={["something"]}/>
-      <Card title="Maintenance Visits" content={["0"]}/>
-      <Card title="Unscheduled Outages" content={["0"]}/>
-      <Card title="Comms. Uptime" content={["100%"]}/>
-      <Card title="Mean Wind Speed" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]}/>
-      <Card title="Mean Wind Direction" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]}/>
-      <Card title="Turbulence Intensity" content={["Slope - x", "Correlation Co-efficient - x"]}/>
-      <Card title="Wind Shear" content={["Shear exponent - x"]}/>
-      {/* <div class="lidars-card"><ResponsiveLine data={mydata}/></div> */}
-      {/* <div className="lidars-card">
-        <div style={{ height: '100%', display: 'flex' }}>
-          <div style={{ width: "100%" }}>
-            <ResponsiveLine data={mydata}/>
+    <main>
+      <div className="lidars-grid">
+        <Card title="System Availability" content={["1 month average - 91%", "Campaign average - 97%"]}/>
+        <Card title="Post Processed Data Availability" content={["1 month average - 88%", "Campaign average - 88%"]}/>
+        <Card title="Data Coverage" content={["something"]}/>
+        <Card title="Maintenance Visits" content={["0"]}/>
+        <Card title="Unscheduled Outages" content={["0"]}/>
+        <Card title="Comms. Uptime" content={["100%"]}/>
+        <Card title="Mean Wind Speed" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]}/>
+        <Card title="Mean Wind Direction" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]}/>
+        <Card title="Turbulence Intensity" content={["Slope - x", "Correlation Co-efficient - x"]}/>
+        <Card title="Wind Shear" content={["Shear exponent - x"]}/>
+        {/* <div class="lidars-card"><ResponsiveLine data={mydata}/></div> */}
+        {/* <div className="lidars-card">
+          <div style={{ height: '100%', display: 'flex' }}>
+            <div style={{ width: "100%" }}>
+              <ResponsiveLine data={mydata}/>
+            </div>
           </div>
+        </div> */}
+        <div className="lidars-card">
+          <AutoSizer>
+            {({ height, width }) => (
+              <Line
+                data={mydata}
+                height={height}
+                width={width}
+              />
+            )}
+          </AutoSizer>        
         </div>
-      </div> */}
-      <div className="lidars-card">
-        <AutoSizer>
-          {({ height, width }) => (
-            <Line
-              data={mydata}
-              height={height}
-              width={width}
-            />
-          )}
-        </AutoSizer>        
       </div>
     </main>
   );
