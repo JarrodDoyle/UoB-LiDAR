@@ -29,6 +29,10 @@ h1,h2,h3,h4,h5,h6{
   color: var(--gray);
 }
 
+button{
+  all: unset;
+}
+
 .nav-page{
   display:grid;
   width: 100vw;
@@ -247,6 +251,7 @@ nav a span{
   width: 35px;
   height: 35px;
   line-height: 35px;
+  cursor: pointer;
   font-size: 23px;
   margin-right: 10px;
   color: var(--white) !important;
