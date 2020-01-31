@@ -4,9 +4,6 @@ import { GoogleMap, withScriptjs, withGoogleMap } from 'react-google-maps';
 import { Link } from "react-router-dom";
 import "./Lidars.css";
 
-const ResponsiveGridLayout = WidthProvider(Responsive);
-const CardCount = 3;
-
 function Card(props) {
   return (
     <div className="lidars-card">
