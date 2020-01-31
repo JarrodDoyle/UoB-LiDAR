@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
-import turbine from "./res/turbine-clear.gif";
+import turbine from "./res/turbine-clear-bold.gif";
 
 function Map() {
     return(
@@ -17,8 +17,30 @@ function Map() {
       >
         {locations.map (location => {
             return(
-              <Marker position={location.location} icon={{url: turbine, size:{width: 256, height: 256, widthUnit: "px", heightUnit: "px"}}} />
-            )
+              <Marker 
+                position={location.location}
+                  icon={{
+                    url: turbine,
+                      size:{
+                        width: 256,
+                        height: 256,
+                        widthUnit: "px",
+                        heightUnit: "px"
+                      },
+                      scaledSize:{
+                        width: 64,
+                        height: 64,
+                        widthUnit: "px",
+                        heightUnit: "px",
+                      },
+                      anchor: {
+                        x: 32,
+                        y: 64,
+                      }
+                    }
+                  }
+                />
+              )
         })}
         
       </GoogleMap>

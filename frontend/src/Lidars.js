@@ -1,6 +1,7 @@
 import React from "react";
 import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
 import { Link } from "react-router-dom";
+import turbine from "./res/turbine-clear-bold.gif";
 import "./Lidars.css";
 
 function Card(props) {
@@ -46,8 +47,29 @@ function Map(props) {
         gestureHandling: "none",
       }}
     >
-      <Marker position={props.location}/>
-
+      <Marker
+        position={props.location}
+        icon={{
+          url: turbine,
+            size:{
+              width: 256,
+              height: 256,
+              widthUnit: "px",
+              heightUnit: "px"
+            },
+            scaledSize:{
+              width: 64,
+              height: 64,
+              widthUnit: "px",
+              heightUnit: "px",
+            },
+            anchor: {
+              x: 32,
+              y: 64,
+            }
+          }
+        }
+      />
     </GoogleMap>
 
     
