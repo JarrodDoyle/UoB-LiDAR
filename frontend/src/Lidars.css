@@ -1,0 +1,33 @@
+.lidars-grid{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  }
+
+.lidars-card {
+  margin-bottom: 25px;
+  margin-right: 25px;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  box-shadow: 5px 5px 10px var(--darkgray);
+}
+
+.lidars-card-map {
+  padding: 0px;
+  margin: -10px -15px 10px -15px;
+  height: 125px;
+  float: left; 
+  background-color: antiquewhite;  
+}
+
+.lidars-btns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
