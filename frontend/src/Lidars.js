@@ -1,5 +1,4 @@
 import React from "react";
-import styles from './lidars.module.css';
 import { GoogleMap, withScriptjs, withGoogleMap } from 'react-google-maps';
 import { Link } from "react-router-dom";
 import "./Lidars.css";
@@ -13,10 +12,11 @@ function Card(props) {
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: `100%` }} />}
           mapElement={<div style={{ height: `100%` }} />}
+          
         />
       </div>
       <h3>{props.title}</h3>
-      <p>This is a description</p>
+      <p>{props.desc}</p>
       <div className="lidars-btns">
         <h4>Go to dash</h4>
         <Link className="circle-btn" to="/Dashboard">
@@ -30,41 +30,49 @@ function Card(props) {
 function Map() {
   return(
     <GoogleMap 
-      defaultZoom={10}
+      defaultZoom={7}
       defaultCenter={{lat:50.780519, lng: -0.152488}}
+      defaultOptions={{fullscreenControl: false,
+                       mapTypeControl: false,
+                       streetViewControl: false,
+                       zoomControl: false}}
     />
+
+    
   );
 }
 
 const WrappedMap = withScriptjs(withGoogleMap(Map))
-
+const cards = [
+  {
+    title: "Brighton Off-Shore 1",
+    desc: "This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1",
+    location: [-1.45342,1.7834]
+  },
+  {
+    title: "Brighton Off-Shore 2",
+    desc: "This is an offshore windfarm 2",
+    location: [-1.45342,1.7834]
+  },
+  {
+    title: "Brighton Off-Shore 3",
+    desc: "This is an offshore windfarm 3",
+    location: [-1.45342,1.7834]
+  },
+  {
+    title: "Brighton Off-Shore 4",
+    desc: "This is an offshore windfarm 4",
+    location: [-1.45342,1.7834]
+  }
+];
 function LiDARS(props) {
   return (
   <main className="lidars-grid">
-    <Card title="Lidar 1"/>
-    <Card title="Lidar 2"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
-    <Card title="Lidar 3"/>
+    {cards.map (card => {
+      return(
+        <Card title = {card.title}  desc = {card.desc} location = {card.location}/>
+      )
+    })}
   </main>
   );
 }
