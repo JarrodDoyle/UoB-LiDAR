@@ -14,6 +14,8 @@ import Settings from './Settings.js';
 import Nav from './Nav.js';
 import './App.css';
 import './Material-Inp.css';
+import Map from'./MapPage.js';
+import MapPage from "./MapPage.js";
 
 function NavPage(){
   return (
@@ -33,7 +35,10 @@ function NavPage(){
         <Dashboard/>
       </Route>
       <Route exact path="/map">
-        <h1>Map coming soon</h1>
+        <header>
+        <h1>Map</h1>
+        </header>
+        <MapPage/>
       </Route>
       <Route exact path="/settings">
         <Settings/>
