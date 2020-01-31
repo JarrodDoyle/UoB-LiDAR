@@ -9,6 +9,7 @@ import i5 from './res/login-bg5.jpg';
 import i6 from './res/login-bg6.jpg';
 import i7 from './res/login-bg7.jpg';
 import i8 from './res/login-bg8.jpg';
+import "./Login.css";
 
 class LoginForm extends React.Component{
   constructor(props){
@@ -33,7 +34,7 @@ class LoginForm extends React.Component{
           <MaterialInput type="password" name="password" label="Password" required/>
           <div>
             <h3>Login</h3>
-            <button type="submit" className="login-btn"><i className="fas fa-chevron-right"/></button>
+            <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
           </div>
           <div>
             <Link to="/login/register">Create account</Link>
@@ -69,7 +70,7 @@ class RegistrationForm extends React.Component{
           <MaterialInput type="password" name="password" label="Repeat Password"/>
           <div>
             <h3>Register</h3>
-            <button type="submit" className="login-btn"><i className="fas fa-chevron-right"/></button>
+            <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
           </div>
           <div>
             <Link to="/login/">I've got a login</Link>
@@ -107,7 +108,7 @@ class ForgotForm extends React.Component{
           <MaterialInput type="email" name="email" label="Email"/>
           <div>
             <h3>Get reset link</h3>
-            <button type="submit" className="login-btn"><i className="fas fa-chevron-right"/></button>
+            <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
           </div>
           <div>
             <Link to="/login/">I've got a login</Link>
