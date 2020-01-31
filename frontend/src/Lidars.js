@@ -12,6 +12,7 @@ function Card(props) {
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: `100%` }} />}
           mapElement={<div style={{ height: `100%` }} />}
+          
         />
       </div>
       <h3>{props.title}</h3>
@@ -29,9 +30,15 @@ function Card(props) {
 function Map() {
   return(
     <GoogleMap 
-      defaultZoom={10}
+      defaultZoom={7}
       defaultCenter={{lat:50.780519, lng: -0.152488}}
+      defaultOptions={{fullscreenControl: false,
+                       mapTypeControl: false,
+                       streetViewControl: false,
+                       zoomControl: false}}
     />
+
+    
   );
 }
 
@@ -39,7 +46,7 @@ const WrappedMap = withScriptjs(withGoogleMap(Map))
 const cards = [
   {
     title: "Brighton Off-Shore 1",
-    desc: "This is an offshore windfarm 1",
+    desc: "This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1",
     location: [-1.45342,1.7834]
   },
   {
