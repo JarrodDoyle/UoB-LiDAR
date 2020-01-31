@@ -1,5 +1,6 @@
 import React from 'react';
 import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
+import turbine from "./res/turbine-clear.gif";
 
 function Map() {
     return(
@@ -16,7 +17,7 @@ function Map() {
       >
         {locations.map (location => {
             return(
-            <Marker position={location.location}/>
+              <Marker position={location.location} icon={{url: turbine, size:{width: 256, height: 256, widthUnit: "px", heightUnit: "px"}}} />
             )
         })}
         
@@ -62,3 +63,4 @@ export default function MapPage(){
         />
     );
 }
+
