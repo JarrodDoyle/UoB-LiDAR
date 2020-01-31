@@ -24,7 +24,7 @@
   background-color: rgb(249, 249, 252);
 }
 
-html, body{
+html, body, #root{
   width: 100%;
   height: 100%;
 }
@@ -111,63 +111,6 @@ nav a span{
   background-color: var(--darkgray);
   transform-origin: left 0;
   right: -100%;
-}
-
-.react-grid-item{
-  overflow: hidden;
-  box-shadow: 0 0 15px 0 rgba(53,64,82,.05);
-  /* border: 3px solid var(--lightgray); */
-  border-radius: 5px;
-  /* padding: 10px; */
-  box-sizing: border-box;
-  background-color: var(--white);
-}
-
-.react-grid-item .card-content{
-  padding: 20px;
-}
-
-.react-grid-item .card-buttons{
-  padding: 10px;
-  align-items: center;
-  /* border-top: 1px solid var(--lightgray); */
-}
-
-.react-grid-item .card-buttons a{
-  background-color: var(--salmon);
-  text-decoration: none;
-  padding: 4px 8px;
-  border-radius: 4px;
-  opacity: 85%;
-  color: var(--white);
-  transition: opacity 150ms;
-}
-
-.react-grid-item .card-buttons a:hover{
-  opacity: 100%
-}
-
-.react-grid-item h3{
-  margin-bottom: 20px;
-}
-
-.react-grid-item .text{
-  text-align: left;
-}
-
-.react-grid-item .kpi-indicator{
-  display: inline-flex;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  border-radius: 16px;
-  background-color: var(--green);
-  color: var(--white);
-  font-size: 85%;
-}
-
-.react-grid-item .kpi-indicator span {
-  padding: 4px 10px;
 }
 
 .circle-btn{

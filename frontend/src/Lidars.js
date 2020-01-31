@@ -32,14 +32,18 @@ function Map(props) {
     <GoogleMap 
       defaultZoom={7}
       defaultCenter={props.location}
-      defaultOptions={{fullscreenControl: false,
-                       mapTypeControl: false,
-                       streetViewControl: false,
-                       zoomControl: false}}
+      defaultOptions={{
+        fullscreenControl: false,
+        mapTypeControl: false,
+        streetViewControl: false,
+        zoomControl: false,
+        mapTypeId: "terrain",
+        minZoom: 7,
+        maxZoom: 7,
+        gestureHandling: "none",
+      }}
     >
-      <Marker
-      position={props.location}
-    />
+      <Marker position={props.location}/>
 
     </GoogleMap>
 
@@ -72,12 +76,14 @@ const cards = [
 ];
 function LiDARS(props) {
   return (
-  <main className="lidars-grid">
-    {cards.map (card => {
-      return(
-        <Card title = {card.title}  desc = {card.desc} location = {card.location}/>
-      )
-    })}
+  <main className="lidars-wrapper">
+    <div className="lidars-grid">
+      {cards.map (card => {
+        return(
+          <Card title={card.title}  desc={card.desc} location={card.location}/>
+        )
+      })}
+    </div>
   </main>
   );
 }
