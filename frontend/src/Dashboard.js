@@ -2,6 +2,65 @@ import React from "react";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 import "./Dashboard.css";
+import { Line } from 'nivo'
+import { AutoSizer } from 'react-virtualized'
+
+const mydata = [
+  {
+    "id": "japan",
+    "color": "hsl(227, 70%, 50%)",
+    "data": [
+      {
+        "x": "plane",
+        "y": 256
+      },
+      {
+        "x": "helicopter",
+        "y": 88
+      },
+      {
+        "x": "boat",
+        "y": 2
+      },
+      {
+        "x": "train",
+        "y": 170
+      },
+      {
+        "x": "subway",
+        "y": 79
+      },
+      {
+        "x": "bus",
+        "y": 246
+      },
+      {
+        "x": "car",
+        "y": 126
+      },
+      {
+        "x": "moto",
+        "y": 169
+      },
+      {
+        "x": "bicycle",
+        "y": 3
+      },
+      {
+        "x": "horse",
+        "y": 284
+      },
+      {
+        "x": "skateboard",
+        "y": 50
+      },
+      {
+        "x": "others",
+        "y": 41
+      }
+    ]
+  }
+]
 
 function Card(props) {
   return (
@@ -37,6 +96,25 @@ function Dashboard(props) {
       <Card title="Mean Wind Direction" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]}/>
       <Card title="Turbulence Intensity" content={["Slope - x", "Correlation Co-efficient - x"]}/>
       <Card title="Wind Shear" content={["Shear exponent - x"]}/>
+      {/* <div class="lidars-card"><ResponsiveLine data={mydata}/></div> */}
+      {/* <div className="lidars-card">
+        <div style={{ height: '100%', display: 'flex' }}>
+          <div style={{ width: "100%" }}>
+            <ResponsiveLine data={mydata}/>
+          </div>
+        </div>
+      </div> */}
+      <div className="lidars-card">
+        <AutoSizer>
+          {({ height, width }) => (
+            <Line
+              data={mydata}
+              height={height}
+              width={width}
+            />
+          )}
+        </AutoSizer>        
+      </div>
     </main>
   );
 }
