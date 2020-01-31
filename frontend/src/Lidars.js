@@ -9,25 +9,24 @@ function Card(props) {
   return (
   <>
     <div className="lidars-card-content">
-    <h3>{props.title}</h3>
-    <div className="lidars-card-text">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae orci vel enim pretium scelerisque. Pellentesque eleifend nec odio imperdiet pretium. Mauris ullamcorper mi erat.</p> 
-      <div className="card-buttons">
-        <Link to="/Dashboard">
-          <span className="text">Dashboard</span>
-        </Link>
+      <h3>{props.title}</h3>
+      <div className="lidars-card-text">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae orci vel enim pretium scelerisque. Pellentesque eleifend nec odio imperdiet pretium. Mauris ullamcorper mi erat.</p> 
+        <div className="card-buttons">
+          <Link to="/Dashboard">
+            <span className="text">Dashboard</span>
+          </Link>
+        </div>
       </div>
-    </div>
-    <div className="lidars-card-map">
-      <WrappedMap
-      googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAuy0y-1edccXfqufhhq3JFUa0NCBtUzsE"
-      loadingElement={<div style={{ height: `100%` }} />}
-      containerElement={<div style={{ height: `400px` }} />}
-      mapElement={<div style={{ height: `100%` }} />}
-      />
-    </div>
+      <div className="lidars-card-map">
+        <WrappedMap
+          googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAuy0y-1edccXfqufhhq3JFUa0NCBtUzsE"
+          loadingElement={<div style={{ height: `100%` }} />}
+          containerElement={<div style={{ height: `400px` }} />}
+          mapElement={<div style={{ height: `100%` }} />}
+        />
+      </div>
     </div>  
-    
   </>
   );
 }
@@ -126,48 +125,3 @@ function LiDARS(props) {
 }
 
 export default LiDARS
-
-function Lidars() {
-  return (
-    <main>
-      <div className={styles.container}>
-    
-        <div id={styles.content}>
-        <h2>Site 1</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae orci vel enim pretium scelerisque. Pellentesque eleifend nec odio imperdiet pretium. Mauris ullamcorper mi erat.</p> 
-        </div>
-        
-        <div id={styles.map}>
-        map
-        </div>
-    
-      </div>
-    
-      <div className={styles.container}>
-    
-        <div id={styles.content}>
-        <h2>Site 2</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae orci vel enim pretium scelerisque. Pellentesque eleifend nec odio imperdiet pretium. Mauris ullamcorper mi erat.</p> 
-        </div>
-    
-        <div id={styles.map}>
-        map
-        </div>
-      </div>
-    
-      <div className={styles.container}>
-    
-        <div id={styles.content}>
-        <h2>Site 3</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae orci vel enim pretium scelerisque. Pellentesque eleifend nec odio imperdiet pretium. Mauris ullamcorper mi erat.</p> 
-        </div>
-    
-        <div id={styles.map}>
-        map
-        </div>
-      </div>
-    </main>
-  )
-};
-
-
