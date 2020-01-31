@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class LidarDBServer {
 
     @Autowired
-    SampleTable samples;
+    MastSampleTable mastSamples;
 
     @Autowired
     TestTable tests;

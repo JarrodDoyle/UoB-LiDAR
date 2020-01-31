@@ -23,7 +23,7 @@ public class FileLoader {
     LoadedFileTable loadedFiles;
 
     @Autowired
-    SampleTable samples;
+    MastSampleTable mastSamples;
 
     public void loadFiles() {
         Iterable<LoadedFile> lFiles = loadedFiles.findAll();
@@ -78,7 +78,7 @@ public class FileLoader {
                     if (!timestamp.startsWith("LOCATION")) return;
                 }
                 else if (i > 3) {
-                    Sample sample = new Sample();
+                    MastSample sample = new MastSample();
                     sample.setTimestamp(timestamp);
                     sample.setDirection30m(Double.parseDouble(direction30m));
                     sample.setDirection40m(Double.parseDouble(direction40m));

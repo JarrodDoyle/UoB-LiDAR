@@ -2,8 +2,8 @@ package com.lidar.lidar.database;
 
 import javax.persistence.*;
 
-@Entity @Table(name = "samples")
-public class Sample {
+@Entity @Table(name = "mast_samples")
+public class MastSample {
     @Id @GeneratedValue @Column(name = "id")
     Long id;
 
@@ -14,6 +14,9 @@ public class Sample {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @ManyToOne @JoinColumn(name = "serial")
+    Mast mast;
 
     @Column(name = "timestamp")
     String timestamp;
@@ -192,7 +195,7 @@ public class Sample {
     }
 
 
-    public Sample() {
+    public MastSample() {
         direction30m = 0d;
         direction40m = 0d;
         direction60m = 0d;
