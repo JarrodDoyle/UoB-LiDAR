@@ -1,5 +1,5 @@
 import React from "react";
-import { GoogleMap, withScriptjs, withGoogleMap } from 'react-google-maps';
+import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
 import { Link } from "react-router-dom";
 import "./Lidars.css";
 
@@ -12,7 +12,7 @@ function Card(props) {
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: `100%` }} />}
           mapElement={<div style={{ height: `100%` }} />}
-          
+          location={props.location}
         />
       </div>
       <h3>{props.title}</h3>
@@ -27,16 +27,21 @@ function Card(props) {
   );
 }
 
-function Map() {
+function Map(props) {
   return(
     <GoogleMap 
       defaultZoom={7}
-      defaultCenter={{lat:50.780519, lng: -0.152488}}
+      defaultCenter={props.location}
       defaultOptions={{fullscreenControl: false,
                        mapTypeControl: false,
                        streetViewControl: false,
                        zoomControl: false}}
+    >
+      <Marker
+      position={props.location}
     />
+
+    </GoogleMap>
 
     
   );
@@ -47,22 +52,22 @@ const cards = [
   {
     title: "Brighton Off-Shore 1",
     desc: "This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1",
-    location: [-1.45342,1.7834]
+    location: {lat: 50.780519,lng: -0.152488}
   },
   {
     title: "Brighton Off-Shore 2",
     desc: "This is an offshore windfarm 2",
-    location: [-1.45342,1.7834]
+    location: {lat: 20.780519,lng: -0.135288}
   },
   {
     title: "Brighton Off-Shore 3",
     desc: "This is an offshore windfarm 3",
-    location: [-1.45342,1.7834]
+    location: {lat: 50.780519,lng: -0.152488}
   },
   {
     title: "Brighton Off-Shore 4",
     desc: "This is an offshore windfarm 4",
-    location: [-1.45342,1.7834]
+    location: {lat: 50.780519,lng: -0.152488}
   }
 ];
 function LiDARS(props) {
