@@ -19,6 +19,7 @@
   --red: #FB4485;
   --blue: #6CE0F1;
   --salmon: #fa8a90;
+  --salmon-light: #fa9ba1;
   font-family: var(--bodyfont);
   color: var(--gray);
   background-color: rgb(249, 249, 252);
@@ -113,17 +114,3 @@ nav a span{
   right: -100%;
 }
 
-.circle-btn{
-  text-decoration: none;
-  text-align: center;
-  background-color: var(--salmon);
-  padding: 5px 5px; 
-  border-radius: 90px;
-  width: 35px;
-  height: 35px;
-  line-height: 35px;
-  cursor: pointer;
-  font-size: 23px;
-  margin-right: 10px;
-  color: var(--white) !important;
-}
