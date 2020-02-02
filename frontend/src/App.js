@@ -5,17 +5,15 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import {Helmet} from "react-helmet";
-
 import Dashboard from './Dashboard.js';
 import Lidars from './Lidars.js';
 import Login from './Login.js';
 import Settings from './Settings.js';
 import Nav from './Nav.js';
 import MapPage from "./MapPage.js";
-import icon from "./res/turbine-fin.gif";
 import './App.css';
 import './Material-Inp.css';
+
 function NavPage(){
   return (
     <div className="nav-page">
@@ -53,12 +51,6 @@ function NavPage(){
 export default function App() {
   return (
     <Router>
-      <Helmet>
-        <title>LiDAR</title>
-        <link rel="shortcut icon" href={icon}/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <script src="https://kit.fontawesome.com/b5b28e0ac4.js" crossorigin="anonymous"></script>
-      </Helmet>
       <Switch>
         <Route exact path="/">
           <Redirect to="/login/"/>
