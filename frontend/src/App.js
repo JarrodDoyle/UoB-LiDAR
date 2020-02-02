@@ -35,11 +35,14 @@ function NavPage(){
       </Route>
       <Route exact path="/map">
         <header>
-        <h1>Map</h1>
+          <h1>Map</h1>
         </header>
         <MapPage/>
       </Route>
       <Route exact path="/settings">
+        <header>
+          <h1>Settings</h1>
+        </header>
         <Settings/>
       </Route>
     </Switch>
