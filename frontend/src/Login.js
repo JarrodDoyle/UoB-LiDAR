@@ -10,7 +10,7 @@ import i6 from './res/login-bg6.jpg';
 import i7 from './res/login-bg7.jpg';
 import i8 from './res/login-bg8.jpg';
 import i9 from './res/login-bg9.jpg';
-import i10 from './res/login-bg10.png';
+import i10 from './res/login-bg10.jpg';
 import i11 from './res/login-bg11.jpg';
 import i12 from './res/login-bg12.jpg';
 import i13 from './res/login-bg13.jpg';
