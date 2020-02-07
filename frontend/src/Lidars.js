@@ -45,6 +45,18 @@ function Map(props) {
         minZoom: 6,
         maxZoom: 6,
         gestureHandling: "none",
+        styles: [
+          {
+            featureType: 'road',
+            elementType: 'geometry',
+            stylers: [{visibility: 'off'}]
+          },
+          {
+            featureType: 'road',
+            elementType: 'label',
+            stylers: [{visibility: 'off'}]
+          },
+        ],
       }}
     >
       <Marker
