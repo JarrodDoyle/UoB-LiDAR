@@ -58,10 +58,7 @@ class LoginForm extends React.Component{
           <div>
             <h3>Login</h3>
             <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
-          </div>
-          <div>
-            <Link to="/login/register">Create account</Link>
-            <Link to="/login/forgot">Forgot password</Link>
+          </div> <div> <Link to="/login/register">Create account</Link> <Link to="/login/forgot">Forgot password</Link>
           </div>
         </form>
       );
