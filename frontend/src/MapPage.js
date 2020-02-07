@@ -6,7 +6,7 @@ function Map() {
     return(
       <GoogleMap 
         defaultZoom={7}
-        defaultCenter={{lat: 0, lng: 0}}
+        defaultCenter={{lat: 51.455916, lng: -2.603008}}
         defaultOptions={{
           fullscreenControl: false,
           mapTypeControl: true,
