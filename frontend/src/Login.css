@@ -23,6 +23,11 @@
   box-shadow: 5px 5px 10px var(--darkgray);
   padding: 15px 10px;
   background-color: var(--white);
+  opacity: 0.85;
+}
+
+.Login:hover{
+  opacity: 1;
 }
 
 .Login h2{
