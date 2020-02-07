@@ -9,6 +9,29 @@ import i5 from './res/login-bg5.jpg';
 import i6 from './res/login-bg6.jpg';
 import i7 from './res/login-bg7.jpg';
 import i8 from './res/login-bg8.jpg';
+import i9 from './res/login-bg9.jpg';
+import i10 from './res/login-bg10.png';
+import i11 from './res/login-bg11.jpg';
+import i12 from './res/login-bg12.jpg';
+import i13 from './res/login-bg13.jpg';
+import i14 from './res/login-bg14.jpg';
+import i15 from './res/login-bg15.jpg';
+import i16 from './res/login-bg16.jpg';
+import i17 from './res/login-bg17.jpg';
+import i18 from './res/login-bg18.jpg';
+import i19 from './res/login-bg19.jpg';
+import i20 from './res/login-bg20.jpg';
+import i21 from './res/login-bg21.jpg';
+import i22 from './res/login-bg22.jpg';
+import i23 from './res/login-bg23.jpg';
+import i24 from './res/login-bg24.jpg';
+import i25 from './res/login-bg25.jpg';
+import i26 from './res/login-bg26.jpg';
+import i27 from './res/login-bg27.jpg';
+import i28 from './res/login-bg28.jpg';
+import i29 from './res/login-bg29.jpg';
+import i30 from './res/login-bg30.jpg';
+import i31 from './res/login-bg31.jpg';
 import "./Login.css";
 
 class LoginForm extends React.Component{
@@ -129,7 +152,10 @@ function ForgotSent(){
 }
 
 export default function Login() {
-  let bgs = [i1,i2,i3,i4,i5,i6,i7,i8];
+  let bgs = [i1,i2,i3,i4,i5,i6,i7,i8,i9,
+    i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,
+    i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,
+    i30,i31];
   let bgnum = Math.floor(Math.random() * bgs.length)
   return (
     <div className="Login-container" style={{backgroundImage: `url(${bgs[bgnum]})`}}>
