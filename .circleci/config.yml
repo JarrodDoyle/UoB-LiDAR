@@ -58,7 +58,7 @@ jobs:
           command: |
               echo "CREATE DATABASE lidarDB" | sudo mysql -u root  
               sudo mysql -u root "lidarDB" < backend/lidar/test_dump.sql
-              echo "CREATE USER IF NOT EXISTS aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
+              echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
               echo "GRANT ALL privileges ON \`lidarDB\`.* TO 'aaa'@localhost;" | sudo mysql -u root
       # run tests!
       - run:
