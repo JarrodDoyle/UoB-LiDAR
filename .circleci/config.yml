@@ -6,7 +6,8 @@ version: 2
 general:
     branches:
         only:
-            -master
+            - master
+            - dev
 jobs:
   build:
     docker:
@@ -31,16 +32,35 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: mvn -f backend/lidar/pom.xml dependency:go-offline
+      - run:
+          name: Install Maven dependencies
+          command: mvn -f backend/lidar/pom.xml dependency:go-offline
+
+      - run: 
+          name: Install MariaDB
+          command: sudo apt update -y && sudo apt upgrade -y && sudo apt install -y mariadb-server || true
 
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+          key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
 
+      - run:
+          name: Start database
+          command: sudo service mysql start
+
+      - run:
+          name: Populate Database
+          command: |
+              echo "CREATE DATABASE lidarDB" | sudo mysql -u root  
+              sudo mysql -u root "lidarDB" < backend/lidar/test_dump.sql
+              echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
+              echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
       # run tests!
-      - run: mvn -f backend/lidar/pom.xml integration-test
+      - run:
+          name: Run backend tests
+          command: mvn -f backend/lidar/pom.xml integration-test
