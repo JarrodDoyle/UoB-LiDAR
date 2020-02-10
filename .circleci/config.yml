@@ -50,8 +50,12 @@ jobs:
           key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
 
       - run:
+          name: Start database
+          command: sudo service mysql start
+
+      - run:
           name: Populate Database
-          command: mysql < backend/lidar/test_dump.sql
+          command: sudo mysql -u root < backend/lidar/test_dump.sql
 
       # run tests!
       - run:
