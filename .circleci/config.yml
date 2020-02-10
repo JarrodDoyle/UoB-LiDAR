@@ -55,9 +55,9 @@ jobs:
 
       - run:
           name: Populate Database
-          command: sudo mysql -u root "lidardb" "CREATE DATABASE lidardb;"
+          command: sudo mysql -u root "lidardb" 
       - run: sudo mysql -u root "lidardb" < backend/lidar/test_dump.sql
-      - run: sudo mysql -u root "CREATE USER IF NOT EXISTS aaa@lidardb IDENTIFIED BY 'bbb';"
+      - run: sudo mysql -u root < echo "CREATE USER IF NOT EXISTS aaa@lidardb IDENTIFIED BY 'bbb';"
 
       # run tests!
       - run:
