@@ -18,8 +18,6 @@
 --
 -- Table structure for table `loaded_files`
 --
-CREATE DATABASE IF NOT EXISTS lidardb;
-USE lidardb;
 
 DROP TABLE IF EXISTS `loaded_files`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
