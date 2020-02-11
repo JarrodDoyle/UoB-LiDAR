@@ -18,6 +18,14 @@ public class MastSample {
     @ManyToOne @JoinColumn(name = "serial")
     Mast mast;
 
+    public Mast getMast() {
+        return mast;
+    }
+
+    public void setMast(Mast mast) {
+        this.mast = mast;
+    }
+
     @Column(name = "timestamp")
     String timestamp;
 

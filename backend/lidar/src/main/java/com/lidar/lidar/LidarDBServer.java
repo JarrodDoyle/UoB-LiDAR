@@ -23,6 +23,15 @@ public class LidarDBServer {
     MastSampleTable mastSamples;
 
     @Autowired
+    MastTable masts;
+    
+    @Autowired
+    BuoySampleTable buoySamples;
+
+    @Autowired
+    BuoyTable buoys;
+
+    @Autowired
     TestTable tests;
 
     @Autowired
@@ -33,8 +42,6 @@ public class LidarDBServer {
 
     public static void main(String[] args) {
         SpringApplication.run(LidarDBServer.class, args);
-
-        
     }
 
     @RequestMapping("/test/database/create")
@@ -83,5 +90,25 @@ public class LidarDBServer {
     public String testReadFiles() {
         fileLoader.loadFiles();
         return "AAAAA";
+    }
+
+    @RequestMapping("/test/registermast")
+    public String testRegisterMast(@RequestParam(name = "serial", required = true) String serial) {
+        Mast mast = new Mast(serial);
+        masts.save(mast);
+        return "AAAAA";
+    }
+
+    @RequestMapping("/test/registerbuoy")
+    public String testRegisterBuoy(@RequestParam(name = "serial", required = true) String serial, @RequestParam(name = "mast", required = true) String mast) {
+        Optional<Mast> maybeMast = masts.findById(mast);
+        if (maybeMast.isPresent()) {
+            Buoy buoy = new Buoy(serial, maybeMast.get());
+            buoys.save(buoy);
+            return "AAAAA";
+        }
+        else {
+            return "Mast not found.";
+        }
     }
 }

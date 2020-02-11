@@ -4,6 +4,14 @@ import javax.persistence.*;
 
 @Entity @Table(name = "masts")
 public class Mast {
+    public Mast() {
+
+    }
+
+    public Mast(String serial) {
+        this.serial = serial;
+    }
+
     @Id @Column(name = "serial")
     String serial;
 

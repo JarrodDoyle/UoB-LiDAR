@@ -23,7 +23,16 @@ public class FileLoader {
     LoadedFileTable loadedFiles;
 
     @Autowired
+    MastTable masts;
+    
+    @Autowired
     MastSampleTable mastSamples;
+
+    @Autowired
+    BuoyTable buoys;
+
+    @Autowired
+    BuoySampleTable buoySamples;
 
     public void loadFiles() {
         Iterable<LoadedFile> lFiles = loadedFiles.findAll();
@@ -40,14 +49,13 @@ public class FileLoader {
 
                 if (!loaded) {
                     LoadedFile nlf = new LoadedFile(f.getName());
-                    //loadedFiles.save(nlf);
-                    if (!out) {
-                        saveEntries(f);
-                        out = true;
-                    }
+                    loadedFiles.save(nlf);
+                    saveEntries(f);
                 }
             }
         }
+
+        System.out.println("DONE");
     }
 
     private void saveEntries(File file) {
@@ -56,8 +64,14 @@ public class FileLoader {
 
             sc.useDelimiter(",|\\n");
 
+            String serial = "";
+
+            Boolean isMast = false;
+            Mast mast = null;
+            Buoy buoy = null;
+
             Integer i = 0;
-            while (sc.hasNext() && i < 50) {
+            while (sc.hasNext()) {
                 String timestamp = sc.next();
                 String direction30m = sc.next();
                 String direction40m = sc.next();
@@ -77,26 +91,216 @@ public class FileLoader {
                 if (i == 0) {
                     if (!timestamp.startsWith("LOCATION")) return;
                 }
+                else if (i == 1) {
+                    serial = timestamp.split(": ")[1];
+                    Optional<Buoy> maybeBuoy = buoys.findById(serial);
+                    Optional<Mast> maybeMast = masts.findById(serial);
+                    if (maybeBuoy.isPresent()) {
+                        isMast = false;
+                        buoy = maybeBuoy.get();
+                    }
+                    else if (maybeMast.isPresent()) {
+                        isMast = true;
+                        mast = maybeMast.get();
+                    }
+                    else {
+                        System.out.println("Device not registered with system.");
+                        return;
+                    }
+                }
                 else if (i > 3) {
-                    MastSample sample = new MastSample();
-                    sample.setTimestamp(timestamp);
-                    sample.setDirection30m(Double.parseDouble(direction30m));
-                    sample.setDirection40m(Double.parseDouble(direction40m));
-                    sample.setDirection60m(Double.parseDouble(direction60m));
-                    sample.setDirection80m(Double.parseDouble(direction80m));
-                    sample.setDirection100m(Double.parseDouble(direction100m));
-                    sample.setSpeed30m(Double.parseDouble(speed30m));
-                    sample.setSpeed40m(Double.parseDouble(speed40m));
-                    sample.setSpeed60m(Double.parseDouble(speed60m));
-                    sample.setSpeed80m(Double.parseDouble(speed80m));
-                    sample.setSpeed100m(Double.parseDouble(speed100m));
-                    sample.setTi30m(Double.parseDouble(ti30m));
-                    sample.setTi40m(Double.parseDouble(ti40m));
-                    sample.setTi60m(Double.parseDouble(ti60m));
-                    sample.setTi80m(Double.parseDouble(ti80m));
-                    sample.setTi100m(Double.parseDouble(ti100m));
-
-                    System.out.println(sample.toString());
+                    if (isMast) {
+                        MastSample sample = new MastSample();
+                        sample.setMast(mast);
+                        sample.setTimestamp(timestamp);
+                        try {
+                            sample.setDirection30m(Double.parseDouble(direction30m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setDirection40m(Double.parseDouble(direction40m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setDirection60m(Double.parseDouble(direction60m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setDirection80m(Double.parseDouble(direction80m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setDirection100m(Double.parseDouble(direction100m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setSpeed30m(Double.parseDouble(speed30m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setSpeed40m(Double.parseDouble(speed40m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setSpeed60m(Double.parseDouble(speed60m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setSpeed80m(Double.parseDouble(speed80m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setSpeed100m(Double.parseDouble(speed100m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setTi30m(Double.parseDouble(ti30m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setTi40m(Double.parseDouble(ti40m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setTi60m(Double.parseDouble(ti60m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setTi80m(Double.parseDouble(ti80m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setTi100m(Double.parseDouble(ti100m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        mastSamples.save(sample);
+                    }
+                    else {
+                        BuoySample sample = new BuoySample();
+                        sample.setBuoy(buoy);
+                        sample.setTimestamp(timestamp);
+                        try {
+                            sample.setDirection30m(Double.parseDouble(direction30m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setDirection40m(Double.parseDouble(direction40m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setDirection60m(Double.parseDouble(direction60m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setDirection80m(Double.parseDouble(direction80m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setDirection100m(Double.parseDouble(direction100m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setSpeed30m(Double.parseDouble(speed30m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setSpeed40m(Double.parseDouble(speed40m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setSpeed60m(Double.parseDouble(speed60m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setSpeed80m(Double.parseDouble(speed80m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setSpeed100m(Double.parseDouble(speed100m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setTi30m(Double.parseDouble(ti30m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setTi40m(Double.parseDouble(ti40m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setTi60m(Double.parseDouble(ti60m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setTi80m(Double.parseDouble(ti80m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        try {
+                            sample.setTi100m(Double.parseDouble(ti100m));
+                        }
+                        catch (NumberFormatException ex) {
+                            
+                        }
+                        buoySamples.save(sample);
+                    }
                 }
                 i++;
             }
