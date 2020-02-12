@@ -9,7 +9,7 @@ general:
             - master
             - dev
 jobs:
-  build:
+  setup:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
@@ -44,11 +44,6 @@ jobs:
           name: Install MariaDB
           command: sudo apt update -y && sudo apt upgrade -y && sudo apt install -y mariadb-server || true
 
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
-
       - run:
           name: Start database
           command: sudo service mysql start
@@ -60,7 +55,29 @@ jobs:
               sudo mysql -u root "lidarDB" < backend/lidar/test_dump.sql
               echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
               echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
+
+  build:
+    steps:
+       - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
       # run tests!
       - run:
           name: Run backend tests
           command: mvn -f backend/lidar/pom.xml integration-test
+
+workflows:
+  version: 2
+  build:
+    jobs: 
+      - setup
+      - build
+          requires:
+            - setup
