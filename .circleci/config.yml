@@ -61,6 +61,12 @@ jobs:
           key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
 
   build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/project
+    environment:
+      MAVEN_OPTS: -Xmx3200m
+
     steps:
        - restore_cache:
           keys:
