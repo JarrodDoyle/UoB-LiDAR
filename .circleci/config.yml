@@ -68,8 +68,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      # run tests!
-      - run:
+       # run tests!
+       - run:
           name: Run backend tests
           command: mvn -f backend/lidar/pom.xml integration-test
 
