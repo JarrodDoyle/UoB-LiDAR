@@ -16,6 +16,10 @@ public class SystemManager {
     Map<String, BuoyController> buoys;
 
     public SystemManager() {
+        
+    }
+
+    public void setup() {
         buoys = new HashMap<String, BuoyController>();
         for (Buoy buoy : buoyTable.findAll()) {
             buoys.put(buoy.getSerial(), new BuoyController(buoy, buoyTable));
