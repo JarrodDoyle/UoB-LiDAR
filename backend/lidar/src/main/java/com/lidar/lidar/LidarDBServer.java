@@ -20,25 +20,19 @@ import org.springframework.web.bind.annotation.*;
 public class LidarDBServer {
 
     @Autowired
-    MastSampleTable mastSamples;
-
-    @Autowired
     MastTable masts;
-    
-    @Autowired
-    BuoySampleTable buoySamples;
 
     @Autowired
     BuoyTable buoys;
+
+    @Autowired
+    SpeedHeightTable speedHeights;
 
     @Autowired
     TestTable tests;
 
     @Autowired
     LoadedFileTable loadedFiles;
-
-    @Autowired
-    FileLoader fileLoader;
 
     public static void main(String[] args) {
         SpringApplication.run(LidarDBServer.class, args);
@@ -86,12 +80,6 @@ public class LidarDBServer {
         }
     }
 
-    @RequestMapping("/test/readfiles")
-    public String testReadFiles() {
-        fileLoader.loadFiles();
-        return "AAAAA";
-    }
-
     @RequestMapping("/test/registermast")
     public String testRegisterMast(@RequestParam(name = "serial", required = true) String serial) {
         Mast mast = new Mast(serial);
@@ -103,7 +91,7 @@ public class LidarDBServer {
     public String testRegisterBuoy(@RequestParam(name = "serial", required = true) String serial, @RequestParam(name = "mast", required = true) String mast) {
         Optional<Mast> maybeMast = masts.findById(mast);
         if (maybeMast.isPresent()) {
-            Buoy buoy = new Buoy(serial, maybeMast.get());
+            Buoy buoy = new Buoy(serial, maybeMast.get(), speedHeights);
             buoys.save(buoy);
             return "AAAAA";
         }
