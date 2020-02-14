@@ -78,6 +78,6 @@ jobs:
               rm backend/lidar/src/main/resources/static/*
               cp -r frontend/build backend/lidar/src/main/resources/static/
               mvn -f backend/lidar/pom.xml install
-              scp -oStrictHostKeyChecking=no backend/lidar/target/lidar-0.0.1-SNAPSHOT.jar ubuntu@lidar.icedcoffee.dev:/
+              scp -oStrictHostKeyChecking=no backend/lidar/target/lidar-0.0.1-SNAPSHOT.jar ubuntu@lidar.icedcoffee.dev:
             fi
 
