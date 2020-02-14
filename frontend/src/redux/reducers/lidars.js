@@ -6,12 +6,12 @@ export const lidars = (state = [], action) => {
       return [
         ...state,
         {
-          id: action.lidar.id,
-          title: action.lidar.title,
-          desc: action.lidar.desc,
+          id: action.id,
+          name: action.name,
+          desc: action.desc,
           location: {
-            lat: action.lidar.location.lat,
-            lng: action.lidar.location.lng,
+            lat: action.location.lat,
+            lng: action.location.lng,
           },
         }
       ]

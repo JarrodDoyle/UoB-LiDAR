@@ -53,7 +53,7 @@ function NavPage(){
 function App(props) {
   props.dispatch(addLidar({
     id: 1,
-    title: "Brighton Off-Shore 1",
+    name: "Brighton Off-Shore 1",
     desc: "This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1",
     location: {
       lat: 50.643758,
@@ -62,19 +62,19 @@ function App(props) {
  }))
   props.dispatch(addLidar({
     id: 2,
-    title: "Brighton Off-Shore 2",
+    name: "Brighton Off-Shore 2",
     desc: "This is an offshore windfarm 2",
     location: {lat: 53.852400,lng: -3.697895}
   }))
   props.dispatch(addLidar({
     id: 3,
-    title: "North Sea Site 1",
+    name: "North Sea Site 1",
     desc: "This is an offshore windfarm 3",
     location: {lat: 53.415865,lng: 0.689438}
   }))
   props.dispatch(addLidar({
     id: 4,
-    title: "North Sea Site 2",
+    name: "North Sea Site 2",
     desc: "This is an offshore windfarm 4",
     location: {lat: 50.510669,lng: -2.240459}
   }))

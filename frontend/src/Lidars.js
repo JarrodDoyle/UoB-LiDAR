@@ -17,7 +17,7 @@ function Card(props) {
           location={props.location}
         />
       </div>
-      <h3>{props.title}</h3>
+      <h3>{props.name}</h3>
       <p>{props.desc}</p>
       <div className="lidars-btns">
         <h4>Go to dash</h4>
@@ -84,11 +84,8 @@ function Map(props) {
         }
       />
     </GoogleMap>
-
-    
   );
 }
-
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 
 function LiDARS(props) {
@@ -96,9 +93,9 @@ function LiDARS(props) {
   return (
   <main className="lidars-wrapper">
     <div className="lidars-grid">
-      {props.lidars.map (card => {
+      {props.sites.map (card => {
         return(
-          <Card key={card.id} title={card.title}  desc={card.desc} location={card.location}/>
+          <Card key={card.id} name={card.name}  desc={card.desc} location={card.location}/>
         )
       })}
     </div>
@@ -108,4 +105,4 @@ function LiDARS(props) {
   </main>
   );
 }
-export default connect(state => ({lidars: state.lidars}))(LiDARS)
+export default connect(state => ({sites: state.lidars}))(LiDARS)
