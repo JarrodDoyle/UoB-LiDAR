@@ -1,8 +1,11 @@
-import { ADD_LIDAR } from './actionTypes.js'
+import { ADD_LIDAR, SET_API_KEY } from './actionTypes.js'
 
 export const addLidar = lidar => ({
   type: ADD_LIDAR,
-  payload: {
-    lidar
-  }
+  lidar
+});
+
+export const setApiKey = key => ({
+  type: SET_API_KEY,
+  key
 });
