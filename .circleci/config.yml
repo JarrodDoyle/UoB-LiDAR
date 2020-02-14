@@ -9,7 +9,7 @@ general:
             - master
             - dev
 jobs:
-  setup:
+  build:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
@@ -60,30 +60,21 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
 
-  build:
-    docker:
-      - image: circleci/openjdk:8-jdk
-    working_directory: ~/project
-    environment:
-      MAVEN_OPTS: -Xmx3200m
-
-    steps:
-       - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-       # run tests!
        - run:
           name: Run backend tests
           command: mvn -f backend/lidar/pom.xml integration-test
 
-workflows:
-  version: 2
-  build:
-    jobs: 
-      - setup
-      - build:
-          requires:
-            - setup
+       - type: deploy
+          name: "Deploy to production"
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              cd frontend
+              npm install
+              npm run build
+              cd ..
+              rm backend/lidar/src/main/resources/static/*
+              cp frontend/build backend/lidar/src/main/resources/static/
+              mvn -f backend/lidar/pom.xml install
+              scp backend/lidar/target/lidar.jar ubuntu@lidar.icedcoffee.dev:/
+            fi
+
