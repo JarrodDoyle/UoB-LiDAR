@@ -64,17 +64,17 @@ jobs:
           name: Run backend tests
           command: mvn -f backend/lidar/pom.xml integration-test
 
-      - type: deploy
+      - run:
           name: "Deploy to production"
-        command: |
-          if [ "${CIRCLE_BRANCH}" == "master" ]; then
-            cd frontend
-            npm install
-            npm run build
-            cd ..
-            rm backend/lidar/src/main/resources/static/*
-            cp frontend/build backend/lidar/src/main/resources/static/
-            mvn -f backend/lidar/pom.xml install
-            scp backend/lidar/target/lidar.jar ubuntu@lidar.icedcoffee.dev:/
-          fi
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              cd frontend
+              npm install
+              npm run build
+              cd ..
+              rm backend/lidar/src/main/resources/static/*
+              cp frontend/build backend/lidar/src/main/resources/static/
+              mvn -f backend/lidar/pom.xml install
+              scp backend/lidar/target/lidar.jar ubuntu@lidar.icedcoffee.dev:/
+            fi
 
