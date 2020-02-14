@@ -5,10 +5,8 @@ import { toggleSiteMapOpen } from './redux/actions.js';
 import turbine from "./res/turbine-clear-bold.gif";
 
 let SiteMarker = connect()((props) => {
-  console.log(props.site.id);
   return (
     <Marker 
-      key = {props.site.id}
       position={props.site.location}
       icon={{
         url: turbine,
@@ -29,6 +27,12 @@ let SiteMarker = connect()((props) => {
           y: 64,
         }
       }}
+      anchorPoint={{
+        x: 32,
+        y: 0,
+      }}
+      shape={[0,0,64,64]}
+      title={props.site.name}
       onClick={() => props.dispatch(toggleSiteMapOpen(props.site.id))}
     >
       {props.site.map_open &&
@@ -56,7 +60,7 @@ function Map(props) {
         mapTypeId: "terrain",
       }}
     >
-      {props.sites.map( site => {return(<SiteMarker site={site}/>)} )}
+      {props.sites.map( site => {return(<SiteMarker key={site.id} site={site}/>)} )}
     </GoogleMap>
   );
 }
