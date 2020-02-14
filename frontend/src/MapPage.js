@@ -6,7 +6,7 @@ function Map() {
     return(
       <GoogleMap 
         defaultZoom={7}
-        defaultCenter={{lat: 0, lng: 0}}
+        defaultCenter={{lat: 51.455916, lng: -2.603008}}
         defaultOptions={{
           fullscreenControl: false,
           mapTypeControl: true,
@@ -16,31 +16,30 @@ function Map() {
         }}
       >
         {locations.map (location => {
-            return(
-              <Marker 
-                position={location.location}
-                  icon={{
-                    url: turbine,
-                      size:{
-                        width: 256,
-                        height: 256,
-                        widthUnit: "px",
-                        heightUnit: "px"
-                      },
-                      scaledSize:{
-                        width: 64,
-                        height: 64,
-                        widthUnit: "px",
-                        heightUnit: "px",
-                      },
-                      anchor: {
-                        x: 32,
-                        y: 64,
-                      }
-                    }
-                  }
-                />
-              )
+          return(
+            <Marker 
+              position={location.location}
+              icon={{
+                url: turbine,
+                size:{
+                  width: 256,
+                  height: 256,
+                  widthUnit: "px",
+                  heightUnit: "px"
+                },
+                scaledSize:{
+                  width: 64,
+                  height: 64,
+                  widthUnit: "px",
+                  heightUnit: "px",
+                },
+                anchor: {
+                  x: 32,
+                  y: 64,
+                }
+              }}
+            />
+          )
         })}
         
       </GoogleMap>

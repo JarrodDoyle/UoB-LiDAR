@@ -1,32 +1,39 @@
 @import "Lidars.css";
 
-.dash-content h3{
-    padding: 10px 0px;
-}
-
-.dash-buttons{
-    padding: 10px 0px;
-    align-items: center;
-
-}
-
-.dash-buttons a{
-    background-color: var(--salmon);
-    text-decoration: none;
-    padding: 4px 8px;
-    border-radius: 4px;
-    color: var(--white);
-}
-
 .kpi-indicator{
-    display: inline-flex;
-    float: right;
-    border-radius: 16px;
-    background-color: var(--green);
-    color: var(--white);
-    font-size: 85;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: none;
+  align-items: flex-start;
 }
 
-.kpi-indicator span {
-    padding: 4px 10px;
+.kpi-indicator h3 {
+  margin-right: 15px;
+}
+
+.kpi-indicator i {
+  border-radius: 100%;
+  color: var(--white);
+  font-size: 0.75em;
+  min-width: 28px;
+  min-height: 28px;
+  width: 28px;
+  height: 28px;
+  max-width: 28px;
+  max-height: 28px;
+  line-height: 28px;
+  text-align: center;
+  margin-left: auto;
+}
+
+.kpi-indicator .ok{
+  background-color: var(--green);
+}
+
+.kpi-indicator .almost{
+  background-color: var(--orange);
+}
+
+.kpi-indicator .bad{
+  background-color: var(--red);
 }

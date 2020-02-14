@@ -10,9 +10,9 @@ function Card(props) {
       <div className="lidars-card-map">
         <WrappedMap
           googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAuy0y-1edccXfqufhhq3JFUa0NCBtUzsE"
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: `100%` }} />}
-          mapElement={<div style={{ height: `100%` }} />}
+          loadingElement={<div style={{ height: `100%`, borderRadius: '10px 10px 0px 0px' }} />}
+          containerElement={<div style={{ height: `100%`, borderRadius: '10px 10px 0px 0px' }} />}
+          mapElement={<div style={{ height: `100%`, borderRadius: '10px 10px 0px 0px' }} />}
           location={props.location}
         />
       </div>
@@ -45,6 +45,18 @@ function Map(props) {
         minZoom: 6,
         maxZoom: 6,
         gestureHandling: "none",
+        styles: [
+          {
+            featureType: 'road',
+            elementType: 'geometry',
+            stylers: [{visibility: 'off'}]
+          },
+          {
+            featureType: 'road',
+            elementType: 'label',
+            stylers: [{visibility: 'off'}]
+          },
+        ],
       }}
     >
       <Marker
@@ -111,6 +123,9 @@ function LiDARS(props) {
         )
       })}
     </div>
+    <Link to="/login" className="circle-btn lidars-add">
+      <i className="fas fa-plus"/>
+    </Link>
   </main>
   );
 }
