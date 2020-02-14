@@ -88,8 +88,7 @@ function Map(props) {
 }
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 
-function LiDARS(props) {
-  console.log(props.lidars);
+function Sites(props) {
   return (
   <main className="lidars-wrapper">
     <div className="lidars-grid">
@@ -105,4 +104,4 @@ function LiDARS(props) {
   </main>
   );
 }
-export default connect(state => ({sites: state.lidars}))(LiDARS)
+export default connect(state => ({sites: state.sites}))(Sites)

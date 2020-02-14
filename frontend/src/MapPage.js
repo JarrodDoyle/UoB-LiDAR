@@ -16,7 +16,7 @@ function Map(props) {
         mapTypeId: "terrain",
       }}
     >
-      {props.lidars.map (location => {
+      {props.sites.map (location => {
         return(
           <Marker 
             key = {location.id}
@@ -52,7 +52,7 @@ const WrappedMap = withScriptjs(withGoogleMap(Map))
 function MapPage(props){
   return(
     <WrappedMap
-      lidars = {props.lidars}
+      sites = {props.sites}
       googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAuy0y-1edccXfqufhhq3JFUa0NCBtUzsE"
       loadingElement={<div style={{ height: `100%` }} />}
       containerElement={<div style={{ height: `100%` }} />}
@@ -61,4 +61,4 @@ function MapPage(props){
     />
   );
 }
-export default connect(state => ({lidars: state.lidars}))(MapPage);
+export default connect(state => ({sites: state.sites}))(MapPage);

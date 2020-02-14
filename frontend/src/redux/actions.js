@@ -1,15 +1,15 @@
 import {
-  ADD_LIDAR,
+  ADD_SITE,
   SET_MASTER_API_KEY,
   ADD_API_KEY,
 } from './actionTypes.js'
 
-export const addLidar = lidar => ({
-  type: ADD_LIDAR,
-  id: lidar.id,
-  name: lidar.name,
-  desc: lidar.desc,
-  location: lidar.location,
+export const addSite = site => ({
+  type: ADD_SITE,
+  id: site.id,
+  name: site.name,
+  desc: site.desc,
+  location: site.location,
 });
 
 export const setMasterApiKey = key => ({

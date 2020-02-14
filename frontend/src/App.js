@@ -6,9 +6,9 @@ import {
   Redirect,
 } from "react-router-dom";
 import { connect } from 'react-redux';
-import { addLidar } from './redux/actions.js';
+import { addSite } from './redux/actions.js';
 import Dashboard from './Dashboard.js';
-import Lidars from './Lidars.js';
+import Sites from './Sites.js';
 import Login from './Login.js';
 import Settings from './Settings.js';
 import Nav from './Nav.js';
@@ -21,11 +21,11 @@ function NavPage(){
     <div className="nav-page">
     <Nav/>
     <Switch>
-      <Route exact path="/lidars">
+      <Route exact path="/sites">
         <header>
           <h1>Home</h1>
         </header>
-        <Lidars/>
+        <Sites/>
       </Route>
       <Route exact path="/dashboard">
         <header>
@@ -51,7 +51,7 @@ function NavPage(){
 }
 
 function App(props) {
-  props.dispatch(addLidar({
+  props.dispatch(addSite({
     id: 1,
     name: "Brighton Off-Shore 1",
     desc: "This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1",
@@ -60,19 +60,19 @@ function App(props) {
       lng: -0.257144
     }
  }))
-  props.dispatch(addLidar({
+  props.dispatch(addSite({
     id: 2,
     name: "Brighton Off-Shore 2",
     desc: "This is an offshore windfarm 2",
     location: {lat: 53.852400,lng: -3.697895}
   }))
-  props.dispatch(addLidar({
+  props.dispatch(addSite({
     id: 3,
     name: "North Sea Site 1",
     desc: "This is an offshore windfarm 3",
     location: {lat: 53.415865,lng: 0.689438}
   }))
-  props.dispatch(addLidar({
+  props.dispatch(addSite({
     id: 4,
     name: "North Sea Site 2",
     desc: "This is an offshore windfarm 4",
