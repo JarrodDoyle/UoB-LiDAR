@@ -44,11 +44,6 @@ jobs:
           name: Install MariaDB
           command: sudo apt update -y && sudo apt upgrade -y && sudo apt install -y mariadb-server || true
 
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
-
       - run:
           name: Start database
           command: sudo service mysql start
@@ -60,7 +55,26 @@ jobs:
               sudo mysql -u root "lidarDB" < backend/lidar/test_dump.sql
               echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
               echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
-      # run tests!
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
+
       - run:
           name: Run backend tests
           command: mvn -f backend/lidar/pom.xml integration-test
+
+      - run:
+          name: "Deploy to production"
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              cd frontend
+              npm install
+              npm run build
+              cd ..
+              rm backend/lidar/src/main/resources/static/*
+              cp frontend/build backend/lidar/src/main/resources/static/
+              mvn -f backend/lidar/pom.xml install
+              scp backend/lidar/target/lidar.jar ubuntu@lidar.icedcoffee.dev:/
+            fi
+
