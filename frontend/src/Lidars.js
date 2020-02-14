@@ -91,29 +91,6 @@ function Map(props) {
 
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 
-const cards = [
-  {
-    title: "Brighton Off-Shore 1",
-    desc: "This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1",
-    location: {lat: 50.643758,lng: -0.257144}
-  },
-  {
-    title: "Brighton Off-Shore 2",
-    desc: "This is an offshore windfarm 2",
-    location: {lat: 53.852400,lng: -3.697895}
-  },
-  {
-    title: "North Sea Site 1",
-    desc: "This is an offshore windfarm 3",
-    location: {lat: 53.415865,lng: 0.689438}
-  },
-  {
-    title: "North Sea Site 2",
-    desc: "This is an offshore windfarm 4",
-    location: {lat: 50.510669,lng: -2.240459}
-  }
-];
-
 function LiDARS(props) {
   console.log(props.lidars);
   return (
@@ -121,7 +98,7 @@ function LiDARS(props) {
     <div className="lidars-grid">
       {props.lidars.map (card => {
         return(
-          <Card id={card.id} title={card.title}  desc={card.desc} location={card.location}/>
+          <Card key={card.id} title={card.title}  desc={card.desc} location={card.location}/>
         )
       })}
     </div>
