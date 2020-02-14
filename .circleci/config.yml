@@ -60,11 +60,11 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
 
-       - run:
+      - run:
           name: Run backend tests
           command: mvn -f backend/lidar/pom.xml integration-test
 
-       - type: deploy
+      - type: deploy
           name: "Deploy to production"
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
