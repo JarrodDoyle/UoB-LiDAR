@@ -1,5 +1,6 @@
 import {
   ADD_SITE,
+  TOGGLE_SITE_MAP_OPEN,
   SET_MASTER_API_KEY,
   ADD_API_KEY,
 } from './actionTypes.js'
@@ -10,6 +11,12 @@ export const addSite = site => ({
   name: site.name,
   desc: site.desc,
   location: site.location,
+});
+
+// Will toggle site open/close but also close all others
+export const toggleSiteMapOpen = id => ({
+  type: TOGGLE_SITE_MAP_OPEN,
+  id: id,
 });
 
 export const setMasterApiKey = key => ({
