@@ -3,8 +3,13 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2
+general:
+    branches:
+        only:
+            - master
+            - dev
 jobs:
-  build:
+  setup:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
@@ -27,16 +32,58 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: mvn -f backend/lidar/pom.xml dependency:go-offline
+      - run:
+          name: Install Maven dependencies
+          command: mvn -f backend/lidar/pom.xml dependency:go-offline
 
+      - run: 
+          name: Install MariaDB
+          command: sudo apt update -y && sudo apt upgrade -y && sudo apt install -y mariadb-server || true
+
+      - run:
+          name: Start database
+          command: sudo service mysql start
+
+      - run:
+          name: Populate Database
+          command: |
+              echo "CREATE DATABASE lidarDB" | sudo mysql -u root  
+              sudo mysql -u root "lidarDB" < backend/lidar/test_dump.sql
+              echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
+              echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+          key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
 
-      # run tests!
-      - run: mvn -f backend/lidar/pom.xml integration-test
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/project
+    environment:
+      MAVEN_OPTS: -Xmx3200m
+
+    steps:
+       - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+       # run tests!
+       - run:
+          name: Run backend tests
+          command: mvn -f backend/lidar/pom.xml integration-test
+
+workflows:
+  version: 2
+  build:
+    jobs: 
+      - setup
+      - build:
+          requires:
+            - setup
