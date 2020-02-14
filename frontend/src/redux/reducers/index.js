@@ -1,3 +1,4 @@
 import { combineReducers } from "redux";
+import { lidars } from './lidars.js';
 
-export default combineReducers({ });
+export default combineReducers({ lidars });

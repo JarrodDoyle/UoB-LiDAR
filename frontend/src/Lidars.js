@@ -1,6 +1,7 @@
 import React from "react";
 import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
 import { Link } from "react-router-dom";
+import { connect} from 'react-redux';
 import turbine from "./res/turbine-clear-bold.gif";
 import "./Lidars.css";
 
@@ -114,12 +115,13 @@ const cards = [
 ];
 
 function LiDARS(props) {
+  console.log(props.lidars);
   return (
   <main className="lidars-wrapper">
     <div className="lidars-grid">
-      {cards.map (card => {
+      {props.lidars.map (card => {
         return(
-          <Card title={card.title}  desc={card.desc} location={card.location}/>
+          <Card id={card.id} title={card.title}  desc={card.desc} location={card.location}/>
         )
       })}
     </div>
@@ -129,5 +131,4 @@ function LiDARS(props) {
   </main>
   );
 }
-
-export default LiDARS
+export default connect(state => ({lidars: state.lidars}))(LiDARS)
