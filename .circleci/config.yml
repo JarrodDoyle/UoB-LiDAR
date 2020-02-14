@@ -41,8 +41,11 @@ jobs:
           command: mvn -f backend/lidar/pom.xml dependency:go-offline
 
       - run: 
-          name: Install MariaDB and npm
-          command: sudo apt update -y && sudo apt upgrade -y && sudo apt install -y mariadb-server node npm || true
+          name: Install MariaDB, node, and npm
+          command: |
+            sudo apt update -y && sudo apt upgrade -y && sudo apt install -y mariadb-server npm || true
+            curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+            sudo apt install -y nodejs
 
       - run:
           name: Start database
