@@ -84,3 +84,22 @@ input:focus ~ .highlight {
   from  { background:#5264AE; }
   to    { width:0; background:transparent; }
 }
+
+.circle-btn{
+  text-decoration: none;
+  text-align: center;
+  background-color: var(--salmon);
+  padding: 5px 5px; 
+  border-radius: 90px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  cursor: pointer;
+  font-size: 23px;
+  margin-right: 10px;
+  color: var(--white) !important;
+}
+
+.circle-btn:hover{
+  background-color: var(--salmon-light);
+}
