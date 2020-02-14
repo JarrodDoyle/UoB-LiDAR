@@ -54,7 +54,7 @@ function Map(props) {
           },
           {
             featureType: 'road',
-            elementType: 'label',
+            elementType: 'labels',
             stylers: [{visibility: 'off'}]
           },
         ],
