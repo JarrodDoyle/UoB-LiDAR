@@ -58,36 +58,29 @@
         </dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
-				<executions>
-				 	<execution>
-						<goals>
-					  		<goal>exec</goal>
-						</goals>
-				  	</execution>
-				</executions>
-				<configuration>
-					<executable>maven</executable>
-					<mainClass>com.lidar.lidar.LidarDBServer</mainClass> 
-				  	<!--
-				  	<workingDirectory>/tmp</workingDirectory>
-				  	<arguments>
-						<argument>-X</argument>
-						<argument>myproject:dist</argument>
-				  	</arguments>
-					-->
-				</configuration>
-			  </plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>maven</executable>
+                    <mainClass>com.lidar.lidar.LidarDBServer</mainClass> 
+                    <finalName>lidar.jar</finalName>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
