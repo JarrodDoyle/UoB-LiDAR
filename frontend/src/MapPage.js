@@ -31,9 +31,14 @@ let SiteMarker = connect()((props) => {
       }}
       onClick={() => props.dispatch(toggleSiteMapOpen(props.site.id))}
     >
-      {props.site.map_open && <p>
-        {props.site.id} - {props.site.name}
-      </p>}
+      {props.site.map_open &&
+        <InfoWindow onCloseClick={() => props.dispatch(toggleSiteMapOpen(props.site.id))}>
+            <div>
+              <h4>{props.site.name}</h4>
+              <span>{props.site.desc}</span>
+            </div>
+        </InfoWindow> 
+      }
     </Marker>
   );
 })
