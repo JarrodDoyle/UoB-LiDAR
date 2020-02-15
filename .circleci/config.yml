@@ -79,6 +79,6 @@ jobs:
               cp -r frontend/build/* backend/lidar/src/main/resources/static/
               mvn -f backend/lidar/pom.xml install
               scp -oStrictHostKeyChecking=no backend/lidar/target/lidar-0.0.1-SNAPSHOT.jar ubuntu@lidar.icedcoffee.dev:
-              ssh ubuntu@lidar.icedcoffee.dev sudo killall java && sudo java -jar lidar-0.01-SNAPSHOT.jar &
+              ssh ubuntu@lidar.icedcoffee.dev sudo killall java && sudo java -jar lidar-0.0.1-SNAPSHOT.jar &
             fi
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
 import { Link } from "react-router-dom";
+import { connect} from 'react-redux';
 import turbine from "./res/turbine-clear-bold.gif";
 import "./Lidars.css";
 
@@ -16,7 +17,7 @@ function Card(props) {
           location={props.location}
         />
       </div>
-      <h3>{props.title}</h3>
+      <h3>{props.name}</h3>
       <p>{props.desc}</p>
       <div className="lidars-btns">
         <h4>Go to dash</h4>
@@ -53,7 +54,7 @@ function Map(props) {
           },
           {
             featureType: 'road',
-            elementType: 'label',
+            elementType: 'labels',
             stylers: [{visibility: 'off'}]
           },
         ],
@@ -83,43 +84,17 @@ function Map(props) {
         }
       />
     </GoogleMap>
-
-    
   );
 }
-
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 
-const cards = [
-  {
-    title: "Brighton Off-Shore 1",
-    desc: "This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1",
-    location: {lat: 50.643758,lng: -0.257144}
-  },
-  {
-    title: "Brighton Off-Shore 2",
-    desc: "This is an offshore windfarm 2",
-    location: {lat: 53.852400,lng: -3.697895}
-  },
-  {
-    title: "North Sea Site 1",
-    desc: "This is an offshore windfarm 3",
-    location: {lat: 53.415865,lng: 0.689438}
-  },
-  {
-    title: "North Sea Site 2",
-    desc: "This is an offshore windfarm 4",
-    location: {lat: 50.510669,lng: -2.240459}
-  }
-];
-
-function LiDARS(props) {
+function Sites(props) {
   return (
   <main className="lidars-wrapper">
     <div className="lidars-grid">
-      {cards.map (card => {
+      {props.sites.map (card => {
         return(
-          <Card title={card.title}  desc={card.desc} location={card.location}/>
+          <Card key={card.id} name={card.name}  desc={card.desc} location={card.location}/>
         )
       })}
     </div>
@@ -129,5 +104,4 @@ function LiDARS(props) {
   </main>
   );
 }
-
-export default LiDARS
+export default connect(state => ({sites: state.sites}))(Sites)

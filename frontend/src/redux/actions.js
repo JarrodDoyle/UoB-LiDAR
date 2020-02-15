@@ -1,11 +1,30 @@
-import { ADD_LIDAR, SET_API_KEY } from './actionTypes.js'
+import {
+  ADD_SITE,
+  TOGGLE_SITE_MAP_OPEN,
+  SET_MASTER_API_KEY,
+  ADD_API_KEY,
+} from './actionTypes.js'
 
-export const addLidar = lidar => ({
-  type: ADD_LIDAR,
-  lidar
+export const addSite = site => ({
+  type: ADD_SITE,
+  id: site.id,
+  name: site.name,
+  desc: site.desc,
+  location: site.location,
 });
 
-export const setApiKey = key => ({
-  type: SET_API_KEY,
+// Will toggle site open/close but also close all others
+export const toggleSiteMapOpen = id => ({
+  type: TOGGLE_SITE_MAP_OPEN,
+  id: id,
+});
+
+export const setMasterApiKey = key => ({
+  type: SET_MASTER_API_KEY,
   key
+});
+
+export const addApiKey = key => ({
+  type: ADD_API_KEY,
+  key: key.key,
 });
