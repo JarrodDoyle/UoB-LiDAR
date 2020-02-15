@@ -6,44 +6,55 @@ import turbine from "./res/turbine-clear-bold.gif";
 
 let SiteMarker = connect()((props) => {
   return (
-    <Marker 
-      position={props.site.location}
-      icon={{
-        url: turbine,
-        size:{
-          width: 256,
-          height: 256,
-          widthUnit: "px",
-          heightUnit: "px"
-        },
-        scaledSize:{
-          width: 64,
-          height: 64,
-          widthUnit: "px",
-          heightUnit: "px",
-        },
-        anchor: {
+    <>
+      <Marker 
+        position={props.site.location}
+        icon={{
+          url: turbine,
+          size:{
+            width: 256,
+            height: 256,
+            widthUnit: "px",
+            heightUnit: "px"
+          },
+          scaledSize:{
+            width: 64,
+            height: 64,
+            widthUnit: "px",
+            heightUnit: "px",
+          },
+          anchor: {
+            x: 32,
+            y: 64,
+          }
+        }}
+        anchorPoint={{
           x: 32,
-          y: 64,
-        }
-      }}
-      anchorPoint={{
-        x: 32,
-        y: 0,
-      }}
-      shape={[0,0,64,64]}
-      title={props.site.name}
-      onClick={() => props.dispatch(toggleSiteMapOpen(props.site.id))}
-    >
+          y: 0,
+        }}
+        shape={{
+          coords: [0,0,64,64],
+          type: "rect",
+        }}
+        title={props.site.name}
+        onClick={() => props.dispatch(toggleSiteMapOpen(props.site.id))}
+      />
       {props.site.map_open &&
-        <InfoWindow onCloseClick={() => props.dispatch(toggleSiteMapOpen(props.site.id))}>
+        <InfoWindow
+          zIndex={100}
+          position={{
+            lat: props.site.location.lat + 0.3,
+            lng: props.site.location.lng,
+          }}
+          onCloseClick={() => props.dispatch(toggleSiteMapOpen(props.site.id))}
+        >
             <div>
               <h4>{props.site.name}</h4>
               <span>{props.site.desc}</span>
             </div>
         </InfoWindow> 
       }
-    </Marker>
+    </>
   );
 })
 
