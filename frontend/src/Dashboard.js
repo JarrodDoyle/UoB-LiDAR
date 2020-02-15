@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import _ from "lodash";
 import "./Dashboard.css";
 import { Line } from 'nivo'
 import { AutoSizer } from 'react-virtualized'
