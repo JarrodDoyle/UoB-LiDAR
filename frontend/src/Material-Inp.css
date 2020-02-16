@@ -103,3 +103,22 @@ input:focus ~ .highlight {
 .circle-btn:hover{
   background-color: var(--salmon-light);
 }
+
+.elipticle-btn{
+  text-decoration: none;
+  text-align: center;
+  background-color: var(--salmon);
+  padding: 5px 5px; 
+  border-radius: 90px;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+  font-size: 23px;
+  margin-right: 10px;
+  color: var(--white) !important;
+}
+
+.elipticle-btn:hover{
+  background-color: var(--salmon-light);
+}

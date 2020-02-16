@@ -3,6 +3,7 @@ import { GoogleMap, withScriptjs, withGoogleMap, Marker, InfoWindow } from 'reac
 import { connect } from 'react-redux';
 import { toggleSiteMapOpen } from './redux/actions.js';
 import turbine from "./res/turbine-clear-bold.gif";
+import { Link } from "react-router-dom";
 
 let SiteMarker = connect()((props) => {
   return (
@@ -49,8 +50,13 @@ let SiteMarker = connect()((props) => {
           onCloseClick={() => props.dispatch(toggleSiteMapOpen(props.site.id))}
         >
             <div>
-              <h4>{props.site.name}</h4>
+              <h2>{props.site.name}</h2>
               <span>{props.site.desc}</span>
+              <div className="lidars-btns">
+              <Link className="elipticle-btn" to="/Dashboard">
+              <h5>Go to dash <i className="fas fa-chevron-right"/></h5>
+              </Link>
+            </div>
             </div>
         </InfoWindow> 
       }

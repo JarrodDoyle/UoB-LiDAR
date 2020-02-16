@@ -84,4 +84,9 @@ public class LidarDBServer {
         fileLoader.loadFiles();
         return "AAAAA";
     }
+
+    @RequestMapping(value={"/","/sites","/dashboard","/map","/settings","/login","/login/register","/login/forgot","/login/forgot-sent"})
+    public String index(){
+        return "index.html";
+    }
 }
