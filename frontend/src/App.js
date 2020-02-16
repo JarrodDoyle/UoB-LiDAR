@@ -5,27 +5,27 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import {Helmet} from "react-helmet";
-
+import { connect } from 'react-redux';
+import { addSite } from './redux/actions.js';
 import Dashboard from './Dashboard.js';
-import Lidars from './Lidars.js';
+import Sites from './Sites.js';
 import Login from './Login.js';
 import Settings from './Settings.js';
 import Nav from './Nav.js';
 import MapPage from "./MapPage.js";
-import icon from "./res/turbine-fin.gif";
 import './App.css';
 import './Material-Inp.css';
+
 function NavPage(){
   return (
     <div className="nav-page">
     <Nav/>
     <Switch>
-      <Route exact path="/lidars">
+      <Route exact path="/sites">
         <header>
           <h1>Home</h1>
         </header>
-        <Lidars/>
+        <Sites/>
       </Route>
       <Route exact path="/dashboard">
         <header>
@@ -35,11 +35,14 @@ function NavPage(){
       </Route>
       <Route exact path="/map">
         <header>
-        <h1>Map</h1>
+          <h1>Map</h1>
         </header>
         <MapPage/>
       </Route>
       <Route exact path="/settings">
+        <header>
+          <h1>Settings</h1>
+        </header>
         <Settings/>
       </Route>
     </Switch>
@@ -47,14 +50,36 @@ function NavPage(){
   );
 }
 
-export default function App() {
+function App(props) {
+  props.dispatch(addSite({
+    id: 1,
+    name: "Brighton Off-Shore 1",
+    desc: "This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1",
+    location: {
+      lat: 50.643758,
+      lng: -0.257144
+    }
+ }))
+  props.dispatch(addSite({
+    id: 2,
+    name: "Brighton Off-Shore 2",
+    desc: "This is an offshore windfarm 2",
+    location: {lat: 53.852400,lng: -3.697895}
+  }))
+  props.dispatch(addSite({
+    id: 3,
+    name: "North Sea Site 1",
+    desc: "This is an offshore windfarm 3",
+    location: {lat: 53.415865,lng: 0.689438}
+  }))
+  props.dispatch(addSite({
+    id: 4,
+    name: "North Sea Site 2",
+    desc: "This is an offshore windfarm 4",
+    location: {lat: 50.510669,lng: -2.240459}
+  }))
   return (
     <Router>
-      <Helmet>
-        <title>LiDAR</title>
-        <link rel="shortcut icon" href={icon}/>
-        <script src="https://kit.fontawesome.com/b5b28e0ac4.js" crossorigin="anonymous"></script>
-      </Helmet>
       <Switch>
         <Route exact path="/">
           <Redirect to="/login/"/>
@@ -69,3 +94,4 @@ export default function App() {
     </Router>
   );
 }
+export default connect()(App);

@@ -82,6 +82,7 @@
                 <configuration>
                     <executable>maven</executable>
                     <mainClass>com.lidar.lidar.LidarDBServer</mainClass> 
+                    <finalName>lidar.jar</finalName>
                 </configuration>
             </plugin>
             <plugin>

@@ -15,7 +15,7 @@ function NavBtn(props){
 function Nav(){
   return (
     <nav className="Nav">
-      <NavBtn name="LiDARs" page="Lidars" icon="fas fa-home"/>
+      <NavBtn name="Sites" page="Sites" icon="fas fa-home"/>
       <NavBtn name="Dash" page="Dashboard" icon="fas fa-chart-line"/>
       <NavBtn name="Map" page="Map" icon="fas fa-map-marker-alt"/>
       <NavBtn name="Settings" page="Settings" icon="fas fa-cog"/>
