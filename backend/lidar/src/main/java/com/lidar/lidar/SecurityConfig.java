@@ -11,7 +11,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/test/**", "/home").hasIpAddress("127.0.0.1").permitAll()
-				.anyRequest().requiresSecure();
+				.antMatchers("/test/**", "/home").permitAll();/*.hasIpAddress("127.0.0.1").and()
+			.authorizeRequests()
+				.anyRequest().authenticated().and()
+			.requiresChannel()
+				.anyRequest().requiresSecure();*/
+
 	}
 }
