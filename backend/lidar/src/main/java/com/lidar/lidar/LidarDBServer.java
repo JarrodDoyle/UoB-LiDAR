@@ -2,7 +2,7 @@ package com.lidar.lidar;
 
 import com.lidar.lidar.database.*;
 
-import java.util.Optional;
+import java.util.*;
 
 import java.io.FileReader;
 
@@ -45,15 +45,19 @@ public class LidarDBServer {
         return test.toString();
     }
 
+    @RequestMapping("/home")
+    public String home() {
+        return "AAAAAAAA";
+    }
+
     @RequestMapping("/test/database/read")
-    public String testRead(@RequestParam(name="id", required=false, defaultValue = "1") Long id) {
-        Optional<Test> result = tests.findById(id);
-        if (result.isPresent()) {
-            return result.get().toString();
+    public String testRead() {
+        Iterable<Test> result = tests.findAll();
+        Integer i = 0;
+        for (Test t : result) {
+            i++;
         }
-        else {
-            return "Entry not found.";
-        }
+        return i.toString();
     }
 
     @RequestMapping("/test/database/update")
@@ -70,14 +74,9 @@ public class LidarDBServer {
     }
 
     @RequestMapping("/test/database/delete")
-    public String testDelete(@RequestParam(name="id", required = false, defaultValue = "1") Long id) {
-        if (tests.existsById(id)) {
-            tests.deleteById(id);
-            return "Entry deleted.";
-        }
-        else {
-            return "Entry not found.";
-        }
+    public String testDelete() {
+        tests.deleteAll();
+        return "All entries deleted.";
     }
 
     @RequestMapping("/test/registermast")
