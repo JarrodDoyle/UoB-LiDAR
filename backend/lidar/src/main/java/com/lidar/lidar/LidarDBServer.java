@@ -2,7 +2,7 @@ package com.lidar.lidar;
 
 import com.lidar.lidar.database.*;
 
-import java.util.Optional;
+import java.util.*;
 
 import java.io.FileReader;
 
@@ -20,7 +20,13 @@ import org.springframework.web.bind.annotation.*;
 public class LidarDBServer {
 
     @Autowired
-    SampleTable samples;
+    MastTable masts;
+
+    @Autowired
+    BuoyTable buoys;
+
+    @Autowired
+    SpeedHeightTable speedHeights;
 
     @Autowired
     TestTable tests;
@@ -28,13 +34,8 @@ public class LidarDBServer {
     @Autowired
     LoadedFileTable loadedFiles;
 
-    @Autowired
-    FileLoader fileLoader;
-
     public static void main(String[] args) {
         SpringApplication.run(LidarDBServer.class, args);
-
-        
     }
 
     @RequestMapping("/test/database/create")
@@ -44,15 +45,19 @@ public class LidarDBServer {
         return test.toString();
     }
 
+    @RequestMapping("/home")
+    public String home() {
+        return "AAAAAAAA";
+    }
+
     @RequestMapping("/test/database/read")
-    public String testRead(@RequestParam(name="id", required=false, defaultValue = "1") Long id) {
-        Optional<Test> result = tests.findById(id);
-        if (result.isPresent()) {
-            return result.get().toString();
+    public String testRead() {
+        Iterable<Test> result = tests.findAll();
+        Integer i = 0;
+        for (Test t : result) {
+            i++;
         }
-        else {
-            return "Entry not found.";
-        }
+        return i.toString();
     }
 
     @RequestMapping("/test/database/update")
@@ -69,19 +74,28 @@ public class LidarDBServer {
     }
 
     @RequestMapping("/test/database/delete")
-    public String testDelete(@RequestParam(name="id", required = false, defaultValue = "1") Long id) {
-        if (tests.existsById(id)) {
-            tests.deleteById(id);
-            return "Entry deleted.";
-        }
-        else {
-            return "Entry not found.";
-        }
+    public String testDelete() {
+        tests.deleteAll();
+        return "All entries deleted.";
     }
 
-    @RequestMapping("/test/readfiles")
-    public String testReadFiles() {
-        fileLoader.loadFiles();
+    @RequestMapping("/test/registermast")
+    public String testRegisterMast(@RequestParam(name = "serial", required = true) String serial) {
+        Mast mast = new Mast(serial);
+        masts.save(mast);
         return "AAAAA";
+    }
+
+    @RequestMapping("/test/registerbuoy")
+    public String testRegisterBuoy(@RequestParam(name = "serial", required = true) String serial, @RequestParam(name = "mast", required = true) String mast) {
+        Optional<Mast> maybeMast = masts.findById(mast);
+        if (maybeMast.isPresent()) {
+            Buoy buoy = new Buoy(serial, maybeMast.get(), speedHeights);
+            buoys.save(buoy);
+            return "AAAAA";
+        }
+        else {
+            return "Mast not found.";
+        }
     }
 }

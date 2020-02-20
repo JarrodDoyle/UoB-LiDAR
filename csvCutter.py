@@ -10,7 +10,18 @@ for name in fileNames:
     part = 1
     date = ""
     
+    for i, line in enumerate(headers):
+        for j, c in enumerate(line):
+            if c == ';':
+                line = line[:j] + ',' + line[j+1:]
+
+        headers[i] = line
+
     for line in lines[3:]:
+        for i, c in enumerate(line):
+            if c == ';':
+                line = line[:i] + ',' + line[i+1:]
+        
         if date != line[:10]:
             csvOut = open(name[2:-4] + " part " + str(part) + ".csv", "w")
             for header in headers:
