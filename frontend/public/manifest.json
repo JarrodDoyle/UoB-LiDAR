@@ -1,0 +1,14 @@
+{
+  "short_name": "LiDAR",
+  "name": "LiDAR dashboard for SPE",
+  "icons": [
+    {
+       src": "favicon.gif",
+      "sizes": "256x256",
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
