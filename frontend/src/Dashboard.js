@@ -61,6 +61,18 @@ const mydata = [
   }
 ]
 
+function Popup(props) {
+  return (
+    <div className="popup-background">
+      <div className="popup-box">
+        <h3>epic detailed view haha</h3>
+        <p>epic</p>
+        <button onClick={props.togglePopup}>close me</button>  
+      </div>
+    </div>
+  )
+}
+
 function Card(props) {
   let names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
   let style = names[Math.floor(Math.random() * 3)];
@@ -77,42 +89,61 @@ function Card(props) {
       </div>
       <div className="lidars-btns">
         <h4>More details</h4>
-        <Link className="circle-btn" to="/Dashboard">
+        <button className="circle-btn" onClick={props.togglePopup}>
           <i className="fas fa-chevron-right"/>
-        </Link>
+        </button>
       </div>
     </div>
   );
 }
 
-function Dashboard(props) {
-  return (
-    <main>
-      <div className="lidars-grid">
-        <Card title="System Availability" content={["1 month average - 91%", "Campaign average - 97%"]}/>
-        <Card title="Post Processed Data Availability" content={["1 month average - 88%", "Campaign average - 88%"]}/>
-        <Card title="Data Coverage" content={["something"]}/>
-        <Card title="Maintenance Visits" content={["0"]}/>
-        <Card title="Unscheduled Outages" content={["0"]}/>
-        <Card title="Comms. Uptime" content={["100%"]}/>
-        <Card title="Mean Wind Speed" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]}/>
-        <Card title="Mean Wind Direction" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]}/>
-        <Card title="Turbulence Intensity" content={["Slope - x", "Correlation Co-efficient - x"]}/>
-        <Card title="Wind Shear" content={["Shear exponent - x"]}/>
-        <div className="lidars-card">
-          <AutoSizer>
-            {({ height, width }) => (
-              <Line
-                data={mydata}
-                height={height}
-                width={width}
-              />
-            )}
-          </AutoSizer>        
+class Dashboard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { showPopup: false };
+    this.togglePopup = this.togglePopup.bind(this);
+  }
+
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup,
+    });
+  }
+
+  render() {
+    return (
+      <main>
+        <div className="lidars-grid">
+          <Card title="System Availability" content={["1 month average - 91%", "Campaign average - 97%"]} togglePopup={this.togglePopup}/>
+          <Card title="Post Processed Data Availability" content={["1 month average - 88%", "Campaign average - 88%"]} togglePopup={this.togglePopup}/>
+          <Card title="Data Coverage" content={["something"]} togglePopup={this.togglePopup}/>
+          <Card title="Maintenance Visits" content={["0"]} togglePopup={this.togglePopup}/>
+          <Card title="Unscheduled Outages" content={["0"]} togglePopup={this.togglePopup}/>
+          <Card title="Comms. Uptime" content={["100%"]} togglePopup={this.togglePopup}/>
+          <Card title="Mean Wind Speed" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]} togglePopup={this.togglePopup}/>
+          <Card title="Mean Wind Direction" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]} togglePopup={this.togglePopup}/>
+          <Card title="Turbulence Intensity" content={["Slope - x", "Correlation Co-efficient - x"]} togglePopup={this.togglePopup}/>
+          <Card title="Wind Shear" content={["Shear exponent - x"]} togglePopup={this.togglePopup}/>
+          <div className="lidars-card">
+            <AutoSizer>
+              {({ height, width }) => (
+                <Line
+                  data={mydata}
+                  height={height}
+                  width={width}
+                />
+              )}
+            </AutoSizer>        
+          </div>
         </div>
-      </div>
-    </main>
-  );
+        {this.state.showPopup ?  
+          <Popup togglePopup={this.togglePopup}/>  
+          : null  
+        }  
+        
+      </main>
+    );
+  }
 }
 
 export default Dashboard
