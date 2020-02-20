@@ -52,7 +52,8 @@
   bottom: 0;  
   margin: auto;  
   background-color: rgba(0,0,0, 0.5);  
-}  
+} 
+
 .popup-box {  
   grid-area: center;
   display: flex;
@@ -63,4 +64,17 @@
   margin: auto;  
   border-radius: 20px;  
   background: white;  
+}
+
+.popup-grid {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template:
+    'tall .'
+    'tall .';
+}
+
+.popup-grid-item-tall {
+  grid-area: tall;
 }

@@ -67,10 +67,16 @@ function Popup(props) {
       <div className="popup-box">
         <h3>{props.currentKPI}</h3>
         <button onClick={props.togglePopup}>close me</button>
-        <div className="lidars-grid">
-          <Graph data={mydata}/>
-          <Graph data={mydata}/>
-          <Graph data={mydata}/>
+        <div className="popup-grid">
+          <div className="popup-grid-item-tall">
+            <Graph data={mydata}/>
+          </div>
+          <div className="popup-grid-item">
+            <Graph data={mydata}/>
+          </div>
+          <div className="popup-grid-item">
+            <Graph data={mydata}/>
+          </div>
         </div>
       </div>
     </div>
@@ -79,7 +85,7 @@ function Popup(props) {
 
 function Graph(props) {
   return(
-    <div className="lidars-card">
+    // <div className="lidars-card">
       <AutoSizer>
         {({ height, width }) => (
           <Line
@@ -89,7 +95,7 @@ function Graph(props) {
           />
         )}
       </AutoSizer>        
-    </div>
+    // </div>
   )
 }
 
