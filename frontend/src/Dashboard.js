@@ -65,10 +65,30 @@ function Popup(props) {
   return (
     <div className="popup-background">
       <div className="popup-box">
-        <h3>epic detailed view haha</h3>
-        <p>epic</p>
-        <button onClick={props.togglePopup}>close me</button>  
+        <h3>{props.currentKPI}</h3>
+        <button onClick={props.togglePopup}>close me</button>
+        <div className="lidars-grid">
+          <Graph data={mydata}/>
+          <Graph data={mydata}/>
+          <Graph data={mydata}/>
+        </div>
       </div>
+    </div>
+  )
+}
+
+function Graph(props) {
+  return(
+    <div className="lidars-card">
+      <AutoSizer>
+        {({ height, width }) => (
+          <Line
+            data={props.data}
+            height={height}
+            width={width}
+          />
+        )}
+      </AutoSizer>        
     </div>
   )
 }
@@ -124,23 +144,11 @@ class Dashboard extends React.Component {
           <Card title="Mean Wind Direction" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]} togglePopup={this.togglePopup}/>
           <Card title="Turbulence Intensity" content={["Slope - x", "Correlation Co-efficient - x"]} togglePopup={this.togglePopup}/>
           <Card title="Wind Shear" content={["Shear exponent - x"]} togglePopup={this.togglePopup}/>
-          <div className="lidars-card">
-            <AutoSizer>
-              {({ height, width }) => (
-                <Line
-                  data={mydata}
-                  height={height}
-                  width={width}
-                />
-              )}
-            </AutoSizer>        
-          </div>
         </div>
         {this.state.showPopup ?  
-          <Popup togglePopup={this.togglePopup}/>  
+          <Popup togglePopup={this.togglePopup} currentKPI={this.state.currentKPI}/>  
           : null  
         }  
-        
       </main>
     );
   }
