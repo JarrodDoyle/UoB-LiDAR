@@ -13,6 +13,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/test/**").hasIpAddress("127.0.0.1").and()
 			.authorizeRequests()
-				.regexMatchers("^/(?!test).*$").permitAll();
+				.regexMatchers("^/(?!test).*$").authenticated().and()
+			.regexMatcher("^/(?!test).*$").requiresChannel()
+				.anyRequest().requiresSecure();
+
 	}
 }

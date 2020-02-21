@@ -68,9 +68,10 @@ jobs:
               npm install
               npm run build
               tar -cf frontend.tar build/*
-              scp -oStringHostKeyChecking=no frontend.tar ubuntu@lidar.icedcoffee.dev:/var/www/html
-              ssh ubuntu@lidar.icedcoffee.dev "tar -xf /var/www/html && rm /var/www/html/frontend.tar"
+              scp -oStrictHostKeyChecking=no frontend.tar ubuntu@lidar.icedcoffee.dev:/var/www/html
+              ssh ubuntu@lidar.icedcoffee.dev "tar -xf /var/www/html/frontend.tar && rm /var/www/html/frontend.tar"
 
+              cd ..
               mvn -f backend/lidar/pom.xml install
               scp -oStrictHostKeyChecking=no backend/lidar/target/lidar-0.0.1-SNAPSHOT.jar ubuntu@lidar.icedcoffee.dev:
                 #ssh ubuntu@lidar.icedcoffee.dev "sudo killall java && sudo java -jar lidar-0.0.1-SNAPSHOT.jar &"
