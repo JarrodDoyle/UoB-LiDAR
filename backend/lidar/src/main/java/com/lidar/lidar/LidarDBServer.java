@@ -28,10 +28,13 @@ public class LidarDBServer {
     TestTable tests;
 
     @Autowired
-    LoadedFileTable loadedFiles;
+    MastTable masts;
 
     @Autowired
-    FileLoader fileLoader;
+    BuoyTable buoys;
+
+    @Autowired
+    SpeedHeightTable speedHeights;
 
     public static void main(String[] args) {
         SpringApplication.run(LidarDBServer.class, args);
@@ -59,9 +62,7 @@ public class LidarDBServer {
         for (Test t : result) {
             i++;
         }
-        else {
-            return "Entry not found.";
-        }
+        return i.toString();
     }
 
     @PostMapping("/test/database/update")
