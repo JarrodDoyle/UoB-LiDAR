@@ -14,6 +14,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/test/**").hasIpAddress("localhost").and()
 			.authorizeRequests()
 				.regexMatchers("^/(?!test).*$").permitAll();
-
 	}
 }
