@@ -4,6 +4,8 @@ import com.lidar.lidar.database.*;
 
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import java.io.FileReader;
 
 import org.springframework.boot.SpringApplication;
@@ -46,7 +48,8 @@ public class LidarDBServer {
     }
 
     @RequestMapping("/home")
-    public String home() {
+    public String home(HttpServletRequest request) {
+        System.out.println(request.getRemoteAddr());
         return "AAAAAAAA";
     }
 
