@@ -4,6 +4,8 @@ import com.lidar.lidar.database.*;
 
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import java.io.FileReader;
 
 import org.springframework.boot.SpringApplication;
@@ -39,7 +41,7 @@ public class LidarDBServer {
         SpringApplication.run(LidarDBServer.class, args);
     }
 
-    @PostMapping("/test/database/create")
+    @RequestMapping("/test/database/create")
     public String testCreate(@RequestParam(name="name", required=false, defaultValue="test") String name) {
         Test test = new Test(name);
         tests.save(test);
@@ -47,7 +49,8 @@ public class LidarDBServer {
     }
 
     @RequestMapping("/home")
-    public String home() {
+    public String home(HttpServletRequest request) {
+        System.out.println(request.getRemoteAddr());
         return "AAAAAAAA";
     }
 
