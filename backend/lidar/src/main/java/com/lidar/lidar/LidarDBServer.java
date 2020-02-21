@@ -28,10 +28,13 @@ public class LidarDBServer {
     TestTable tests;
 
     @Autowired
-    LoadedFileTable loadedFiles;
+    MastTable masts;
 
     @Autowired
-    FileLoader fileLoader;
+    BuoyTable buoys;
+
+    @Autowired
+    SpeedHeightTable speedHeights;
 
     public static void main(String[] args) {
         SpringApplication.run(LidarDBServer.class, args);
@@ -39,32 +42,30 @@ public class LidarDBServer {
         
     }
 
-    @RequestMapping("/test/database/create")
+    @PostMapping("/test/database/create")
     public String testCreate(@RequestParam(name="name", required=false, defaultValue="test") String name) {
         Test test = new Test(name);
         tests.save(test);
         return test.toString();
     }
 
-
-    @RequestMapping("/home")
+    @GetMapping("/home")
     public String home(HttpServletRequest request) {
         System.out.println(request.getRemoteAddr());
         return "AAAAAAAA";
     }
-  
-    @RequestMapping("/test/database/read")
-    public String testRead(@RequestParam(name="id", required=false, defaultValue = "1") Long id) {
-        Optional<Test> result = tests.findById(id);
-        if (result.isPresent()) {
-            return result.get().toString();
+
+    @GetMapping("/test/database/read")
+    public String testRead() {
+        Iterable<Test> result = tests.findAll();
+        Integer i = 0;
+        for (Test t : result) {
+            i++;
         }
-        else {
-            return "Entry not found.";
-        }
+        return i.toString();
     }
 
-    @RequestMapping("/test/database/update")
+    @PostMapping("/test/database/update")
     public String testUpdate(@RequestParam(name="id", required = false, defaultValue = "1") Long id, @RequestParam(name="name", required = false, defaultValue = "test") String name) {
         Optional<Test> result = tests.findById(id);
         if (result.isPresent()) {
@@ -77,20 +78,34 @@ public class LidarDBServer {
         }
     }
 
-    @RequestMapping("/test/database/delete")
-    public String testDelete(@RequestParam(name="id", required = false, defaultValue = "1") Long id) {
-        if (tests.existsById(id)) {
-            tests.deleteById(id);
-            return "Entry deleted.";
+    @PostMapping("/test/database/delete")
+    public String testDelete() {
+        tests.deleteAll();
+        return "All entries deleted.";
+    }
+
+    @PostMapping("/test/registermast")
+    public String testRegisterMast(@RequestParam(name = "serial", required = true) String serial) {
+        Mast mast = new Mast(serial);
+        masts.save(mast);
+        return "AAAAA";
+    }
+
+    @PostMapping("/test/registerbuoy")
+    public String testRegisterBuoy(@RequestParam(name = "serial", required = true) String serial, @RequestParam(name = "mast", required = true) String mast) {
+        Optional<Mast> maybeMast = masts.findById(mast);
+        if (maybeMast.isPresent()) {
+            Buoy buoy = new Buoy(serial, maybeMast.get(), speedHeights);
+            buoys.save(buoy);
+            return "AAAAA";
         }
         else {
             return "Entry not found.";
         }
     }
 
-    @RequestMapping("/test/readfiles")
-    public String testReadFiles() {
-        fileLoader.loadFiles();
-        return "AAAAA";
+    @GetMapping("/database/EXBUOY/kpis")
+    public String getExampleKpis() {
+        return JsonFactory.exampleKpis();
     }
 }

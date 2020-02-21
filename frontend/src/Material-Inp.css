@@ -122,3 +122,7 @@ input:focus ~ .highlight {
 .elipticle-btn:hover{
   background-color: var(--salmon-light);
 }
+
+.material-form *{
+  margin-bottom: 20px;
+}
