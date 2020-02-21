@@ -1,10 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { findByLabelText } from "@testing-library/react";
+//import { findByLabelText } from "@testing-library/react";
 import {MaterialInput} from "./Material-Inp.js";
-
-
 
 class CredsCard extends React.Component{
   constructor(props){
@@ -84,7 +81,7 @@ function Settings(props) {
 }
 export default connect(state => ({sites: state.sites}))(Settings)
 
-{/* <main>
+/* <main>
     <section>
       <h2>Credentials</h2>
     </section>
@@ -97,4 +94,4 @@ export default connect(state => ({sites: state.sites}))(Settings)
       <h3>Change user perms</h3>
       <h3>Edit lidar (need to add edit link to Lidars page) - with add lidar link</h3>
     </section>
-   </main> */}
+   </main> */
