@@ -1,5 +1,7 @@
 [![CircleCI](https://circleci.com/gh/danjones1618/LiDAR/tree/master.svg?style=svg&circle-token=196172a46ef1a256e00106f13d7c2e4065f12419)](https://circleci.com/gh/danjones1618/LiDAR/tree/master)
 # LiDAR
+Current build: https://lidar.icedcoffee.dev
+
 ## Client Description
 Lloyd’s Register are one of the world’s leading providers of professional services for engineering and technology with a focus on improving safety and increasing the performance of critical infrastructures worldwide. The profits that the company makes fund the Lloyd’s Register Foundation, a charity which supports engineering-related research, education and public engagement around everything we do.The team you’ll be working with are the Energy Resource Services team within Renewables (David, Tim, Matt,Nathan and Andoni). We provide consultancy services to the renewable energy industry, primarily focusing on calculating and optimising how much energy can be produced by your wind/solar farm whether it is in the feasibility, design or operational phase of its life cycle.
 
