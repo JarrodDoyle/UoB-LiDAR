@@ -62,11 +62,20 @@ const mydata = [
 ]
 
 function Popup(props) {
+  let names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
+  let style = names[Math.floor(Math.random() * 3)];
   return (
     <div className="popup-background">
       <div className="popup-box">
-        <h3>{props.currentKPI}</h3>
-        <button onClick={props.togglePopup}>close me</button>
+        <div className="kpi-indicator">
+          <h3>{props.currentKPI}</h3>
+          <i className={style}></i>
+          <div className="lidars-btns">
+            <button className="circle-btn" onClick={() => props.togglePopup(null)}>
+              <i className="fas fa-times"/>
+            </button>
+          </div>
+        </div>
         <div className="popup-grid">
           <div className="popup-grid-item-tall">
             <Graph data={mydata}/>
@@ -77,6 +86,9 @@ function Popup(props) {
           <div className="popup-grid-item">
             <Graph data={mydata}/>
           </div>
+          <div className="popup-grid-item-fat">
+            <Graph data={mydata}/>
+          </div>
         </div>
       </div>
     </div>
@@ -85,17 +97,17 @@ function Popup(props) {
 
 function Graph(props) {
   return(
-    // <div className="lidars-card">
-      <AutoSizer>
-        {({ height, width }) => (
+    <AutoSizer>
+      {({ height, width }) => (
+        // <div className="lidars-card" style={`width: ${width};`}>
           <Line
             data={props.data}
             height={height}
             width={width}
           />
-        )}
-      </AutoSizer>        
-    // </div>
+        // </div>
+      )}
+    </AutoSizer>        
   )
 }
 
@@ -115,7 +127,7 @@ function Card(props) {
       </div>
       <div className="lidars-btns">
         <h4>More details</h4>
-        <button className="circle-btn" onClick={props.togglePopup}>
+        <button className="circle-btn" onClick={() => props.togglePopup(props.title)}>
           <i className="fas fa-chevron-right"/>
         </button>
       </div>
@@ -126,8 +138,12 @@ function Card(props) {
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showPopup: false };
+    this.state = {
+      showPopup: false,
+      popupTitle: null,
+    };
     this.togglePopup = this.togglePopup.bind(this);
+    this.openPopup = this.openPopup.bind(this);
   }
 
   togglePopup() {
@@ -136,23 +152,30 @@ class Dashboard extends React.Component {
     });
   }
 
+  openPopup(newPopupTitle) {
+    this.togglePopup();
+    this.setState( {
+      popupTitle: newPopupTitle,
+    })
+  }
+
   render() {
     return (
       <main>
         <div className="lidars-grid">
-          <Card title="System Availability" content={["1 month average - 91%", "Campaign average - 97%"]} togglePopup={this.togglePopup}/>
-          <Card title="Post Processed Data Availability" content={["1 month average - 88%", "Campaign average - 88%"]} togglePopup={this.togglePopup}/>
-          <Card title="Data Coverage" content={["something"]} togglePopup={this.togglePopup}/>
-          <Card title="Maintenance Visits" content={["0"]} togglePopup={this.togglePopup}/>
-          <Card title="Unscheduled Outages" content={["0"]} togglePopup={this.togglePopup}/>
-          <Card title="Comms. Uptime" content={["100%"]} togglePopup={this.togglePopup}/>
-          <Card title="Mean Wind Speed" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]} togglePopup={this.togglePopup}/>
-          <Card title="Mean Wind Direction" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]} togglePopup={this.togglePopup}/>
-          <Card title="Turbulence Intensity" content={["Slope - x", "Correlation Co-efficient - x"]} togglePopup={this.togglePopup}/>
-          <Card title="Wind Shear" content={["Shear exponent - x"]} togglePopup={this.togglePopup}/>
+          <Card title="System Availability" content={["1 month average - 91%", "Campaign average - 97%"]} togglePopup={this.openPopup}/>
+          <Card title="Post Processed Data Availability" content={["1 month average - 88%", "Campaign average - 88%"]} togglePopup={this.openPopup}/>
+          <Card title="Data Coverage" content={["something"]} togglePopup={this.openPopup}/>
+          <Card title="Maintenance Visits" content={["0"]} togglePopup={this.openPopup}/>
+          <Card title="Unscheduled Outages" content={["0"]} togglePopup={this.openPopup}/>
+          <Card title="Comms. Uptime" content={["100%"]} togglePopup={this.openPopup}/>
+          <Card title="Mean Wind Speed" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]} togglePopup={this.openPopup}/>
+          <Card title="Mean Wind Direction" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]} togglePopup={this.openPopup}/>
+          <Card title="Turbulence Intensity" content={["Slope - x", "Correlation Co-efficient - x"]} togglePopup={this.openPopup}/>
+          <Card title="Wind Shear" content={["Shear exponent - x"]} togglePopup={this.openPopup}/>
         </div>
         {this.state.showPopup ?  
-          <Popup togglePopup={this.togglePopup} currentKPI={this.state.currentKPI}/>  
+          <Popup togglePopup={this.togglePopup} currentKPI={this.state.popupTitle}/>  
           : null  
         }  
       </main>
