@@ -13,7 +13,7 @@ public class Mast {
     }
 
     @Id @Column(name = "serial")
-    String serial;
+    String serial;   
 
     public String getSerial() {
         return serial;

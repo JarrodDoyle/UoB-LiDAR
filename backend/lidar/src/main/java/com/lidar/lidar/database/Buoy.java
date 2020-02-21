@@ -6,7 +6,7 @@ import com.lidar.lidar.samples.*;
 @Entity @Table(name = "buoys")
 public class Buoy {
     public Buoy() {
-
+   
     }
 
     public Buoy(String serial, Mast mast, SpeedHeightTable speedHeights) {

@@ -11,7 +11,7 @@ public class SpeedHeight {
         speeda = 0.0;
         speedb = 0.0;
         mastSpeeda = 0.0;
-        mastSpeedb = 0.0;
+        mastSpeedb = 0.0;   
         speedaSqr = 0.0;
         speedbSqr = 0.0;
         mastSpeedaSqr = 0.0;

@@ -14,7 +14,7 @@ public class LoadedFile {
     public void setId(Long id) {
         this.id = id;
     }
-
+   
     @Column(name = "name")
     String name;
 
