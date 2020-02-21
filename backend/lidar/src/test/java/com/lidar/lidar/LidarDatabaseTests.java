@@ -15,38 +15,17 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.*;
-import org.springframework.test.web.servlet.setup.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
-import org.springframework.web.context.*;
-import javax.servlet.Filter;
-import org.junit.Before;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 class LidarDatabaseTests {
-
-	@Autowired
-	private WebApplicationContext context;
-
-	@Autowired
-	private Filter springSecurityFilterChain;
-
 	@Autowired
 	private MockMvc mvc;
-	
-	@Before
-	public void setup() {
-		
-	}
 
 	@Test
 	public void testDatabase() throws Exception {
-		/*mvc = MockMvcBuilders
-				.webAppContextSetup(context)
-				.addFilters(springSecurityFilterChain)
-				.build();*/
-		mvc.perform(MockMvcRequestBuilders.get("/home").accept(MediaType.APPLICATION_JSON));
 		mvc.perform(MockMvcRequestBuilders.post("/test/database/create?name=aaa").with(csrf()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
 				.andExpect(content().string(matchesPattern("[0-9]*, aaa")));
