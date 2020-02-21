@@ -4,7 +4,7 @@ import java.util.*;
 
 public class BuoySample {
     private String serial;
-    private String timestamp;
+    private String timestamp;  
     private List<Double> directions;
     private Double gust;
     private List<Double> speeds;

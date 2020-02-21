@@ -6,7 +6,7 @@ public class MastSample {
     private String serial;
     private String timestamp;
     private List<Double> directions;
-    private List<Double> speeds;
+    private List<Double> speeds;   
     private List<Double> tis;
 
     public MastSample(String serial, String timestamp, List<Double> directions, List<Double> speeds, List<Double> tis) {
