@@ -32,11 +32,35 @@ const mydata = [
 function Popup(props) {
   let names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
   let style = names[Math.floor(Math.random() * 3)];
+  let kpiTitles = [
+    "System Availability", 
+    "Post Processed Data Availability",
+    "Data Coverage",
+    "Maintenance Visits",
+    "Unscheduled Outages",
+    "Comms. Uptime",
+    "Mean Wind Speed",
+    "Mean Wind Direction",
+    "Turbulence Intensity",
+    "Wind Shear",
+  ]
+
+  for( var i = 0; i < kpiTitles.length; i++){ 
+    if ( kpiTitles[i] === props.currentKPI) {
+      kpiTitles.splice(i, 1); 
+    }
+  }
+  kpiTitles.unshift(props.currentKPI)
+
   return (
     <div className="popup-background">
       <div className="popup-box">
         <div className="popup-header">
-          <h2>{props.currentKPI}</h2>
+          <select className="kpi-dropdown">
+            {kpiTitles.map((kpi, i) => {       
+              return (<option value={i}>{kpi}</option>) 
+            })}
+          </select>
           <div className="kpi-timescale">
             <span>Week</span>
             <span>Month</span>
