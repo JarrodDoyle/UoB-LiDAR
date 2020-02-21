@@ -10,53 +10,21 @@ const mydata = [
     "color": "hsl(227, 70%, 50%)",
     "data": [
       {
-        "x": "plane",
+        "x": 0,
         "y": 256
       },
       {
-        "x": "helicopter",
+        "x": 1,
         "y": 88
       },
       {
-        "x": "boat",
+        "x": 2,
         "y": 2
       },
       {
-        "x": "train",
+        "x": 3,
         "y": 170
       },
-      {
-        "x": "subway",
-        "y": 79
-      },
-      {
-        "x": "bus",
-        "y": 246
-      },
-      {
-        "x": "car",
-        "y": 126
-      },
-      {
-        "x": "moto",
-        "y": 169
-      },
-      {
-        "x": "bicycle",
-        "y": 3
-      },
-      {
-        "x": "horse",
-        "y": 284
-      },
-      {
-        "x": "skateboard",
-        "y": 50
-      },
-      {
-        "x": "others",
-        "y": 41
-      }
     ]
   }
 ]
@@ -67,8 +35,14 @@ function Popup(props) {
   return (
     <div className="popup-background">
       <div className="popup-box">
-        <div className="kpi-indicator">
-          <h3>{props.currentKPI}</h3>
+        <div className="popup-header">
+          <h2>{props.currentKPI}</h2>
+          <div className="kpi-timescale">
+            <span>Week</span>
+            <span>Month</span>
+            <span>6 Months</span>
+            <span>Year</span>
+          </div>
           <i className={style}></i>
           <div className="lidars-btns">
             <button className="circle-btn" onClick={() => props.togglePopup(null)}>
@@ -96,14 +70,31 @@ function Popup(props) {
 }
 
 function Graph(props) {
+  let commonProps = {
+    margin: { top: 20, right: 20, bottom: 40, left: 40 },
+    animate: true,
+    enableSlices: 'x',
+  }
   return(
     <AutoSizer>
       {({ height, width }) => (
         // <div className="lidars-card" style={`width: ${width};`}>
           <Line
+            {... commonProps}
             data={props.data}
             height={height}
             width={width}
+            xScale={{
+              type: 'point',
+              min: 0,
+              max: 'auto',
+            }}
+            axisLeft={{
+              legend: 'y-axis',
+            }}
+            axisBottom={{
+              legend: 'x-axis',
+            }}
           />
         // </div>
       )}
