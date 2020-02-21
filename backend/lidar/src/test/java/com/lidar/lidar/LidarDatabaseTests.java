@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.matchesPattern;   
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,31 +24,20 @@ class LidarDatabaseTests {
 	@Autowired
 	private MockMvc mvc;
 
-	@Test
+	@Test   
 	public void testDatabase() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.post("/test/database/create?name=aaa").with(csrf()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-				.andExpect(content().string(equalTo("1, aaa")));
-		mvc.perform(MockMvcRequestBuilders.get("/tests/database/read?id=1").accept(MediaType.APPLICATION_JSON))
+				.andExpect(content().string(matchesPattern("[0-9]*, aaa")));
+		mvc.perform(MockMvcRequestBuilders.get("/test/database/read").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-
 				.andExpect(content().string(matchesPattern("1")));
 		mvc.perform(MockMvcRequestBuilders.post("/test/database/delete").with(csrf()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-				.andExpect(content().string(equalTo("Entry not found.")));
-		mvc.perform(MockMvcRequestBuilders.get("/tests/database/update?id=1&name=bbb").accept(MediaType.APPLICATION_JSON))
+				.andExpect(content().string(equalTo("All entries deleted.")));
+		mvc.perform(MockMvcRequestBuilders.get("/test/database/read").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-				.andExpect(content().string(equalTo("1, bbb")));
-		mvc.perform(MockMvcRequestBuilders.get("/tests/database/read?id=1").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(content().string(equalTo("1, bbb")));
-		mvc.perform(MockMvcRequestBuilders.get("/tests/database/delete?id=1").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-				.andExpect(content().string(equalTo("Entry deleted.")));
-		mvc.perform(MockMvcRequestBuilders.get("/tests/database/delete?id=1").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-				.andExpect(content().string(equalTo("Entry not found.")));
-		*/
+				.andExpect(content().string(equalTo("0")));
 	}
 
 }
