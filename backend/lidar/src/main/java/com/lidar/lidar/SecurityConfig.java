@@ -7,11 +7,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .requiresChannel()
-            .anyRequest()
-            .requiresSecure();
-    }
+
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+			.authorizeRequests()
+				.antMatchers("/test/**").hasIpAddress("127.0.0.1").and()
+			.authorizeRequests()
+				.regexMatchers("^/(?!test).*$").authenticated().and()
+			.regexMatcher("^/(?!test).*$").requiresChannel()
+				.anyRequest().requiresSecure();
+
+	}
 }
 

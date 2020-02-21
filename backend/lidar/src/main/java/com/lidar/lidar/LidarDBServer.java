@@ -4,6 +4,8 @@ import com.lidar.lidar.database.*;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import java.io.FileReader;
 
 import org.springframework.boot.SpringApplication;
@@ -44,6 +46,13 @@ public class LidarDBServer {
         return test.toString();
     }
 
+
+    @RequestMapping("/home")
+    public String home(HttpServletRequest request) {
+        System.out.println(request.getRemoteAddr());
+        return "AAAAAAAA";
+    }
+  
     @RequestMapping("/test/database/read")
     public String testRead(@RequestParam(name="id", required=false, defaultValue = "1") Long id) {
         Optional<Test> result = tests.findById(id);
