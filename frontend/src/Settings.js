@@ -22,10 +22,10 @@ class CredsCard extends React.Component{
       <div className="settings-card">
         <form className="material-form" onSubmit={this.handleSubmit}>
           <h1>User Credentials</h1>
-          <MaterialInput type="email" name="email" label="Email"/>
+          <MaterialInput type="email" name="email" label="Email"/>  
           <MaterialInput type="password" name="password" label="Password"/>
           <div className="elipticle-btn" style={{width: 170}}>
-          <h5>Submit<i className="fas fa-chevron-right"/></h5>
+          <h5>Submit <i className="fas fa-chevron-right"/></h5>
           </div>
         </form>
       </div>
@@ -50,7 +50,7 @@ class ApiCard extends React.Component{
           <h1>Api Credentials</h1>  
           <MaterialInput type="text" name="apikey" label="Google Maps API Key"/>
           <div className="elipticle-btn" style={{width: 170}}>
-          <h5>Submit<i className="fas fa-chevron-right"/></h5>
+          <h5>Submit <i className="fas fa-chevron-right"/></h5>
           </div>
         </form>
 
