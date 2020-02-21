@@ -115,7 +115,7 @@ class RegistrationForm extends React.Component{
       return (<Redirect to="/Login"/>);
     }else{
       return (
-        <form className="Login" onSubmit={this.handleSubmit}>
+        <form className="Login">
         <h2>LiDAR</h2>
           <MaterialInput type="email" name="email" label="Email"/>
           <MaterialInput type="password" name="password" label="Password"/>
