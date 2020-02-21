@@ -3,6 +3,11 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2
+general:
+    branches:
+        only:
+            - master
+            - dev
 jobs:
   build:
     docker:
@@ -31,7 +36,9 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: mvn -f backend/lidar/pom.xml dependency:go-offline
+      - run:
+          name: Install Maven dependencies
+          command: mvn -f backend/lidar/pom.xml dependency:go-offline
 
       - run: 
           name: Install MariaDB, node, and npm
@@ -74,6 +81,6 @@ jobs:
               cd ..
               mvn -f backend/lidar/pom.xml install
               scp -oStrictHostKeyChecking=no backend/lidar/target/lidar-0.0.1-SNAPSHOT.jar ubuntu@lidar.icedcoffee.dev:
-                #ssh ubuntu@lidar.icedcoffee.dev "sudo killall java && sudo java -jar lidar-0.0.1-SNAPSHOT.jar &"
+              ssh ubuntu@lidar.icedcoffee.dev "sudo killall java && sudo java -jar lidar-0.0.1-SNAPSHOT.jar &"
             fi
 
