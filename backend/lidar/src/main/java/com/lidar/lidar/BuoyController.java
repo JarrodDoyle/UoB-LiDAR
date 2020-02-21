@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit;
 
 public class BuoyController {
     Buoy buoy;
-    BuoyTable buoys;
+    BuoyTable buoys;   
 
     Queue<BuoySample> buoySamples;
     Queue<MastSample> mastSamples;

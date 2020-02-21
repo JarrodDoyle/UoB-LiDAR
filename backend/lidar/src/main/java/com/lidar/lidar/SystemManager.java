@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class SystemManager {
-    @Autowired
+    @Autowired   
     BuoyTable buoyTable;
 
     Map<String, BuoyController> buoys;
