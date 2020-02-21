@@ -6,6 +6,8 @@ import turbine from "./res/turbine-clear-bold.gif";
 import "./Lidars.css";
 
 function Card(props) {
+  let names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
+  let style = names[Math.floor(Math.random() * 3)];
   return (
     <div className="lidars-card">
       <div className="lidars-card-map">
@@ -17,7 +19,11 @@ function Card(props) {
           location={props.location}
         />
       </div>
-      <h3>{props.name}</h3>
+      <h3>{props.name}
+        <div className="kpi-indicator">
+        <i className={style}></i>
+      </div></h3>
+      
       <p>{props.desc}</p>
       <div className="lidars-btns">
         <h4>Go to dash</h4>
