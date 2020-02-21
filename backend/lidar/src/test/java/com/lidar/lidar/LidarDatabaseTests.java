@@ -26,13 +26,13 @@ class LidarDatabaseTests {
 
 	@Test
 	public void testDatabase() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/test/database/create?name=aaa").accept(MediaType.APPLICATION_JSON))
+		mvc.perform(MockMvcRequestBuilders.get("/test/database/create?name=aaa").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
 				.andExpect(content().string(matchesPattern("[0-9]*, aaa")));
 		mvc.perform(MockMvcRequestBuilders.get("/test/database/read").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
 				.andExpect(content().string(matchesPattern("1")));
-		mvc.perform(MockMvcRequestBuilders.post("/test/database/delete").accept(MediaType.APPLICATION_JSON))
+		mvc.perform(MockMvcRequestBuilders.get("/test/database/delete").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
 				.andExpect(content().string(equalTo("All entries deleted.")));
 		mvc.perform(MockMvcRequestBuilders.get("/test/database/read").accept(MediaType.APPLICATION_JSON))

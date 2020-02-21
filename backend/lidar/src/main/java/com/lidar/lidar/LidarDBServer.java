@@ -8,7 +8,6 @@ import java.io.FileReader;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +38,7 @@ public class LidarDBServer {
         SpringApplication.run(LidarDBServer.class, args);
     }
 
-    @PostMapping("/test/database/create")
+    @RequestMapping("/test/database/create")
     public String testCreate(@RequestParam(name="name", required=false, defaultValue="test") String name) {
         Test test = new Test(name);
         tests.save(test);
@@ -51,7 +50,7 @@ public class LidarDBServer {
         return "AAAAAAAA";
     }
 
-    @GetMapping("/test/database/read")
+    @RequestMapping("/test/database/read")
     public String testRead() {
         Iterable<Test> result = tests.findAll();
         Integer i = 0;
@@ -61,7 +60,7 @@ public class LidarDBServer {
         return i.toString();
     }
 
-    @PostMapping("/test/database/update")
+    @RequestMapping("/test/database/update")
     public String testUpdate(@RequestParam(name="id", required = false, defaultValue = "1") Long id, @RequestParam(name="name", required = false, defaultValue = "test") String name) {
         Optional<Test> result = tests.findById(id);
         if (result.isPresent()) {
@@ -74,20 +73,20 @@ public class LidarDBServer {
         }
     }
 
-    @PostMapping("/test/database/delete")
+    @RequestMapping("/test/database/delete")
     public String testDelete() {
         tests.deleteAll();
         return "All entries deleted.";
     }
 
-    @PostMapping("/database/registermast")
+    @RequestMapping("/test/registermast")
     public String testRegisterMast(@RequestParam(name = "serial", required = true) String serial) {
         Mast mast = new Mast(serial);
         masts.save(mast);
         return "AAAAA";
     }
 
-    @PostMapping("/database/registerbuoy")
+    @RequestMapping("/test/registerbuoy")
     public String testRegisterBuoy(@RequestParam(name = "serial", required = true) String serial, @RequestParam(name = "mast", required = true) String mast) {
         Optional<Mast> maybeMast = masts.findById(mast);
         if (maybeMast.isPresent()) {
@@ -98,10 +97,5 @@ public class LidarDBServer {
         else {
             return "Mast not found.";
         }
-    }
-
-    @GetMapping("/database/EXBUOY/kpis")
-    public String getExampleKpis() {
-        return JsonFactory.exampleKpis();
     }
 }
