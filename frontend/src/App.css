@@ -3,6 +3,7 @@
 *{
   margin: 0;
   padding: 0;
+  outline: none;
 }
 
 :root{
@@ -40,6 +41,10 @@ h1,h2,h3,h4,h5,h6{
 
 button{
   all: unset;
+}
+
+button:focus, button:active, button:hover{
+  outline: none;
 }
 
 .nav-page{

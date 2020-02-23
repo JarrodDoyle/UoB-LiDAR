@@ -1,6 +1,7 @@
 import React from "react";
 import {Switch, Redirect, Route,Link} from "react-router-dom";
 import {MaterialInput} from './Material-Inp.js';
+import Tracking from './Tracking.js';
 import i0 from './res/login-bg0.jpg';
 import i1 from './res/login-bg1.jpg';
 import i2 from './res/login-bg2.jpg';
@@ -190,24 +191,27 @@ export default function Login() {
   ];
   let bgnum = Math.floor(Math.random() * bgs.length)
   return (
-    <div className="Login-container" style={{backgroundImage: `url(${bgs[bgnum]})`}}>
-      <Switch>
-        <Route exact path="/login">
-          <LoginForm/>
-        </Route>
-        <Route exact path="/login/register">
-          <RegistrationForm/>
-        </Route>
-        <Route exact path="/login/forgot">
-          <ForgotForm/>
-        </Route>
-        <Route exact path="/login/forgot-sent">
-          <ForgotSent/>
-        </Route>
-        <Route path="*">
-          <Redirect to="/login"/>
-        </Route>
-      </Switch>
-    </div>
+    <>
+      <Tracking/>
+      <div className="Login-container" style={{backgroundImage: `url(${bgs[bgnum]})`}}>
+        <Switch>
+          <Route exact path="/login">
+            <LoginForm/>
+          </Route>
+          <Route exact path="/login/register">
+            <RegistrationForm/>
+          </Route>
+          <Route exact path="/login/forgot">
+            <ForgotForm/>
+          </Route>
+          <Route exact path="/login/forgot-sent">
+            <ForgotSent/>
+          </Route>
+          <Route path="*">
+            <Redirect to="/login"/>
+          </Route>
+        </Switch>
+      </div>
+    </>
   );
 }
