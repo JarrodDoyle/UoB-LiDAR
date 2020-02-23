@@ -1,0 +1,31 @@
+.tracking{
+  position: fixed;
+  left: 25px;
+  bottom: 20px;
+  width: 300px;
+  min-height: 150px;
+  background-color: var(--salmon);
+  color: var(--white);
+  padding: 15px 25px;
+  border-radius: 15px;
+  box-shadow: 5px 5px 10px var(--darkgray);
+}
+
+.tracking h3 {
+  color: var(--white) !important;
+}
+
+.tracking a {
+  color: var(--gray);
+}
+
+.tracking-close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  color: var(--gray);
+}
+
+.tracking-close:hover {
+  color: var(--white);
+}
