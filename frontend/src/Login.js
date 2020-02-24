@@ -126,16 +126,6 @@ function LoginForm(props){
   }
 }
 
-<<<<<<< HEAD
-function LoginFormTwo(props){
-  const [redirect, setRedirect] = useState(false);
-  if (redirect){
-    return (<Redirect to="/Sites"/>);
-  }else{
-    return (
-      <Formik
-        initialValues={{ email: '', password: '', }}
-=======
 function RegistrationForm(props){
   const [redirect, setRedirect] = useState(false);
   if (redirect){
@@ -144,7 +134,6 @@ function RegistrationForm(props){
     return (
       <Formik
         initialValues={{ email: '', password: '', passwordr: '', }}
->>>>>>> fontend
         validateOnChange
         validateOnBlur
         validate={ values => {
@@ -154,48 +143,6 @@ function RegistrationForm(props){
           }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
             errors.email = 'Invalid email address';
           }
-<<<<<<< HEAD
-
-          if (!values.password){
-            errors.password = "Required";
-          }
-          return errors;
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-        }}
-      >
-        {({ isSubmitting, isValidating }) => (
-          <Form className="Login">
-            <h2>LiDAR {isValidating}</h2>
-            <MaterialInputT type="email" name="email" label="Email"/>
-            <MaterialInputT type="password" name="password" label="Password" required/>
-            <div>
-              <h3>Login</h3>
-              <button type="submit" disabled={isSubmitting} className="circle-btn"><i className="fas fa-chevron-right"/></button>
-            </div>
-            <div>
-              <Link to="/login/register">Create account</Link>
-              <Link to="/login/forgot">Forgot password</Link>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    );
-  }
-}
-
-class RegistrationForm extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {redirect: false};
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-=======
->>>>>>> fontend
 
           if (!values.password){
             errors.password = "Required";
