@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { connect } from 'react-redux';
-import { findByLabelText } from "@testing-library/react";
+//import { findByLabelText } from "@testing-library/react";
 import { useSelector } from 'react-redux';
 import { Formik, Form } from "formik";
-import { getEmail, getMasterKey, getSites } from './redux/selectors.js';
-import { MaterialText, MaterialInput } from "./Material-Inp.js";
+import { getEmail, getMasterKey } from './redux/selectors.js';
+import { MaterialText } from "./Material-Inp.js";
 
 function CredsCard(props){
   const [success, setSuccess] = useState(false);
@@ -13,7 +11,7 @@ function CredsCard(props){
   return (
     <div className="settings-card">
       <Formik
-        initialValues={{ email: '', }}
+        initialValues={{ email: '', password: ''}}
         validateOnChange
         validateOnBlur
         validate={ values => {
@@ -22,6 +20,9 @@ function CredsCard(props){
             errors.email = "Required";
           }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
             errors.email = 'Invalid email address';
+          }
+          if (!values.password){
+            errors.password = "Required";
           }
           return errors;
         }}
@@ -36,11 +37,14 @@ function CredsCard(props){
             <MaterialText type="email" name="email" label="Email" placeholder={email}/>  
             <MaterialText type="password" name="password" label="Password"/>
             <div className="elipticle-btn" style={{width: 170}}>
-            <h5>Submit <i className="fas fa-chevron-right"/></h5>
+              <button type="submit">Submit <i className="fas fa-chevron-right"/></button>
             </div>
           </Form>
         )}
       </Formik>
+      {success &&
+        <p>Succesfully updated</p>
+      }
     </div>
   );
 }
@@ -75,6 +79,9 @@ function ApiCard(props){
           </Form>
         )}
       </Formik>
+      {success &&
+        <p>Succesfully udpated</p>
+      }
     </div>
   );
 }
@@ -102,18 +109,3 @@ export default function Settings(props) {
   </main>
   );
 }
-
-{/* <main>
-    <section>
-      <h2>Credentials</h2>
-    </section>
-    <section>
-      <h2>API Tokens</h2>
-    </section>
-    <section>
-      <h2>Admin settings</h2>
-      <h3>Assign lidar to account</h3>
-      <h3>Change user perms</h3>
-      <h3>Edit lidar (need to add edit link to Lidars page) - with add lidar link</h3>
-    </section>
-   </main> */}
