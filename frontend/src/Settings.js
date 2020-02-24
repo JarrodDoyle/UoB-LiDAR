@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { findByLabelText } from "@testing-library/react";
+import { useSelector } from 'react-redux';
+import { getEmail, getSites } from './redux/selectors.js';
 import {MaterialInput} from "./Material-Inp.js";
 
 
@@ -11,6 +13,7 @@ class CredsCard extends React.Component{
     super(props);
     this.state = {redirect: false};
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.email = useSelector(getEmail);
   }
 
   async handleSubmit(event){
@@ -22,7 +25,7 @@ class CredsCard extends React.Component{
       <div className="settings-card">
         <form className="material-form" onSubmit={this.handleSubmit}>
           <h1>User Credentials</h1>
-          <MaterialInput type="email" name="email" label="Email"/>  
+          <MaterialInput type="email" name="email" label="Email" placeholder={this.email}/>  
           <MaterialInput type="password" name="password" label="Password"/>
           <div className="elipticle-btn" style={{width: 170}}>
           <h5>Submit <i className="fas fa-chevron-right"/></h5>
@@ -71,7 +74,7 @@ function AdminSettingsCard(props) {
 }
 
 
-function Settings(props) {
+export default function Settings(props) {
   return (
   <main className="lidars-wrapper">
     <div className="settings-grid">
@@ -82,7 +85,6 @@ function Settings(props) {
   </main>
   );
 }
-export default connect(state => ({sites: state.sites}))(Settings)
 
 {/* <main>
     <section>

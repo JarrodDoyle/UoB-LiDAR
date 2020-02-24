@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import { Switch, Redirect, Route, Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { MaterialInput, MaterialText } from './Material-Inp.js';
+import { MaterialText } from './Material-Inp.js';
 import { setEmail, setMasterApiKey } from './redux/actions.js';
 import Tracking from './Tracking.js';
 import i0 from './res/login-bg0.jpg';
@@ -67,6 +67,7 @@ import i58 from './res/login-bg58.jpg';
 import i59 from './res/login-bg59.jpg';
 import "./Login.css";
 
+<<<<<<< HEAD
 function LoginForm(props){
   const [redirect, setRedirect] = useState(false);
   const dispatch = useDispatch();
@@ -85,6 +86,22 @@ function LoginForm(props){
           }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
             errors.email = 'Invalid email address';
           }
+=======
+class LoginForm extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {redirect: false};
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  async handleSubmit(event){
+    console.log(event.target);
+    //const dispatch = useDispatch();
+    //dispatch(setEmail("hi"));
+    this.setState({redirect: true});
+    event.preventDefault();
+  }
+>>>>>>> ba094ded... Adding Credentials state and moving to global state selectors
 
           if (!values.password){
             errors.password = "Required";
