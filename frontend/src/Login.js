@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { Formik, Form } from "formik";
 import { Switch, Redirect, Route,Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { MaterialInput } from './Material-Inp.js';
+import { MaterialInput, MaterialInputT } from './Material-Inp.js';
 import { setEmail } from './redux/actions.js';
 import Tracking from './Tracking.js';
 import i0 from './res/login-bg0.jpg';
@@ -104,6 +105,56 @@ class LoginForm extends React.Component{
   }
 }
 
+function LoginFormTwo(props){
+  const [redirect, setRedirect] = useState(false);
+  if (redirect){
+    return (<Redirect to="/Sites"/>);
+  }else{
+    return (
+      <Formik
+        initialValues={{ email: '', password: '', }}
+        validateOnChange
+        validateOnBlur
+        validate={ values => {
+          const errors = {};
+          if (!values.email){
+            errors.email = "Required";
+          }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
+            errors.email = 'Invalid email address';
+          }
+
+          if (!values.password){
+            errors.password = "Required";
+          }
+          return errors;
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+          }, 400);
+        }}
+      >
+        {({ isSubmitting, isValidating }) => (
+          <Form className="Login">
+            <h2>LiDAR {isValidating}</h2>
+            <MaterialInputT type="email" name="email" label="Email"/>
+            <MaterialInputT type="password" name="password" label="Password" required/>
+            <div>
+              <h3>Login</h3>
+              <button type="submit" disabled={isSubmitting} className="circle-btn"><i className="fas fa-chevron-right"/></button>
+            </div>
+            <div>
+              <Link to="/login/register">Create account</Link>
+              <Link to="/login/forgot">Forgot password</Link>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    );
+  }
+}
+
 class RegistrationForm extends React.Component{
   constructor(props){
     super(props);
@@ -201,7 +252,7 @@ export default function Login() {
       <div className="Login-container" style={{backgroundImage: `url(${bgs[bgnum]})`}}>
         <Switch>
           <Route exact path="/login">
-            <LoginForm/>
+            <LoginFormTwo/>
           </Route>
           <Route exact path="/login/register">
             <RegistrationForm/>
