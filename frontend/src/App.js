@@ -4,19 +4,27 @@ import {
   Switch,
   Route,
   Redirect,
+  useLocation,
 } from "react-router-dom";
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { addSite } from './redux/actions.js';
+import { getEmail } from './redux/selectors.js';
 import Dashboard from './Dashboard.js';
 import Sites from './Sites.js';
 import Login from './Login.js';
 import Settings from './Settings.js';
 import Nav from './Nav.js';
 import MapPage from "./MapPage.js";
+import PageNotFound from "./ErrorPage.js";
 import './App.css';
 import './Material-Inp.css';
 
 function NavPage(){
+  const email = useSelector(getEmail).email;
+  let location = useLocation();
+  if (email == null){
+    return (<Redirect to={"/Login?redirect=" + location.pathname}/>);
+  }
   return (
     <div className="nav-page">
     <Nav/>
@@ -44,6 +52,9 @@ function NavPage(){
           <h1>Settings</h1>
         </header>
         <Settings/>
+      </Route>
+      <Route path="*">
+        <Redirect to="/404"/>
       </Route>
     </Switch>
     </div>
@@ -86,6 +97,9 @@ function App(props) {
         </Route>
         <Route path="/login*">
           <Login/>
+        </Route>
+        <Route exact path="/404">
+          <PageNotFound/>
         </Route>
         <Route path="*">
           <NavPage/>
