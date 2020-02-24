@@ -1,0 +1,27 @@
+.error-page {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 1fr auto 5fr;
+  background: no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  grid-template-areas: ". . ." ". center ." ". . .";
+}
+
+.error-box {
+  grid-area: center;
+  color: var(--white);
+  text-align: center;
+}
+
+.error-box h1{
+  color: var(--white);
+}
+
+.error-box a{
+  color: var(--offwhite);
+}
