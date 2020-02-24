@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import { Switch, Redirect, Route,Link } from "react-router-dom";
+import { Switch, Redirect, Route, Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { MaterialInput, MaterialInputT } from './Material-Inp.js';
-import { setEmail } from './redux/actions.js';
+import { MaterialInput, MaterialText } from './Material-Inp.js';
+import { setEmail, setMasterApiKey } from './redux/actions.js';
 import Tracking from './Tracking.js';
 import i0 from './res/login-bg0.jpg';
 import i1 from './res/login-bg1.jpg';
@@ -69,6 +69,7 @@ import "./Login.css";
 
 function LoginForm(props){
   const [redirect, setRedirect] = useState(false);
+  const dispatch = useDispatch();
   if (redirect){
     return (<Redirect to="/Sites"/>);
   }else{
@@ -91,18 +92,17 @@ function LoginForm(props){
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-            setRedirect(true);
-          }, 400);
+          setSubmitting(false);
+          dispatch(setEmail(values.email));
+          dispatch(setMasterApiKey("I_am_the_master"));
+          setRedirect(true);
         }}
       >
         {({ isSubmitting, isValidating }) => (
-          <Form className="Login">
+          <Form className="Login" method="post">
             <h2>LiDAR {isValidating}</h2>
-            <MaterialInputT type="email" name="email" label="Email"/>
-            <MaterialInputT type="password" name="password" label="Password" required/>
+            <MaterialText type="email" name="email" label="Email"/>
+            <MaterialText type="password" name="password" label="Password" required/>
             <div>
               <h3>Login</h3>
               <button type="submit" disabled={isSubmitting} className="circle-btn"><i className="fas fa-chevron-right"/></button>
@@ -150,19 +150,16 @@ function RegistrationForm(props){
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-            setRedirect(true);
-          }, 400);
+          setSubmitting(false);
+          setRedirect(true);
         }}
       >
         {({ isSubmitting, isValidating }) => (
-          <Form className="Login">
+          <Form className="Login" method="post">
             <h2>LiDAR</h2>
-            <MaterialInputT type="email" name="email" label="Email"/>
-            <MaterialInputT type="password" name="password" label="Password"/>
-            <MaterialInputT type="password" name="passwordr" label="Repeat Password"/>
+            <MaterialText type="email" name="email" label="Email"/>
+            <MaterialText type="password" name="password" label="Password"/>
+            <MaterialText type="password" name="passwordr" label="Repeat Password"/>
             <div>
               <h3>Register</h3>
               <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
@@ -194,19 +191,17 @@ function ForgotForm(props){
           }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
             errors.email = 'Invalid email address';
           }
+          return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-            setRedirect(true);
-          }, 400);
+          setSubmitting(false);
+          setRedirect(true);
         }}
       >
         {({ isSubmitting, isValidating }) => (
-          <Form className="Login">
+          <Form className="Login" method="post">
             <h2>LiDAR {isValidating}</h2>
-            <MaterialInputT type="email" name="email" label="Email"/>
+            <MaterialText type="email" name="email" label="Email"/>
             <div>
               <h3>Get reset link</h3>
               <button type="submit" disabled={isSubmitting} className="circle-btn"><i className="fas fa-chevron-right"/></button>
