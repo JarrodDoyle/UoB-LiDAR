@@ -9,6 +9,7 @@
   padding: 15px 25px;
   border-radius: 15px;
   box-shadow: 5px 5px 10px var(--darkgray);
+  z-index: -1;
 }
 
 .tracking h3 {
