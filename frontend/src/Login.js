@@ -67,42 +67,7 @@ import i58 from './res/login-bg58.jpg';
 import i59 from './res/login-bg59.jpg';
 import "./Login.css";
 
-class LoginForm extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {redirect: false};
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  async handleSubmit(event){
-    this.setState({redirect: true});
-    event.preventDefault();
-  }
-
-  render() {
-    if (this.state.redirect){
-      return (<Redirect to="/Sites"/>);
-    }else{
-      return (
-        <form className="Login" onSubmit={this.handleSubmit}>
-          <h2>LiDAR</h2>
-          <MaterialInput type="email" name="email" label="Email"/>
-          <MaterialInput type="password" name="password" label="Password" required/>
-          <div>
-            <h3>Login</h3>
-            <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
-          </div>
-          <div>
-            <Link to="/login/register">Create account</Link>
-            <Link to="/login/forgot">Forgot password</Link>
-          </div>
-        </form>
-      );
-    }
-  }
-}
-
-function LoginFormTwo(props){
+function LoginForm(props){
   const [redirect, setRedirect] = useState(false);
   if (redirect){
     return (<Redirect to="/Sites"/>);
@@ -129,6 +94,7 @@ function LoginFormTwo(props){
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
+            setRedirect(true);
           }, 400);
         }}
       >
@@ -152,76 +118,106 @@ function LoginFormTwo(props){
   }
 }
 
-class RegistrationForm extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {redirect: false};
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+function RegistrationForm(props){
+  const [redirect, setRedirect] = useState(false);
+  if (redirect){
+    return (<Redirect to="/Login"/>);
+  }else{
+    return (
+      <Formik
+        initialValues={{ email: '', password: '', passwordr: '', }}
+        validateOnChange
+        validateOnBlur
+        validate={ values => {
+          const errors = {};
+          if (!values.email){
+            errors.email = "Required";
+          }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
+            errors.email = 'Invalid email address';
+          }
 
-  handleSubmit(event){
-    this.setState({redirect: true});
-    event.preventDefault();
-  }
+          if (!values.password){
+            errors.password = "Required";
+          }
+          
+          if (!values.passwordr){
+            errors.passwordr = "Required";
+          }
 
-  render() {
-    if (this.state.redirect){
-      return (<Redirect to="/Login"/>);
-    }else{
-      return (
-        <form className="Login">
-        <h2>LiDAR</h2>
-          <MaterialInput type="email" name="email" label="Email"/>
-          <MaterialInput type="password" name="password" label="Password"/>
-          <MaterialInput type="password" name="password" label="Repeat Password"/>
-          <div>
-            <h3>Register</h3>
-            <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
-          </div>
-          <div>
-            <Link to="/login/">I've got a login</Link>
-          </div>
-        </form>
-      );
-    }
+          if (values.password !== values.passwordr){
+            errors.passwordr = "Passwords do not match";
+          }
+          return errors;
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+            setRedirect(true);
+          }, 400);
+        }}
+      >
+        {({ isSubmitting, isValidating }) => (
+          <Form className="Login">
+            <h2>LiDAR</h2>
+            <MaterialInputT type="email" name="email" label="Email"/>
+            <MaterialInputT type="password" name="password" label="Password"/>
+            <MaterialInputT type="password" name="passwordr" label="Repeat Password"/>
+            <div>
+              <h3>Register</h3>
+              <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
+            </div>
+            <div>
+              <Link to="/login/">I've got a login</Link>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    );
   }
 }
 
-class ForgotForm extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {redirect: false};
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(event){
-    this.setState({redirect: true});
-    event.preventDefault();
-  }
-
-  render() {
-    if (this.state.redirect){
-      return (
-        <div className="Login">
-          <h2>Link sent</h2>
-          <p>If you entered a valid email address there will be a reset link in your inbox</p>
-        </div>
-      );
-    }else{
-      return (
-        <form className="Login" onSubmit={this.handleSubmit}>
-        <h2>Forgot pass</h2>
-          <MaterialInput type="email" name="email" label="Email"/>
-          <div>
-            <h3>Get reset link</h3>
-            <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
-          </div>
-          <div>
-            <Link to="/login/">I've got a login</Link>
-          </div>
-        </form>
-      );
-    }
+function ForgotForm(props){
+  const [redirect, setRedirect] = useState(false);
+  if (redirect){
+    return (<Redirect to="/login/forgot-sent"/>);
+  }else{
+    return (
+      <Formik
+        initialValues={{ email: '', }}
+        validateOnChange
+        validateOnBlur
+        validate={ values => {
+          const errors = {};
+          if (!values.email){
+            errors.email = "Required";
+          }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
+            errors.email = 'Invalid email address';
+          }
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+            setRedirect(true);
+          }, 400);
+        }}
+      >
+        {({ isSubmitting, isValidating }) => (
+          <Form className="Login">
+            <h2>LiDAR {isValidating}</h2>
+            <MaterialInputT type="email" name="email" label="Email"/>
+            <div>
+              <h3>Get reset link</h3>
+              <button type="submit" disabled={isSubmitting} className="circle-btn"><i className="fas fa-chevron-right"/></button>
+            </div>
+            <div>
+              <Link to="/login/">I've got a login</Link>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    );
   }
 }
 
@@ -249,7 +245,7 @@ export default function Login() {
       <div className="Login-container" style={{backgroundImage: `url(${bgs[bgnum]})`}}>
         <Switch>
           <Route exact path="/login">
-            <LoginFormTwo/>
+            <LoginForm/>
           </Route>
           <Route exact path="/login/register">
             <RegistrationForm/>
