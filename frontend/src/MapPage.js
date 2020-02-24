@@ -2,6 +2,7 @@ import React from 'react';
 import { GoogleMap, withScriptjs, withGoogleMap, Marker, InfoWindow } from 'react-google-maps';
 import { connect } from 'react-redux';
 import { toggleSiteMapOpen } from './redux/actions.js';
+import { getSites } from './redux/selectors.js';
 import turbine from "./res/turbine-clear-bold.gif";
 import { Link } from "react-router-dom";
 
@@ -95,4 +96,4 @@ function MapPage(props){
     />
   );
 }
-export default connect(state => ({sites: state.sites}))(MapPage);
+export default connect(getSites)(MapPage);

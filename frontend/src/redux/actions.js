@@ -3,6 +3,7 @@ import {
   TOGGLE_SITE_MAP_OPEN,
   SET_MASTER_API_KEY,
   ADD_API_KEY,
+  SET_EMAIL,
 } from './actionTypes.js'
 
 export const addSite = site => ({
@@ -27,4 +28,9 @@ export const setMasterApiKey = key => ({
 export const addApiKey = key => ({
   type: ADD_API_KEY,
   key: key.key,
+});
+
+export const setEmail = email => ({
+  type: SET_EMAIL,
+  email: email,
 });

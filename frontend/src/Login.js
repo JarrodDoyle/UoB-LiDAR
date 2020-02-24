@@ -1,6 +1,8 @@
 import React from "react";
-import {Switch, Redirect, Route,Link} from "react-router-dom";
-import {MaterialInput} from './Material-Inp.js';
+import { Switch, Redirect, Route,Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { MaterialInput } from './Material-Inp.js';
+import { setEmail } from './redux/actions.js';
 import Tracking from './Tracking.js';
 import i0 from './res/login-bg0.jpg';
 import i1 from './res/login-bg1.jpg';
@@ -72,6 +74,9 @@ class LoginForm extends React.Component{
   }
 
   async handleSubmit(event){
+    console.log(event.target);
+    //const dispatch = useDispatch();
+    //dispatch(setEmail("hi"));
     this.setState({redirect: true});
     event.preventDefault();
   }

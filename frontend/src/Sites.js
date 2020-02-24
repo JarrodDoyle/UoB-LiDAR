@@ -1,7 +1,8 @@
 import React from "react";
 import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
 import { Link } from "react-router-dom";
-import { connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { getSites } from './redux/selectors.js';
 import turbine from "./res/turbine-clear-bold.gif";
 import "./Lidars.css";
 
@@ -104,4 +105,4 @@ function Sites(props) {
   </main>
   );
 }
-export default connect(state => ({sites: state.sites}))(Sites)
+export default connect(getSites)(Sites)
