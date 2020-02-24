@@ -4,6 +4,7 @@ import {
   Switch,
   Route,
   Redirect,
+  useLocation,
 } from "react-router-dom";
 import { connect, useSelector } from 'react-redux';
 import { addSite } from './redux/actions.js';
@@ -20,9 +21,10 @@ import './Material-Inp.css';
 
 function NavPage(){
   const email = useSelector(getEmail).email;
-  console.log(email);
-  if (email == null)
-    return (<Redirect to="/Login"/>);
+  let location = useLocation();
+  if (email == null){
+    return (<Redirect to={"/Login?redirect=" + location.pathname}/>);
+  }
   return (
     <div className="nav-page">
     <Nav/>

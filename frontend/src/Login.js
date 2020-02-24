@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import { Switch, Redirect, Route, Link } from "react-router-dom";
+import { Switch, Redirect, Route, Link, useLocation } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { MaterialText } from './Material-Inp.js';
 import { setEmail, setMasterApiKey } from './redux/actions.js';
@@ -67,11 +67,19 @@ import i58 from './res/login-bg58.jpg';
 import i59 from './res/login-bg59.jpg';
 import "./Login.css";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 function LoginForm(props){
   const [redirect, setRedirect] = useState(false);
   const dispatch = useDispatch();
+  let query = useQuery();
   if (redirect){
-    return (<Redirect to="/Sites"/>);
+    let redirect = query.get("redirect");
+    if (redirect === "")
+      redirect = "/Sites";
+    return (<Redirect to={redirect}/>);
   }else{
     return (
       <Formik
