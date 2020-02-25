@@ -1,6 +1,9 @@
-import React from "react";
-import {Switch, Redirect, Route,Link} from "react-router-dom";
-import {MaterialInput} from './Material-Inp.js';
+import React, { useState } from "react";
+import { Formik, Form } from "formik";
+import { Switch, Redirect, Route, Link, useLocation } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { MaterialText } from './Material-Inp.js';
+import { setEmail, setMasterApiKey } from './redux/actions.js';
 import Tracking from './Tracking.js';
 import i0 from './res/login-bg0.jpg';
 import i1 from './res/login-bg1.jpg';
@@ -64,111 +67,160 @@ import i58 from './res/login-bg58.jpg';
 import i59 from './res/login-bg59.jpg';
 import "./Login.css";
 
-class LoginForm extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {redirect: false};
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
-  async handleSubmit(event){
-    this.setState({redirect: true});
-    event.preventDefault();
-  }
-
-  render() {
-    if (this.state.redirect){
-      return (<Redirect to="/Sites"/>);
-    }else{
-      return (
-        <form className="Login" onSubmit={this.handleSubmit}>
-          <h2>LiDAR</h2>
-          <MaterialInput type="email" name="email" label="Email"/>
-          <MaterialInput type="password" name="password" label="Password" required/>
-          <div>
-            <h3>Login</h3>
-            <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
-          </div>
-          <div>
-            <Link to="/login/register">Create account</Link>
-            <Link to="/login/forgot">Forgot password</Link>
-          </div>
-        </form>
-      );
+function LoginForm(props){
+  const [redirect, setRedirect] = useState(false);
+  const dispatch = useDispatch();
+  let query = useQuery();
+  if (redirect){
+    let redirect = query.get("redirect");
+    if (redirect === null){
+      redirect = "/Sites";
     }
+    return (<Redirect to={redirect}/>);
+  }else{
+    return (
+      <Formik
+        initialValues={{ email: '', password: '', }}
+        validateOnChange
+        validateOnBlur
+        validate={ values => {
+          const errors = {};
+          if (!values.email){
+            errors.email = "Required";
+          }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
+            errors.email = 'Invalid email address';
+          }
+          if (!values.password){
+            errors.password = "Required";
+          }
+          return errors;
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          setSubmitting(false);
+          dispatch(setEmail(values.email));
+          dispatch(setMasterApiKey("I_am_the_master"));
+          setRedirect(true);
+        }}
+      >
+        {({ isSubmitting, isValidating }) => (
+          <Form className="Login" method="post">
+            <h2>LiDAR {isValidating}</h2>
+            <MaterialText type="email" name="email" label="Email"/>
+            <MaterialText type="password" name="password" label="Password" required/>
+            <div>
+              <h3>Login</h3>
+              <button type="submit" disabled={isSubmitting} className="circle-btn"><i className="fas fa-chevron-right"/></button>
+            </div>
+            <div>
+              <Link to="/login/register">Create account</Link>
+              <Link to="/login/forgot">Forgot password</Link>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    );
   }
 }
 
-class RegistrationForm extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {redirect: false};
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+function RegistrationForm(props){
+  const [redirect, setRedirect] = useState(false);
+  if (redirect){
+    return (<Redirect to="/Login"/>);
+  }else{
+    return (
+      <Formik
+        initialValues={{ email: '', password: '', passwordr: '', }}
+        validateOnChange
+        validateOnBlur
+        validate={ values => {
+          const errors = {};
+          if (!values.email){
+            errors.email = "Required";
+          }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
+            errors.email = 'Invalid email address';
+          }
 
-  handleSubmit(event){
-    this.setState({redirect: true});
-    event.preventDefault();
-  }
+          if (!values.password){
+            errors.password = "Required";
+          }
+          
+          if (!values.passwordr){
+            errors.passwordr = "Required";
+          }
 
-  render() {
-    if (this.state.redirect){
-      return (<Redirect to="/Login"/>);
-    }else{
-      return (
-        <form className="Login">
-        <h2>LiDAR</h2>
-          <MaterialInput type="email" name="email" label="Email"/>
-          <MaterialInput type="password" name="password" label="Password"/>
-          <MaterialInput type="password" name="password" label="Repeat Password"/>
-          <div>
-            <h3>Register</h3>
-            <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
-          </div>
-          <div>
-            <Link to="/login/">I've got a login</Link>
-          </div>
-        </form>
-      );
-    }
+          if (values.password !== values.passwordr){
+            errors.passwordr = "Passwords do not match";
+          }
+          return errors;
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          setSubmitting(false);
+          setRedirect(true);
+        }}
+      >
+        {({ isSubmitting, isValidating }) => (
+          <Form className="Login" method="post">
+            <h2>LiDAR</h2>
+            <MaterialText type="email" name="email" label="Email"/>
+            <MaterialText type="password" name="password" label="Password"/>
+            <MaterialText type="password" name="passwordr" label="Repeat Password"/>
+            <div>
+              <h3>Register</h3>
+              <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
+            </div>
+            <div>
+              <Link to="/login/">I've got a login</Link>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    );
   }
 }
 
-class ForgotForm extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {redirect: false};
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(event){
-    this.setState({redirect: true});
-    event.preventDefault();
-  }
-
-  render() {
-    if (this.state.redirect){
-      return (
-        <div className="Login">
-          <h2>Link sent</h2>
-          <p>If you entered a valid email address there will be a reset link in your inbox</p>
-        </div>
-      );
-    }else{
-      return (
-        <form className="Login" onSubmit={this.handleSubmit}>
-        <h2>Forgot pass</h2>
-          <MaterialInput type="email" name="email" label="Email"/>
-          <div>
-            <h3>Get reset link</h3>
-            <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
-          </div>
-          <div>
-            <Link to="/login/">I've got a login</Link>
-          </div>
-        </form>
-      );
-    }
+function ForgotForm(props){
+  const [redirect, setRedirect] = useState(false);
+  if (redirect){
+    return (<Redirect to="/login/forgot-sent"/>);
+  }else{
+    return (
+      <Formik
+        initialValues={{ email: '', }}
+        validateOnChange
+        validateOnBlur
+        validate={ values => {
+          const errors = {};
+          if (!values.email){
+            errors.email = "Required";
+          }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
+            errors.email = 'Invalid email address';
+          }
+          return errors;
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          setSubmitting(false);
+          setRedirect(true);
+        }}
+      >
+        {({ isSubmitting, isValidating }) => (
+          <Form className="Login" method="post">
+            <h2>LiDAR {isValidating}</h2>
+            <MaterialText type="email" name="email" label="Email"/>
+            <div>
+              <h3>Get reset link</h3>
+              <button type="submit" disabled={isSubmitting} className="circle-btn"><i className="fas fa-chevron-right"/></button>
+            </div>
+            <div>
+              <Link to="/login/">I've got a login</Link>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    );
   }
 }
 

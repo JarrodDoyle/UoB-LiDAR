@@ -29,13 +29,13 @@
 }
 
 /* active state */
-.Material-Inp-Group input:focus ~ label, .Material-Inp-Group input:valid ~ label {
+.Material-Inp-Group input:focus ~ label{
   top:-20px;
   font-size:14px;
   color: var(--salmon)
 }
 /* Keeps text high when not focused */
-.Material-Inp-Group label.active {
+.Material-Inp-Group label.active, .Material-Inp-Group input:placeholder-shown ~ label {
   top: -20px;
   font-size:14px;
   color: var(--gray) !important;
