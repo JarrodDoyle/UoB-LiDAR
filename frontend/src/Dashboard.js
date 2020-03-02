@@ -30,19 +30,18 @@ const mydata = [
 ]
 
 function Popup(props) {
-  var kpiTitles = [props.cards[props.kpiID].title]
+  var kpiTitles = []
   for (var i=0; i<props.cards.length; i++) {
-    if (i !== props.kpiID) {
-      kpiTitles.push(props.cards[i].title)
-    }
+    kpiTitles.push(props.cards[i].title)
   }
 
   return (
     <div className="popup-background">
       <div className="popup-box">
         <div className="popup-header">
-          <select className="kpi-dropdown" onChange={
+          <select className="kpi-dropdown" value={props.kpiID} onChange={
             (event) => {
+              // console.log(event.target.value)
               props.updatePopup(event.target.value); // Updates the popup with the new KPI id and rerenders.
             }
           }>
