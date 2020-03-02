@@ -1,6 +1,7 @@
 package com.lidar.lidar;
 
 import com.lidar.lidar.database.*;
+import com.lidar.lidar.samples.BuoySampleFactory;
 
 import java.util.*;
 
@@ -24,6 +25,15 @@ public class FileLoader {
     @Autowired
     LoadedFileTable loadedFiles;
 
+    @Autowired
+    SystemManager systemManager;
+
+    @Autowired
+    BuoyTable buoyTable;
+
+    @Autowired
+    MastTable mastTable;
+
     /*@Bean(name="fileLoader")
     public FileLoader fileLoader() {
         return new FileLoader();
@@ -32,7 +42,7 @@ public class FileLoader {
     public void loadFiles() {
         Iterable<LoadedFile> lFiles = loadedFiles.findAll();
 
-        for (final File f : new File("..").listFiles()) {
+        for (final File f : new File("../../data").listFiles()) {
             if (f.isFile()) {
                 Boolean loaded = false;
                 for (LoadedFile lf : lFiles) {
@@ -51,8 +61,19 @@ public class FileLoader {
                             BufferedReader reader = new BufferedReader(new FileReader(f));
                             reader.readLine();
                             reader.skip(15);
-                            String serial = reader.readLine();
-                            System.out.println(serial);
+                            String serial = reader.readLine().replace(",", "").strip();
+                            reader.readLine();
+                            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                                if (buoyTable.existsById(serial)) {
+                                    try {
+                                        systemManager.addBuoySample(BuoySampleFactory.fromCSVLine(serial, line));
+                                    }
+                                    catch (IllegalArgumentException e) {
+                                        System.out.println(f.getName() + e.getLocalizedMessage());
+                                    }
+                                }
+                            }
+                            reader.close();
                         }
                     }
                     catch (FileNotFoundException e) {

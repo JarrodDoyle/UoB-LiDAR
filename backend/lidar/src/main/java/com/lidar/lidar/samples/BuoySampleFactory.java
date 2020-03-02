@@ -27,7 +27,7 @@ public class BuoySampleFactory {
             }
         }
         catch (Exception e) {
-            throw new IllegalArgumentException("CSV line not formatted correctly.");
+            throw new IllegalArgumentException("CSV line not formatted correctly for " + serial);
         }
 
         return new BuoySample(serial, entries[0], directions, gust, speeds, tis);

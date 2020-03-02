@@ -1,6 +1,7 @@
 package com.lidar.lidar;
 
 import com.lidar.lidar.database.*;
+import com.lidar.lidar.samples.*;
 
 import java.util.Optional;
 
