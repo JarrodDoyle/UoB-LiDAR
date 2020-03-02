@@ -22,10 +22,9 @@ for name in fileNames:
                 line = line[:i] + ',' + line[i+1:]
         
         if date != line[:10]:
+            date = line[:10]
             csvOut = open("d" + name[12:-4] + "_" + str(date) + ".csv", "w")
             for header in headers:
                 csvOut.write(header)
-
-            date = line[:10]
 
         csvOut.write(line)

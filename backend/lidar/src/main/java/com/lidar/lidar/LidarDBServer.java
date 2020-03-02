@@ -42,8 +42,6 @@ public class LidarDBServer {
 
     public static void main(String[] args) {
         SpringApplication.run(LidarDBServer.class, args);
-
-        
     }
 
     @RequestMapping("/test/fileloader")

@@ -9,14 +9,16 @@ import java.time.temporal.ChronoUnit;
 
 public class BuoyController {
     Buoy buoy;
-    BuoyTable buoys;   
+    BuoyTable buoys;
+    SpeedHeightTable speedHeights;
 
     Queue<BuoySample> buoySamples;
     Queue<MastSample> mastSamples;
 
-    public BuoyController(Buoy buoy, BuoyTable buoys) {
+    public BuoyController(Buoy buoy, BuoyTable buoys, SpeedHeightTable speedHeights) {
         this.buoy = buoy;
         this.buoys = buoys;
+        this.speedHeights = speedHeights;
 
         buoySamples = new LinkedList<BuoySample>();
         mastSamples = new LinkedList<MastSample>();
@@ -48,20 +50,24 @@ public class BuoyController {
             }
             else {
                 buoy.addSamples(buoySample, mastSample);
+                System.out.println("AAAAAAA");
                 updated = true;
             }
         }
 
         if (updated) {
             buoys.save(buoy);
+            buoy.saveData(speedHeights);
         }
     }
 
     private Integer compareTimestamps(BuoySample buoySample, MastSample mastSample) {
-        ZonedDateTime buoyTime = ZonedDateTime.parse(buoySample.getTimestamp(), DateTimeFormatter.ISO_INSTANT);
-        ZonedDateTime mastTime = ZonedDateTime.parse(mastSample.getTimestamp(), DateTimeFormatter.ISO_INSTANT);
+        Instant buoyTime = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(buoySample.getTimestamp()));
+        Instant mastTime = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(mastSample.getTimestamp()));
         Long separation = buoyTime.until(mastTime, ChronoUnit.MINUTES);
+        System.out.println(separation);
         if (separation <= 5 && separation >= -5) {
+            System.out.println("BBBBBBBB");
             return 0;
         }
         else {

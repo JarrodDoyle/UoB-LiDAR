@@ -2,6 +2,7 @@ package com.lidar.lidar;
 
 import com.lidar.lidar.database.*;
 import com.lidar.lidar.samples.BuoySampleFactory;
+import com.lidar.lidar.samples.MastSampleFactory;
 
 import java.util.*;
 
@@ -10,6 +11,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,7 +46,8 @@ public class FileLoader {
     public void loadFiles() {
         Iterable<LoadedFile> lFiles = loadedFiles.findAll();
 
-        for (final File f : new File("../../data").listFiles()) {
+        for (final File f : sortFiles(new File("../../data").listFiles())) {
+            System.out.println("CCCCCCCCC");
             if (f.isFile()) {
                 Boolean loaded = false;
                 for (LoadedFile lf : lFiles) {
@@ -69,7 +74,15 @@ public class FileLoader {
                                         systemManager.addBuoySample(BuoySampleFactory.fromCSVLine(serial, line));
                                     }
                                     catch (IllegalArgumentException e) {
-                                        System.out.println(f.getName() + e.getLocalizedMessage());
+                                        
+                                    }
+                                }
+                                else if (mastTable.existsById(serial)) {
+                                    try {
+                                        systemManager.addMastSample(MastSampleFactory.fromCSVLine(serial, line));
+                                    }
+                                    catch (IllegalArgumentException e) {
+        
                                     }
                                 }
                             }
@@ -86,5 +99,35 @@ public class FileLoader {
                 }
             }
         }
+    }
+
+    private List<File> sortFiles(File[] files) {
+        List<File> sortedFiles = new ArrayList<File>();
+        
+        for (File file : files) {
+            Boolean added = false;
+            for (Integer i = 0; i < sortedFiles.size(); i++) {
+                Instant newTime = getFileTime(file);
+                Instant time = getFileTime(sortedFiles.get(i));
+                if (newTime.compareTo(time) < 0) {
+                    added = true;
+                    sortedFiles.add(i, file);
+                    break;
+                }
+            }
+            if (!added) {
+                sortedFiles.add(file);
+            }
+        }
+
+        return sortedFiles;
+    }
+
+    private Instant getFileTime(File file) {
+        String name = file.getName();
+        Integer start = name.length() - 14;
+        Integer end = name.length() - 4;
+        String timestamp = name.substring(start, end) + "T00:00:00Z";
+        return Instant.from(DateTimeFormatter.ISO_INSTANT.parse(timestamp));
     }
 }
