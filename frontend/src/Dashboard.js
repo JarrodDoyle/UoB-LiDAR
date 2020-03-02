@@ -29,25 +29,12 @@ const mydata = [
 ]
 
 function Popup(props) {
-  let kpiTitles = [
-    "System Availability", 
-    "Post Processed Data Availability",
-    "Data Coverage",
-    "Maintenance Visits",
-    "Unscheduled Outages",
-    "Comms. Uptime",
-    "Mean Wind Speed",
-    "Mean Wind Direction",
-    "Turbulence Intensity",
-    "Wind Shear",
-  ]
-
-  for( var i = 0; i < kpiTitles.length; i++){ 
-    if ( kpiTitles[i] === props.currentKPI) {
-      kpiTitles.splice(i, 1); 
+  var kpiTitles = [props.cards[props.kpiID].title]
+  for (var i=0; i<props.cards.length; i++) {
+    if (i !== props.kpiID) {
+      kpiTitles.push(props.cards[i].title)
     }
   }
-  kpiTitles.unshift(props.currentKPI)
 
   return (
     <div className="popup-background">
@@ -64,7 +51,7 @@ function Popup(props) {
             <span>6 Months</span>
             <span>Year</span>
           </div>
-          <i className={props.passingStatus}></i>
+          <i className={props.cards[props.kpiID].passingStyle}></i>
           <div className="lidars-btns">
             <button className="circle-btn" onClick={() => props.togglePopup(null)}>
               <i className="fas fa-times"/>
@@ -124,13 +111,11 @@ function Graph(props) {
 }
 
 function Card(props) {
-  let names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
-  let style = names[Math.floor(Math.random() * 3)];
   return (
     <div className="lidars-card">
       <div className="kpi-indicator">
         <h3>{props.title}</h3>
-        <i className={style}></i>
+        <i className={props.passingStyle}></i>
       </div>
       <div className="dash-content">
         {props.content.map((line, i) => {       
@@ -139,7 +124,7 @@ function Card(props) {
       </div>
       <div className="lidars-btns">
         <h4>More details</h4>
-        <button className="circle-btn" onClick={() => props.togglePopup(props.title, style)}>
+        <button className="circle-btn" onClick={() => props.togglePopup(props.id)}>
           <i className="fas fa-chevron-right"/>
         </button>
       </div>
@@ -150,13 +135,15 @@ function Card(props) {
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showPopup: false,
-      popupTitle: null,
-      popupStatusStyle: null,
-    };
     this.togglePopup = this.togglePopup.bind(this);
     this.openPopup = this.openPopup.bind(this);
+    this.generateCards = this.generateCards.bind(this);
+    this.state = {
+      showPopup: false,
+      cards: this.generateCards(),
+      currentKPI: null,
+    };
+    
   }
 
   togglePopup() {
@@ -165,31 +152,55 @@ class Dashboard extends React.Component {
     });
   }
 
-  openPopup(newPopupTitle, passingStatus) {
+  openPopup(currentKpiID) {
     this.togglePopup();
     this.setState( {
-      popupTitle: newPopupTitle,
-      popupStatusStyle: passingStatus,
+      currentKPI: currentKpiID,
     })
+  }
+
+  generateCards() {
+    var cards = []
+    var titles = [
+      "System Availability",
+      "Post Processed Data Availability",
+      "Data Coverage", "Maintenance Visits",
+      "Unscheduled Outages",
+      "Comms. Uptime",
+      "Mean Wind Speed",
+      "Mean Wind Direction",
+      "Turbulence Intensity",
+      "Wind Shear"
+    ]
+    var contents = [
+      ["1 month average - 91%", "Campaign average - 97%"],
+      ["1 month average - 88%", "Campaign average - 88%"],
+      ["something"],
+      ["0"],
+      ["0"],
+      ["100%"],
+      ["Slope - 1.00", "Coefficient of Determination - 1.00"],
+      ["Slope - 1.00", "Coefficient of Determination - 1.00"],
+      ["Slope - x", "Correlation Co-efficient - x"],
+      ["Shear exponent - x"]
+    ]
+    var names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
+    for (var i=0; i<10; i++) {
+      cards[i] = {title: titles[i], content: contents[i], passingStyle: names[Math.floor(Math.random() * 3)]}
+    }
+    return cards
   }
 
   render() {
     return (
       <main>
         <div className="lidars-grid">
-          <Card title="System Availability" content={["1 month average - 91%", "Campaign average - 97%"]} togglePopup={this.openPopup}/>
-          <Card title="Post Processed Data Availability" content={["1 month average - 88%", "Campaign average - 88%"]} togglePopup={this.openPopup}/>
-          <Card title="Data Coverage" content={["something"]} togglePopup={this.openPopup}/>
-          <Card title="Maintenance Visits" content={["0"]} togglePopup={this.openPopup}/>
-          <Card title="Unscheduled Outages" content={["0"]} togglePopup={this.openPopup}/>
-          <Card title="Comms. Uptime" content={["100%"]} togglePopup={this.openPopup}/>
-          <Card title="Mean Wind Speed" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]} togglePopup={this.openPopup}/>
-          <Card title="Mean Wind Direction" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]} togglePopup={this.openPopup}/>
-          <Card title="Turbulence Intensity" content={["Slope - x", "Correlation Co-efficient - x"]} togglePopup={this.openPopup}/>
-          <Card title="Wind Shear" content={["Shear exponent - x"]} togglePopup={this.openPopup}/>
+          {this.state.cards.map((card, i) => {       
+            return (<Card id={i} title={card.title} content={card.content} passingStyle={card.passingStyle} togglePopup={this.openPopup}/>) 
+          })}
         </div>
         {this.state.showPopup ?  
-          <Popup togglePopup={this.togglePopup} currentKPI={this.state.popupTitle} passingStatus={this.state.popupStatusStyle}/>  
+          <Popup cards={this.state.cards} togglePopup={this.togglePopup} kpiID={this.state.currentKPI}/>  
           : null  
         }  
       </main>
