@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.*;
 public class LidarDBServer {
 
     @Autowired
+    FileLoader fileLoader;
+
+    @Autowired
     SampleTable samples;
 
     @Autowired
@@ -40,6 +43,12 @@ public class LidarDBServer {
         SpringApplication.run(LidarDBServer.class, args);
 
         
+    }
+
+    @RequestMapping("/test/fileloader")
+    public String testFileLoader() {
+        fileLoader.loadFiles();
+        return "AAAAAAA";
     }
 
     @PostMapping("/test/database/create")

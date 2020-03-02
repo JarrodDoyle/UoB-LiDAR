@@ -4,8 +4,11 @@ import com.lidar.lidar.database.*;
 
 import java.util.*;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,7 +32,7 @@ public class FileLoader {
     public void loadFiles() {
         Iterable<LoadedFile> lFiles = loadedFiles.findAll();
 
-        for (final File f : new File(".").listFiles()) {
+        for (final File f : new File("..").listFiles()) {
             if (f.isFile()) {
                 Boolean loaded = false;
                 for (LoadedFile lf : lFiles) {
@@ -42,6 +45,23 @@ public class FileLoader {
                     LoadedFile nlf = new LoadedFile(f.getName());
                     loadedFiles.save(nlf);
                     System.out.println("Saved: " + nlf.toString() + "\n");
+
+                    try {
+                        if (f.canRead()) {
+                            BufferedReader reader = new BufferedReader(new FileReader(f));
+                            reader.readLine();
+                            reader.skip(15);
+                            String serial = reader.readLine();
+                            System.out.println(serial);
+                        }
+                    }
+                    catch (FileNotFoundException e) {
+                        System.out.println("File not found: " + f.getName());
+                        System.out.println("May have been deleted while loading data.");
+                    }
+                    catch (IOException e) {
+                        System.out.println(e.toString());
+                    }
                 }
             }
         }
