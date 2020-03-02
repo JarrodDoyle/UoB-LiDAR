@@ -78,7 +78,7 @@ function LoginForm(props){
   if (redirect){
     let redirect = query.get("redirect");
     if (redirect === null){
-      redirect = "/Sites";
+      redirect = "/app/Sites";
     }
     return (<Redirect to={redirect}/>);
   }else{

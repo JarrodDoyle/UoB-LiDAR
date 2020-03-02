@@ -29,25 +29,25 @@ function NavPage(){
     <div className="nav-page">
     <Nav/>
     <Switch>
-      <Route exact path="/sites">
+      <Route path="/app/sites">
         <header>
           <h1>Home</h1>
         </header>
         <Sites/>
       </Route>
-      <Route exact path="/dashboard">
+      <Route path="/app/dashboard">
         <header>
           <h1>Dashboard</h1>
         </header>
         <Dashboard/>
       </Route>
-      <Route exact path="/map">
+      <Route path="/app/map">
         <header>
           <h1>Map</h1>
         </header>
         <MapPage/>
       </Route>
-      <Route exact path="/settings">
+      <Route path="/app/settings">
         <header>
           <h1>Settings</h1>
         </header>
@@ -101,8 +101,11 @@ function App(props) {
         <Route exact path="/404">
           <PageNotFound/>
         </Route>
-        <Route path="*">
+        <Route path="/app/*">
           <NavPage/>
+        </Route>
+        <Route exact path="*">
+          <Redirect to="/404"/>
         </Route>
       </Switch>
     </Router>

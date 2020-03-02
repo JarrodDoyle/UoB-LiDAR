@@ -28,7 +28,7 @@ function Card(props) {
       <p>{props.desc}</p>
       <div className="lidars-btns">
         <h4>Go to dash</h4>
-        <Link className="circle-btn" to="/Dashboard">
+        <Link className="circle-btn" to="/app/Dashboard">
           <i className="fas fa-chevron-right"/>
         </Link>
       </div>
