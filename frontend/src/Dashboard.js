@@ -29,8 +29,6 @@ const mydata = [
 ]
 
 function Popup(props) {
-  let names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
-  let style = names[Math.floor(Math.random() * 3)];
   let kpiTitles = [
     "System Availability", 
     "Post Processed Data Availability",
@@ -66,7 +64,7 @@ function Popup(props) {
             <span>6 Months</span>
             <span>Year</span>
           </div>
-          <i className={style}></i>
+          <i className={props.passingStatus}></i>
           <div className="lidars-btns">
             <button className="circle-btn" onClick={() => props.togglePopup(null)}>
               <i className="fas fa-times"/>
@@ -141,7 +139,7 @@ function Card(props) {
       </div>
       <div className="lidars-btns">
         <h4>More details</h4>
-        <button className="circle-btn" onClick={() => props.togglePopup(props.title)}>
+        <button className="circle-btn" onClick={() => props.togglePopup(props.title, style)}>
           <i className="fas fa-chevron-right"/>
         </button>
       </div>
@@ -155,6 +153,7 @@ class Dashboard extends React.Component {
     this.state = {
       showPopup: false,
       popupTitle: null,
+      popupStatusStyle: null,
     };
     this.togglePopup = this.togglePopup.bind(this);
     this.openPopup = this.openPopup.bind(this);
@@ -166,10 +165,11 @@ class Dashboard extends React.Component {
     });
   }
 
-  openPopup(newPopupTitle) {
+  openPopup(newPopupTitle, passingStatus) {
     this.togglePopup();
     this.setState( {
       popupTitle: newPopupTitle,
+      popupStatusStyle: passingStatus,
     })
   }
 
@@ -189,7 +189,7 @@ class Dashboard extends React.Component {
           <Card title="Wind Shear" content={["Shear exponent - x"]} togglePopup={this.openPopup}/>
         </div>
         {this.state.showPopup ?  
-          <Popup togglePopup={this.togglePopup} currentKPI={this.state.popupTitle}/>  
+          <Popup togglePopup={this.togglePopup} currentKPI={this.state.popupTitle} passingStatus={this.state.popupStatusStyle}/>  
           : null  
         }  
       </main>
