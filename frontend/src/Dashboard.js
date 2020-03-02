@@ -3,6 +3,7 @@ import "./Dashboard.css";
 import { Line } from 'nivo'
 import { AutoSizer } from 'react-virtualized'
 
+// Placedholder data for graphs
 const mydata = [
   {
     "id": "japan",
@@ -40,7 +41,11 @@ function Popup(props) {
     <div className="popup-background">
       <div className="popup-box">
         <div className="popup-header">
-          <select className="kpi-dropdown">
+          <select className="kpi-dropdown" onChange={
+            (event) => {
+              props.updatePopup(event.target.value); // Updates the popup with the new KPI id and rerenders.
+            }
+          }>
             {kpiTitles.map((kpi, i) => {       
               return (<option value={i}>{kpi}</option>) 
             })}
@@ -53,7 +58,7 @@ function Popup(props) {
           </div>
           <i className={props.cards[props.kpiID].passingStyle}></i>
           <div className="lidars-btns">
-            <button className="circle-btn" onClick={() => props.togglePopup(null)}>
+            <button className="circle-btn" onClick={() => props.closePopup(null)}>
               <i className="fas fa-times"/>
             </button>
           </div>
@@ -135,7 +140,7 @@ function Card(props) {
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.togglePopup = this.togglePopup.bind(this);
+    this.closePopup = this.closePopup.bind(this);
     this.openPopup = this.openPopup.bind(this);
     this.generateCards = this.generateCards.bind(this);
     this.state = {
@@ -146,17 +151,19 @@ class Dashboard extends React.Component {
     
   }
 
-  togglePopup() {
+  closePopup() {
     this.setState({
-      showPopup: !this.state.showPopup,
+      showPopup: false,
     });
   }
 
-  openPopup(currentKpiID) {
-    this.togglePopup();
+  openPopup(kpiID) {
+    this.setState({
+      showPopup: true,
+    });
     this.setState( {
-      currentKPI: currentKpiID,
-    })
+      currentKPI: kpiID,
+    });
   }
 
   generateCards() {
@@ -200,7 +207,7 @@ class Dashboard extends React.Component {
           })}
         </div>
         {this.state.showPopup ?  
-          <Popup cards={this.state.cards} togglePopup={this.togglePopup} kpiID={this.state.currentKPI}/>  
+          <Popup cards={this.state.cards} closePopup={this.closePopup} updatePopup={this.openPopup} kpiID={this.state.currentKPI}/>  
           : null  
         }  
       </main>
