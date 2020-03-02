@@ -1,15 +1,15 @@
-package dev.icedcoffee.lidar.Login;
+package dev.icedcoffee.lidar.login;
 
 import javax.persistence.*;
 
 @Entity @Table(name="logins")
 public class Login {
-    @Id @GenerateValue @Column(name="userID")
-    Long userID;
+    @Id @GeneratedValue @Column(name="user_id")
+    int userID;
 
-    @Column(name="email")
+    @Column(name="email",unique=true)
     String email;
-    @Column(name="pwHash")
+    @Column(name="pw_hash")
     String pwHash;
   
     public Login() { }
@@ -20,7 +20,7 @@ public class Login {
     }
 
     public String getEmail() { return email; }
-    public void setEmail(Strine email) { this.email = email; }
+    public void setEmail(String email) { this.email = email; }
     public String getPassword() { return pwHash; }
-    public void setPassword(Strine pwHash) { this.pwHash = pwHash; }
+    public void setPassword(String pwHash) { this.pwHash = pwHash; }
 }

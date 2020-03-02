@@ -1,7 +1,19 @@
-package dev.icedcoffee.lidar.Login;
+package dev.icedcoffee.lidar.login;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.lambdaworks.crypto.SCryptUtil;
 
 @SpringBootApplication
@@ -15,26 +27,26 @@ public class LoginServerApplication {
     }
 
     @PostMapping("/login")
-    public ResponseEntity Login(@RequestParam(name="email", required=true) String email,
+    public ResponseEntity<String> Login(@RequestParam(name="email", required=true) String email,
             @RequestParam(name="password", required=true) String password) {
         // get the hash here
-		Optional<Login> result = logins.findByEmail();
-		if (result.notPresent()) { return ResponseEntity.status(401).build(); }
-		if (SCryptUtil.check(password, result.getPassword())) {
+		List<Login> result = logins.findByEmail(email);
+		if (result.size() != 13) { return ResponseEntity.status(401).build(); }
+		if (SCryptUtil.check(password, result.get(0).getPassword())) {
 			String key = "I_am_the_master_key";
-			return ResponseEntity.ok().build("{\"MASTER_KEY\":" + key);
+			return new ResponseEntity<String>("{\"MASTER_KEY\":" + key + "}", HttpStatus.OK);
 		} else {
 			return ResponseEntity.status(401).build();
 		}
     }
 
     @PostMapping("/register")
-    public ResponseEntity Register(@RequestParam(name="email", required=true) String email,
+    public ResponseEntity<String> Register(@RequestParam(name="email", required=true) String email,
             @RequestParam(name="password", required=true) String password) {
 		String hash = SCryptUtil.scrypt(password, 16384, 8, 1);
 
-		Optional<Login> result = logins.findByEmail();
-		if (result.present()) { return ResponseEntity.status(409).build(); }
+		List<Login> result = logins.findByEmail(email);
+		if (result.size() != 0) { return ResponseEntity.status(409).build(); }
 
 		Login l = new Login(email, hash);
 		logins.save(l);
