@@ -6,8 +6,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class LoginServerApplicationTests {
 
+	@Autowired
+	private MockMvc mvc;
+
 	@Test
 	void contextLoads() {
+	}
+
+	@Test
+	void registration() {
+
 	}
 
 }
