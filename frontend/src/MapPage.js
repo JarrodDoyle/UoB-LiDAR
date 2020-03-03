@@ -45,7 +45,7 @@ let SiteMarker = connect()((props) => {
         <InfoWindow
           zIndex={100}
           position={{
-            lat: props.site.location.lat + 0.3,
+            lat: props.site.location.lat,
             lng: props.site.location.lng,
           }}
           onCloseClick={() => props.dispatch(toggleSiteMapOpen(props.site.id))}
