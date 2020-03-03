@@ -20,7 +20,7 @@ import './App.css';
 import './Material-Inp.css';
 
 function NavPage(){
-  const email = useSelector(getEmail).email;
+  const email = useSelector(getEmail);
   let location = useLocation();
   if (email == null){
     return (<Redirect to={"/Login?redirect=" + location.pathname}/>);
@@ -35,7 +35,7 @@ function NavPage(){
         </header>
         <Sites/>
       </Route>
-      <Route path="/app/dashboard">
+      <Route path="/app/dashboard/:siteId">
         <header>
           <h1>Dashboard</h1>
         </header>
@@ -63,30 +63,34 @@ function NavPage(){
 
 function App(props) {
   props.dispatch(addSite({
-    id: 1,
+    id: "site1",
     name: "Brighton Off-Shore 1",
     desc: "This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1 This is an offshore windfarm 1",
+    totalComplete: 87,
     location: {
       lat: 50.643758,
       lng: -0.257144
     }
  }))
   props.dispatch(addSite({
-    id: 2,
+    id: "stie2",
     name: "Brighton Off-Shore 2",
     desc: "This is an offshore windfarm 2",
+    totalComplete: 38,
     location: {lat: 53.852400,lng: -3.697895}
   }))
   props.dispatch(addSite({
-    id: 3,
+    id: "site3",
     name: "North Sea Site 1",
     desc: "This is an offshore windfarm 3",
+    totalComplete: 78,
     location: {lat: 53.415865,lng: 0.689438}
   }))
   props.dispatch(addSite({
-    id: 4,
+    id: "site4",
     name: "North Sea Site 2",
     desc: "This is an offshore windfarm 4",
+    totalComplete: 100,
     location: {lat: 50.510669,lng: -2.240459}
   }))
   return (

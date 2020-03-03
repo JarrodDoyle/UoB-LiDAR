@@ -11,6 +11,7 @@ export const addSite = site => ({
   id: site.id,
   name: site.name,
   desc: site.desc,
+  totalComplete: site.totalComplete,
   location: site.location,
 });
 

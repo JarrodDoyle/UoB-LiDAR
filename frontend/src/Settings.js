@@ -7,7 +7,7 @@ import { MaterialText } from "./Material-Inp.js";
 
 function CredsCard(props){
   const [success, setSuccess] = useState(false);
-  const email = useSelector(getEmail).email;
+  const email = useSelector(getEmail);
   return (
     <div className="settings-card">
       <Formik
@@ -51,7 +51,7 @@ function CredsCard(props){
 
 function ApiCard(props){
   const [success, setSuccess] = useState(false);
-  const masterKey = useSelector(getMasterKey).masterKey;
+  const masterKey = useSelector(getMasterKey);
   return (
     <div className="settings-card">
       <Formik

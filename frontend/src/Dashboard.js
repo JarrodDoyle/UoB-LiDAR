@@ -1,7 +1,10 @@
 import React from "react";
+import { AutoSizer } from 'react-virtualized';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Line } from 'nivo';
+import { getSite } from './redux/selectors.js';
 import "./Dashboard.css";
-import { Line } from 'nivo'
-import { AutoSizer } from 'react-virtualized'
 
 // Placedholder data for graphs
 const mydata = [
@@ -136,7 +139,7 @@ function Card(props) {
   );
 }
 
-class Dashboard extends React.Component {
+class DashboardGrid extends React.Component {
   constructor(props) {
     super(props);
     this.closePopup = this.closePopup.bind(this);
@@ -199,7 +202,7 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <main>
+      <>
         <div className="lidars-grid">
           {this.state.cards.map((card, i) => {       
             return (<Card id={i} title={card.title} content={card.content} passingStyle={card.passingStyle} togglePopup={this.openPopup}/>) 
@@ -209,9 +212,28 @@ class Dashboard extends React.Component {
           <Popup cards={this.state.cards} closePopup={this.closePopup} updatePopup={this.openPopup} kpiID={this.state.currentKPI}/>  
           : null  
         }  
-      </main>
+      </>
     );
   }
 }
 
-export default Dashboard
+function SiteInfo(props){
+  let site = useSelector(state => getSite(state, props.siteId));  
+  return (
+    <section>
+      <h2>{site.name}</h2>
+      <p>Description: {site.desc}</p>
+      <p>Percentage complete: {site.totalComplete}</p>
+    </section>
+  );
+}
+
+export default function Dashboard(){
+  let { siteId } = useParams();
+  return (
+    <main>
+      <SiteInfo siteId={siteId}/>
+      <DashboardGrid/>
+    </main>
+  );   
+}

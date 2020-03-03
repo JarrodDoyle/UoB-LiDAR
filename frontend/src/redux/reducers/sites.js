@@ -12,6 +12,7 @@ export const sites = (state = [], action) => {
           id: action.id,
           name: action.name,
           desc: action.desc,
+          totalComplete: action.totalComplete,
           location: {
             lat: action.location.lat,
             lng: action.location.lng,

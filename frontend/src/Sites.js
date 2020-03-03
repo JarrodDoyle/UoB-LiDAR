@@ -1,14 +1,14 @@
 import React from "react";
 import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getSites } from './redux/selectors.js';
 import turbine from "./res/turbine-clear-bold.gif";
 import "./Lidars.css";
 
 function Card(props) {
   let names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
-  let style = names[Math.floor(Math.random() * 3)];
+  let style = names[props.totalComplete === 100 ? 0 : props.totalComplete >= 60 ? 1 : 2];
   return (
     <div className="lidars-card">
       <div className="lidars-card-map">
@@ -28,7 +28,7 @@ function Card(props) {
       <p>{props.desc}</p>
       <div className="lidars-btns">
         <h4>Go to dash</h4>
-        <Link className="circle-btn" to="/app/Dashboard">
+        <Link className="circle-btn" to={`/app/Dashboard/${props.id}`}>
           <i className="fas fa-chevron-right"/>
         </Link>
       </div>
@@ -95,20 +95,20 @@ function Map(props) {
 }
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 
-function Sites(props) {
+export default function Sites() {
+  let sites = useSelector(getSites);
   return (
-  <main className="lidars-wrapper">
-    <div className="lidars-grid">
-      {props.sites.map (card => {
-        return(
-          <Card key={card.id} name={card.name}  desc={card.desc} location={card.location}/>
-        )
-      })}
-    </div>
-    <Link to="/login" className="circle-btn lidars-add">
-      <i className="fas fa-plus"/>
-    </Link>
-  </main>
+    <main className="lidars-wrapper">
+      <div className="lidars-grid">
+        {sites.map (card => {
+          return(
+            <Card key={card.id} id={card.id} name={card.name} desc={card.desc} location={card.location} totalComplete={card.totalComplete}/>
+          )
+        })}
+      </div>
+      <Link to="/login" className="circle-btn lidars-add">
+        <i className="fas fa-plus"/>
+      </Link>
+    </main>
   );
 }
-export default connect(getSites)(Sites)
