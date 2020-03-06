@@ -65,7 +65,7 @@ public class FileLoader {
                             BufferedReader reader = new BufferedReader(new FileReader(f));
                             reader.readLine();
                             reader.skip(15);
-                            String serial = reader.readLine().replace(",", "").strip();
+                            String serial = reader.readLine().replace(",", "").replaceAll("^[ \t]+|[ \t]+$", "");
                             reader.readLine();
                             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                                 if (buoyTable.existsById(serial)) {
