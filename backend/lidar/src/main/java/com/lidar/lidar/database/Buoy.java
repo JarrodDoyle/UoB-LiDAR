@@ -5,10 +5,11 @@ import com.lidar.lidar.samples.*;
 
 @Entity @Table(name = "buoys")
 public class Buoy {
+    
     public Buoy() {
-   
+        
     }
-
+    
     public Buoy(String serial, Mast mast, SpeedHeightTable speedHeights) {
         this.serial = serial;
         this.mast = mast;
@@ -43,20 +44,43 @@ public class Buoy {
     @OneToOne @JoinColumn(name = "sh40")
     SpeedHeight sh40;
 
+    public SpeedHeight getSh40() {
+        return sh40;
+    }
+    
     @OneToOne @JoinColumn(name = "sh60")
     SpeedHeight sh60;
 
+    public SpeedHeight getSh60() {
+        return sh60;
+    }
+    
     @OneToOne @JoinColumn(name = "sh80")
     SpeedHeight sh80;
 
+    public SpeedHeight getSh80() {
+        return sh80;
+    }
+    
     @OneToOne @JoinColumn(name = "sh100")
     SpeedHeight sh100;
+
+    public SpeedHeight getSh100() {
+        return sh100;
+    }
 
     public void addSamples(BuoySample buoySample, MastSample mastSample) {
         sh40.addSamples(buoySample, mastSample);
         sh60.addSamples(buoySample, mastSample);
         sh80.addSamples(buoySample, mastSample);
         sh100.addSamples(buoySample, mastSample);
+    }
+
+    public void saveData(SpeedHeightTable speedHeights) {
+        speedHeights.save(sh40);
+        speedHeights.save(sh60);
+        speedHeights.save(sh80);
+        speedHeights.save(sh100);
     }
 
     public Double xmwsa40() {
