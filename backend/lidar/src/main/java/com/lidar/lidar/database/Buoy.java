@@ -83,11 +83,11 @@ public class Buoy {
         speedHeights.save(sh100);
     }
 
-    public Double xmwsa40() {
-        return sh40.slopea();
-    }
-
-    public Double xmwsb40() {
-        return sh40.slopeb();
+    public void reset(SpeedHeightTable speedHeights) {
+        sh40.reset();
+        sh60.reset();
+        sh80.reset();
+        sh100.reset();
+        saveData(speedHeights);
     }
 }

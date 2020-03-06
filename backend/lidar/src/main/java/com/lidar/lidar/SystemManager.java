@@ -52,4 +52,13 @@ public class SystemManager implements InitializingBean {
         }
         task.registerChange();
     }
+
+    public void resetBuoy(String serial) {
+        if (buoys.containsKey(serial)) {
+            buoys.get(serial).reset();
+        }
+        else {
+            throw new IllegalArgumentException("Buoy does not exist.");
+        }
+    }
 }

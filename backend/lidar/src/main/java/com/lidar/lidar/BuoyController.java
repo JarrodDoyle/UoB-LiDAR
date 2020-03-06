@@ -77,4 +77,10 @@ public class BuoyController {
             return buoyTime.compareTo(mastTime);
         }
     }
+
+    public void reset() {
+        buoySamples.clear();
+        mastSamples.clear();
+        buoy.reset(speedHeights);
+    }
 }

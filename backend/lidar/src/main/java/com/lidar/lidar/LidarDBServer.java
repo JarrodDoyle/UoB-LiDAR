@@ -3,9 +3,12 @@ package com.lidar.lidar;
 import com.lidar.lidar.database.*;
 import com.lidar.lidar.samples.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import java.io.FileReader;
 
@@ -95,15 +98,15 @@ public class LidarDBServer {
         return "All entries deleted.";
     }
 
-    @PostMapping("/test/registermast")
-    public String testRegisterMast(@RequestParam(name = "serial", required = true) String serial) {
+    @PostMapping("/database/registermast")
+    public String registerMast(@RequestParam(name = "serial", required = true) String serial) {
         Mast mast = new Mast(serial);
         masts.save(mast);
         return "AAAAA";
     }
 
-    @PostMapping("/test/registerbuoy")
-    public String testRegisterBuoy(@RequestParam(name = "serial", required = true) String serial, @RequestParam(name = "mast", required = true) String mast) {
+    @PostMapping("/database/registerbuoy")
+    public String registerBuoy(@RequestParam(name = "serial", required = true) String serial, @RequestParam(name = "mast", required = true) String mast) {
         Optional<Mast> maybeMast = masts.findById(mast);
         if (maybeMast.isPresent()) {
             Buoy buoy = new Buoy(serial, maybeMast.get(), speedHeights);
@@ -128,6 +131,57 @@ public class LidarDBServer {
             return JsonFactory.kpis(maybeBuoy.get());
         }
         else {
+            return "Buoy not found.";
+        }
+    }
+
+    @PostMapping("/database/{serial}/delete") @Transactional
+    public String deleteDevice(@PathVariable String serial) {
+        Optional<Buoy> maybeBuoy = buoys.findById(serial);
+        if (maybeBuoy.isPresent()) {
+            List<SpeedHeight> deletedSpeedHeights = new ArrayList<SpeedHeight>();
+            deletedSpeedHeights.add(maybeBuoy.get().getSh40());
+            deletedSpeedHeights.add(maybeBuoy.get().getSh60());
+            deletedSpeedHeights.add(maybeBuoy.get().getSh80());
+            deletedSpeedHeights.add(maybeBuoy.get().getSh100());
+            buoys.delete(maybeBuoy.get());
+            for (SpeedHeight speedHeight : deletedSpeedHeights) {
+                speedHeights.delete(speedHeight);
+            }
+            systemManager.reloadBuoys();
+            return "Buoy deleted.";
+        }
+        else {
+            Optional<Mast> maybeMast = masts.findById(serial);
+            if (maybeMast.isPresent()) {
+                List<SpeedHeight> deletedSpeedHeights = new ArrayList<SpeedHeight>();
+                for (Buoy buoy : buoys.findByMast(maybeMast.get())) {
+                    deletedSpeedHeights.add(buoy.getSh40());
+                    deletedSpeedHeights.add(buoy.getSh60());
+                    deletedSpeedHeights.add(buoy.getSh80());
+                    deletedSpeedHeights.add(buoy.getSh100());
+                }
+                buoys.deleteByMast(maybeMast.get());
+                for (SpeedHeight speedHeight : deletedSpeedHeights) {
+                    speedHeights.delete(speedHeight);
+                }
+                masts.delete(maybeMast.get());
+                systemManager.reloadBuoys();
+                return "Mast deleted.";
+            }
+            else {
+                return "Device not found.";
+            }
+        }
+    }
+
+    @PostMapping("/database/{serial}/reset") @Transactional
+    public String resetBuoy(@PathVariable String serial) {
+        try {
+            systemManager.resetBuoy(serial);
+            return "Buoy reset.";
+        }
+        catch (IllegalArgumentException e) {
             return "Buoy not found.";
         }
     }

@@ -222,6 +222,21 @@ public class SpeedHeight {
         else return -1;
     }
 
+    public void reset() {
+        speeda = 0.0;
+        speedb = 0.0;
+        mastSpeeda = 0.0;
+        mastSpeedb = 0.0;   
+        speedaSqr = 0.0;
+        speedbSqr = 0.0;
+        mastSpeedaSqr = 0.0;
+        mastSpeedbSqr = 0.0;
+        speedaProd = 0.0;
+        speedbProd = 0.0;
+        counta = 0l;
+        countb = 0l;
+    }
+
     public Double slopea() {
         return speedaProd / speedaSqr;
     }
