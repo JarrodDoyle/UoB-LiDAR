@@ -5,4 +5,6 @@ public class Constants {
     public static final Double aMax = 16.0;
        
     public static final Double bMin = 2.0;
+
+    public static final Integer processInterval = 600000;   //10 minutes
 }

@@ -9,7 +9,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
 
 	protected void configure(HttpSecurity http) throws Exception {
-		http
+		http.csrf().disable()
 			.authorizeRequests()
 				.antMatchers("/test/**").hasIpAddress("127.0.0.1").and()
 			.authorizeRequests()

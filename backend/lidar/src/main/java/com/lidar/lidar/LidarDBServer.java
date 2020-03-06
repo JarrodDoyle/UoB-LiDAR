@@ -1,6 +1,7 @@
 package com.lidar.lidar;
 
 import com.lidar.lidar.database.*;
+import com.lidar.lidar.samples.*;
 
 import java.util.Optional;
 
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 public class LidarDBServer {
 
     @Autowired
+    FileLoader fileLoader;
+
+    @Autowired
     SampleTable samples;
 
     @Autowired
@@ -36,10 +40,17 @@ public class LidarDBServer {
     @Autowired
     SpeedHeightTable speedHeights;
 
+    @Autowired
+    SystemManager systemManager;
+
     public static void main(String[] args) {
         SpringApplication.run(LidarDBServer.class, args);
+    }
 
-        
+    @RequestMapping("/test/fileloader")
+    public String testFileLoader() {
+        fileLoader.loadFiles();
+        return "AAAAAAA";
     }
 
     @PostMapping("/test/database/create")
@@ -97,6 +108,7 @@ public class LidarDBServer {
         if (maybeMast.isPresent()) {
             Buoy buoy = new Buoy(serial, maybeMast.get(), speedHeights);
             buoys.save(buoy);
+            systemManager.reloadBuoys();
             return "AAAAA";
         }
         else {
@@ -107,5 +119,16 @@ public class LidarDBServer {
     @GetMapping("/database/EXBUOY/kpis")
     public String getExampleKpis() {
         return JsonFactory.exampleKpis();
+    }
+
+    @GetMapping("/database/{serial}/kpis")
+    public String getExampleKpis(@PathVariable String serial) {
+        Optional<Buoy> maybeBuoy = buoys.findById(serial);
+        if (maybeBuoy.isPresent()) {
+            return JsonFactory.kpis(maybeBuoy.get());
+        }
+        else {
+            return "Buoy not found.";
+        }
     }
 }

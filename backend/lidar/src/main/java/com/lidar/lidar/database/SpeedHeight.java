@@ -6,6 +6,10 @@ import com.lidar.lidar.Constants;
 
 @Entity @Table(name = "speedheights")
 public class SpeedHeight {
+    public SpeedHeight() {
+        
+    }
+
     public SpeedHeight(Integer height) {
         this.height = height;
         speeda = 0.0;
