@@ -13,23 +13,35 @@ public class BuoySampleFactory {
 
         try {
             for (Integer i = 1; i <= 12; i++) {
-                directions.add(Double.parseDouble(entries[i]));
+                directions.add(Double.parseDouble(entries[i].strip()));
+                if (entries[i].strip().equals("NaN")) {
+                    throw new IllegalArgumentException("CSV line not formatted correctly for " + serial);
+                }
             }
-
-            gust = Double.parseDouble(entries[13]);
-
+            
+            gust = Double.parseDouble(entries[13].strip());
+            if (entries[13].strip().equals("NaN")) {
+                throw new IllegalArgumentException("CSV line not formatted correctly for " + serial);
+            }
+            
             for (Integer i = 14; i <= 25; i++) {
-                speeds.add(Double.parseDouble(entries[i]));
+                speeds.add(Double.parseDouble(entries[i].strip()));
+                if (entries[i].strip().equals("NaN")) {
+                    throw new IllegalArgumentException("CSV line not formatted correctly for " + serial);
+                }
             }
-
+            
             for (Integer i = 26; i <= 36; i++) {
-                speeds.add(Double.parseDouble(entries[i]));
+                speeds.add(Double.parseDouble(entries[i].strip()));
+                if (entries[i].strip().equals("NaN")) {
+                    throw new IllegalArgumentException("CSV line not formatted correctly for " + serial);
+                }
             }
         }
         catch (Exception e) {
             throw new IllegalArgumentException("CSV line not formatted correctly for " + serial);
         }
 
-        return new BuoySample(serial, entries[0], directions, gust, speeds, tis);
+        return new BuoySample(serial, entries[0].strip(), directions, gust, speeds, tis);
     }
 }

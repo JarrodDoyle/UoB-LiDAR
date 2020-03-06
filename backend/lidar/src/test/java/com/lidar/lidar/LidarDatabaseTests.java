@@ -25,7 +25,7 @@ class LidarDatabaseTests {
 	private MockMvc mvc;
 
 	@Test   
-	public void testDatabase() throws Exception {
+	public void testDatabaseCRUD() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.post("/test/database/create?name=aaa").with(csrf()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
 				.andExpect(content().string(matchesPattern("[0-9]*, aaa")));

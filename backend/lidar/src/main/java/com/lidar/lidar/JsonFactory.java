@@ -2,13 +2,96 @@ package com.lidar.lidar;
 
 import java.util.*;
 import org.json.simple.*;
+import com.lidar.lidar.database.*;
 //import org.json.simple.parser.*;
 
 public class JsonFactory {
-    public static String kpis(BuoyController buoy) {
+    public static String kpis(Buoy buoy) {
         JSONObject json = new JSONObject();
 
+        json.put("serial", buoy.getSerial());
+        json.put("mast", buoy.getMastSerial());
+
+        JSONObject speed = speed(buoy);
+        json.put("speed", speed);
+        
+        JSONObject distance = distance();
+        json.put("distance", distance);
+        
+        JSONObject ti = ti();
+        json.put("ti", ti);
+
         return json.toJSONString();
+    }
+
+    private static JSONObject speed(Buoy buoy) {
+        JSONObject speed = new JSONObject();
+
+        JSONObject h40 = speedKPIs(buoy.getSh40());
+        speed.put("h40", h40);
+
+        JSONObject h60 = speedKPIs(buoy.getSh60());
+        speed.put("h60", h60);
+
+        JSONObject h80 = speedKPIs(buoy.getSh80());
+        speed.put("h80", h80);
+
+        JSONObject h100 = speedKPIs(buoy.getSh100());
+        speed.put("h100", h100);
+
+        return speed;
+    }
+
+    private static JSONObject speedKPIs(SpeedHeight speedHeight) {        
+        JSONObject kpis = new JSONObject();
+        
+        JSONObject slope = new JSONObject();
+        slope.put("a", speedHeight.slopea());
+        slope.put("b", speedHeight.slopeb());
+        kpis.put("slope", slope);
+        
+        JSONObject rSqr = new JSONObject();
+        rSqr.put("a", speedHeight.rSquareda());
+        rSqr.put("b", speedHeight.rSquaredb());
+        kpis.put("rSqr", rSqr);
+        
+        return kpis;
+    }
+
+    private static JSONObject distance() {
+        JSONObject distance = new JSONObject();
+        
+        /*JSONObject h40 = exampleDistanceKPIs();
+        distance.put("h40", h40);    
+
+        JSONObject h60 = exampleDistanceKPIs();
+        distance.put("h60", h60);    
+
+        JSONObject h80 = exampleDistanceKPIs();
+        distance.put("h80", h80);    
+
+        JSONObject h100 = exampleDistanceKPIs();
+        distance.put("h100", h100);*/
+
+        return distance;
+    }
+
+    private static JSONObject ti() {
+        JSONObject ti = new JSONObject();
+        
+        /*JSONObject h40 = exampleTiKPIs();
+        ti.put("h40", h40);    
+
+        JSONObject h60 = exampleTiKPIs();
+        ti.put("h60", h60);    
+
+        JSONObject h80 = exampleTiKPIs();
+        ti.put("h80", h80);    
+
+        JSONObject h100 = exampleTiKPIs();
+        ti.put("h100", h100);*/    
+
+        return ti;
     }
 
     public static String exampleKpis() {

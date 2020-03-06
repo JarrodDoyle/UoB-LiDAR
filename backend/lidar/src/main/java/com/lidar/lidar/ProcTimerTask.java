@@ -19,8 +19,7 @@ public class ProcTimerTask extends TimerTask {
     public void run() {
         if (changed) {
             for (BuoyController buoy : buoys.values()) {
-                //System.out.println("AAAAAAA");
-                //buoy.processSamples();
+                buoy.processSamples();
             }
             changed = false;
         }

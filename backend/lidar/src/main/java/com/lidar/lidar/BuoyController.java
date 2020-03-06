@@ -8,12 +8,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class BuoyController {
-    Buoy buoy;
-    BuoyTable buoys;
-    SpeedHeightTable speedHeights;
+    private Buoy buoy;
+    private BuoyTable buoys;
+    private SpeedHeightTable speedHeights;
 
-    Queue<BuoySample> buoySamples;
-    Queue<MastSample> mastSamples;
+    private Queue<BuoySample> buoySamples;
+    private Queue<MastSample> mastSamples;
 
     public BuoyController(Buoy buoy, BuoyTable buoys, SpeedHeightTable speedHeights) {
         this.buoy = buoy;
@@ -22,6 +22,10 @@ public class BuoyController {
 
         buoySamples = new LinkedList<BuoySample>();
         mastSamples = new LinkedList<MastSample>();
+    }
+
+    public String getSerial() {
+        return buoy.getSerial();
     }
 
     public String getMastSerial() {
@@ -42,19 +46,20 @@ public class BuoyController {
             BuoySample buoySample = buoySamples.peek();
             MastSample mastSample = mastSamples.peek();
             Integer comparison = compareTimestamps(buoySample, mastSample);
-            if (comparison > 0) {
+            if (comparison < 0) {
                 buoySamples.remove();
             }
-            else if (comparison < 0) {
+            else if (comparison > 0) {
                 mastSamples.remove();
             }
             else {
                 buoy.addSamples(buoySample, mastSample);
-                System.out.println("AAAAAAA");
+                buoySamples.remove();
+                mastSamples.remove();
                 updated = true;
             }
         }
-
+        
         if (updated) {
             buoys.save(buoy);
             buoy.saveData(speedHeights);
@@ -65,9 +70,7 @@ public class BuoyController {
         Instant buoyTime = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(buoySample.getTimestamp()));
         Instant mastTime = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(mastSample.getTimestamp()));
         Long separation = buoyTime.until(mastTime, ChronoUnit.MINUTES);
-        System.out.println(separation);
         if (separation <= 5 && separation >= -5) {
-            System.out.println("BBBBBBBB");
             return 0;
         }
         else {

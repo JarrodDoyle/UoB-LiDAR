@@ -29,20 +29,25 @@ public class SystemManager implements InitializingBean {
 
         task = new ProcTimerTask(buoys);
 
-        new Timer().scheduleAtFixedRate(task, 1000, 1000);
+        new Timer().scheduleAtFixedRate(task, Constants.processInterval, Constants.processInterval);
+    }
+
+    public void reloadBuoys() {
+        buoys.clear();
+        for (Buoy buoy : buoyTable.findAll()) {
+            buoys.put(buoy.getSerial(), new BuoyController(buoy, buoyTable, speedHeights));
+        }
     }
 
     public void addBuoySample(BuoySample sample) {
         buoys.get(sample.getSerial()).addBuoySample(sample);
         task.registerChange();
-        buoys.get(sample.getSerial()).processSamples();
     }
     
     public void addMastSample(MastSample sample) {
         for (BuoyController buoy : buoys.values()) {
             if (buoy.getMastSerial().equals(sample.getSerial())) {
                 buoy.addMastSample(sample);
-                buoy.processSamples();
             }
         }
         task.registerChange();

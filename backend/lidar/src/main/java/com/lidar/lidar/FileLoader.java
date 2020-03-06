@@ -47,7 +47,6 @@ public class FileLoader {
         Iterable<LoadedFile> lFiles = loadedFiles.findAll();
 
         for (final File f : sortFiles(new File("../../data").listFiles())) {
-            System.out.println("CCCCCCCCC");
             if (f.isFile()) {
                 Boolean loaded = false;
                 for (LoadedFile lf : lFiles) {

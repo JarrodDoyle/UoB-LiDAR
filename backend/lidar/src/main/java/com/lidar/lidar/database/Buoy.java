@@ -44,14 +44,30 @@ public class Buoy {
     @OneToOne @JoinColumn(name = "sh40")
     SpeedHeight sh40;
 
+    public SpeedHeight getSh40() {
+        return sh40;
+    }
+    
     @OneToOne @JoinColumn(name = "sh60")
     SpeedHeight sh60;
 
+    public SpeedHeight getSh60() {
+        return sh60;
+    }
+    
     @OneToOne @JoinColumn(name = "sh80")
     SpeedHeight sh80;
 
+    public SpeedHeight getSh80() {
+        return sh80;
+    }
+    
     @OneToOne @JoinColumn(name = "sh100")
     SpeedHeight sh100;
+
+    public SpeedHeight getSh100() {
+        return sh100;
+    }
 
     public void addSamples(BuoySample buoySample, MastSample mastSample) {
         sh40.addSamples(buoySample, mastSample);
