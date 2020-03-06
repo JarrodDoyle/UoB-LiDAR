@@ -13,27 +13,27 @@ public class BuoySampleFactory {
 
         try {
             for (Integer i = 1; i <= 12; i++) {
-                directions.add(Double.parseDouble(entries[i].strip()));
-                if (entries[i].strip().equals("NaN")) {
+                directions.add(Double.parseDouble(entries[i].replaceAll("^[ \t]+|[ \t]+$", "")));
+                if (entries[i].replaceAll("^[ \t]+|[ \t]+$", "").equals("NaN")) {
                     throw new IllegalArgumentException("CSV line not formatted correctly for " + serial);
                 }
             }
             
-            gust = Double.parseDouble(entries[13].strip());
-            if (entries[13].strip().equals("NaN")) {
+            gust = Double.parseDouble(entries[13].replaceAll("^[ \t]+|[ \t]+$", ""));
+            if (entries[13].replaceAll("^[ \t]+|[ \t]+$", "").equals("NaN")) {
                 throw new IllegalArgumentException("CSV line not formatted correctly for " + serial);
             }
             
             for (Integer i = 14; i <= 25; i++) {
-                speeds.add(Double.parseDouble(entries[i].strip()));
-                if (entries[i].strip().equals("NaN")) {
+                speeds.add(Double.parseDouble(entries[i].replaceAll("^[ \t]+|[ \t]+$", "")));
+                if (entries[i].replaceAll("^[ \t]+|[ \t]+$", "").equals("NaN")) {
                     throw new IllegalArgumentException("CSV line not formatted correctly for " + serial);
                 }
             }
             
             for (Integer i = 26; i <= 36; i++) {
-                speeds.add(Double.parseDouble(entries[i].strip()));
-                if (entries[i].strip().equals("NaN")) {
+                speeds.add(Double.parseDouble(entries[i].replaceAll("^[ \t]+|[ \t]+$", "")));
+                if (entries[i].replaceAll("^[ \t]+|[ \t]+$", "").equals("NaN")) {
                     throw new IllegalArgumentException("CSV line not formatted correctly for " + serial);
                 }
             }
@@ -42,6 +42,6 @@ public class BuoySampleFactory {
             throw new IllegalArgumentException("CSV line not formatted correctly for " + serial);
         }
 
-        return new BuoySample(serial, entries[0].strip(), directions, gust, speeds, tis);
+        return new BuoySample(serial, entries[0].replaceAll("^[ \t]+|[ \t]+$", ""), directions, gust, speeds, tis);
     }
 }
