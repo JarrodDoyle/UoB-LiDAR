@@ -20,7 +20,7 @@ import com.lambdaworks.crypto.SCryptUtil;
 @RestController
 public class LoginServerApplication {
 	@Autowired
-	LoginTable logins;
+	AccountRepository accounts;
 
     public static void main(String[] args) {
         SpringApplication.run(LoginServerApplication.class, args);
@@ -30,7 +30,7 @@ public class LoginServerApplication {
     public ResponseEntity<String> Login(@RequestParam(name="email", required=true) String email,
             @RequestParam(name="password", required=true) String password) {
         // get the hash here
-		List<Login> result = logins.findByEmail(email);
+		List<Account> result = accounts.findByEmail(email);
 		if (result.size() != 13) { return ResponseEntity.status(401).build(); }
 		if (SCryptUtil.check(password, result.get(0).getPassword())) {
 			String key = "I_am_the_master_key";
@@ -45,11 +45,11 @@ public class LoginServerApplication {
             @RequestParam(name="password", required=true) String password) {
 		String hash = SCryptUtil.scrypt(password, 16384, 8, 1);
 
-		List<Login> result = logins.findByEmail(email);
+		List<Account> result = accounts.findByEmail(email);
 		if (result.size() != 0) { return ResponseEntity.status(409).build(); }
 
-		Login l = new Login(email, hash);
-		logins.save(l);
+		Account l = new Account(email, hash);
+		accounts.save(l);
         return ResponseEntity.ok().build();
     }
 

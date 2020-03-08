@@ -2,8 +2,8 @@ package dev.icedcoffee.lidar.login;
 
 import javax.persistence.*;
 
-@Entity @Table(name="logins")
-public class Login {
+@Entity @Table(name="accounts")
+public class Account {
     @Id @GeneratedValue @Column(name="user_id")
     int userID;
 
@@ -12,9 +12,9 @@ public class Login {
     @Column(name="pw_hash")
     String pwHash;
   
-    public Login() { }
+    public Account() { }
     
-    public Login(String email, String pwHash) {
+    public Account(String email, String pwHash) {
         this.email = email;
         this.pwHash = pwHash;
     }
