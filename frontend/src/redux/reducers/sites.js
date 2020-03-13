@@ -18,6 +18,34 @@ export const sites = (state = [], action) => {
             lng: action.location.lng,
           },
           map_open: false,
+          kpis: [
+            {
+              id: "kpiMaintinanceVisits",
+              name: "Maintinance visits",
+              description: "Visits to perform maintinance tasks", 
+              percentComplete: 100,
+              data: [
+                {
+                  id: 45,
+                  cardview: {
+                    type: "number",
+                    text: "Scheduled visits",
+                    description: "Number of visits that where pre organised",
+                    number: 5,
+                  }
+                },
+                {
+                  id: 45,
+                  cardview: {
+                    type: "number",
+                    description: "Number of visits that where not organised",
+                    text: "Uncheduled visits",
+                    number: 25,
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     case TOGGLE_SITE_MAP_OPEN:

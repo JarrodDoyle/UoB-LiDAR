@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { AutoSizer } from 'react-virtualized';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Line } from 'nivo';
-import { getSite } from './redux/selectors.js';
+import { getSite, getKpis } from './redux/selectors.js';
 import "./Dashboard.css";
 
 // Placedholder data for graphs
@@ -117,29 +117,7 @@ function Graph(props) {
   )
 }
 
-function Card(props) {
-  return (
-    <div className="lidars-card">
-      <div className="kpi-indicator">
-        <h3>{props.title}</h3>
-        <i className={props.passingStyle}></i>
-      </div>
-      <div className="dash-content">
-        {props.content.map((line, i) => {       
-           return (<p>{line}</p>) 
-        })}
-      </div>
-      <div className="lidars-btns">
-        <h4>More details</h4>
-        <button className="circle-btn" onClick={() => props.togglePopup(props.id)}>
-          <i className="fas fa-chevron-right"/>
-        </button>
-      </div>
-    </div>
-  );
-}
-
-class DashboardGrid extends React.Component {
+class DashboardGridd extends React.Component {
   constructor(props) {
     super(props);
     this.closePopup = this.closePopup.bind(this);
@@ -205,16 +183,83 @@ class DashboardGrid extends React.Component {
       <>
         <div className="lidars-grid">
           {this.state.cards.map((card, i) => {       
-            return (<Card id={i} title={card.title} content={card.content} passingStyle={card.passingStyle} togglePopup={this.openPopup}/>) 
+            return (
+              <Card id={i}
+                title={card.title}
+                content={card.content}
+                passingStyle={card.passingStyle}
+                togglePopup={this.openPopup}
+                />
+              ) 
           })}
         </div>
         {this.state.showPopup ?  
-          <Popup cards={this.state.cards} closePopup={this.closePopup} updatePopup={this.openPopup} kpiID={this.state.currentKPI}/>  
+          <Popup cards={this.state.cards} 
+            closePopup={this.closePopup}
+            updatePopup={this.openPopup}
+            kpiID={this.state.currentKPI}/>  
           : null  
         }  
       </>
     );
   }
+}
+
+function Card(props) {
+  const parcingIcons = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"];
+  const parcingStyle = parcingIcons[0];
+  return (
+    <div className="lidars-card">
+      <div className="kpi-indicator">
+        <h3>{props.name}</h3>
+        <i className={parcingStyle}></i>
+      </div>
+      <div className="dash-content">
+        {props.data.map((data, i) => {   
+          const cardView = data.cardview;
+          console.log(cardView);
+          if (cardView.type === "number"){
+            // TODO change this to new card style
+            return (
+              <p>{cardView.text}{cardView.number}</p>
+            )
+          }
+          // TODO support other types  
+        })}
+      </div>
+      <div className="lidars-btns">
+        <h4>More details</h4>
+        <button className="circle-btn" onClick={() => props.togglePopup(props.id)}>
+          <i className="fas fa-chevron-right"/>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function DashboardGrid(props){
+  const [showPopup, setPopup] = useState(false);
+  const kpis = useSelector((state) => getKpis(state, props.siteId));
+  return (
+    <>
+      <div className="lidars-grid">
+        {kpis.map((card, i) => {       
+          return (
+          <Card id={i} {...card} togglePopup={() => setPopup(true)}/>
+          ) 
+        })}
+      </div>
+      {showPopup ?  
+        <Popup 
+          cards={this.state.cards}
+          closePopup={() => setPopup(false)}
+          updatePopup={this.openPopup}
+          kpiID={this.state.currentKPI}
+        />  
+        : null  
+      }  
+    </>
+  );
 }
 
 function SiteInfo(props){
@@ -233,7 +278,7 @@ export default function Dashboard(){
   return (
     <main>
       <SiteInfo siteId={siteId}/>
-      <DashboardGrid/>
+      <DashboardGrid siteId={siteId}/>
     </main>
   );   
 }

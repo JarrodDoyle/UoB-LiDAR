@@ -3,3 +3,5 @@ export const getSites     = ( state     ) => state.sites;
 export const getMasterKey = ( state     ) => state.tokens.masterKey;
 export const getSubKeys   = ( state     ) => state.tokens.keys;
 export const getEmail     = ( state     ) => state.credentials.email;
+export const getKpis      = ( state, siteId ) => getSite(state, siteId).kpis;
+export const getKpi       = ( state, siteId, kpiId ) => getKpis(state, siteId).filter(a => a.id === kpiId)[0];
