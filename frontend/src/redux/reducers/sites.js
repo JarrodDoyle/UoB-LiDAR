@@ -35,3 +35,48 @@ export const sites = (state = [], action) => {
       return state
   }
 }
+
+/*
+{
+  id: action.id,
+  name: action.name,
+  desc: action.desc,
+  totalComplete: action.totalComplete,
+  location: {
+    lat: action.location.lat,
+    lng: action.location.lng,
+  },
+  map_open: false,
+  kpis: [
+    {
+      id: ,
+      name: ,
+      description: , 
+      percentComplete: ,
+      data: [
+        {
+          id: ,
+          name: ,
+          description: , - hover text
+          cardview: {
+            type: text,
+            text: ,
+            ==== or ====
+            type: numeric,
+            text: ,
+            data: ,
+          }
+          detailedview: {
+            ==== same as card view types plus: ====
+            type: graph,
+            graphType: line,
+            graphData: {
+              graph json
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+*/
