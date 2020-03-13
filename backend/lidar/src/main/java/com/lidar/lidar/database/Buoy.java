@@ -10,7 +10,7 @@ public class Buoy {
         
     }
     
-    public Buoy(String serial, Mast mast, SpeedHeightTable speedHeights) {
+    public Buoy(String serial, Mast mast, SpeedHeightTable speedHeights, DirHeightTable dirHeights) {
         this.serial = serial;
         this.mast = mast;
         sh40 = new SpeedHeight(40);
@@ -21,6 +21,15 @@ public class Buoy {
         speedHeights.save(sh80);
         sh100 = new SpeedHeight(100);
         speedHeights.save(sh100);
+
+        dh40 = new DirHeight(40);
+        dirHeights.save(dh40);
+        dh60 = new DirHeight(60);
+        dirHeights.save(dh60);
+        dh80 = new DirHeight(80);
+        dirHeights.save(dh80);
+        dh100 = new DirHeight(100);
+        dirHeights.save(dh100);
     }
 
     @Id @Column(name = "serial")
@@ -69,25 +78,61 @@ public class Buoy {
         return sh100;
     }
 
+    @OneToOne @JoinColumn(name = "dh40")
+    DirHeight dh40;
+
+    public DirHeight getDh40() {
+        return dh40;
+    }
+    
+    @OneToOne @JoinColumn(name = "dh60")
+    DirHeight dh60;
+
+    public DirHeight getDh60() {
+        return dh60;
+    }
+    
+    @OneToOne @JoinColumn(name = "dh80")
+    DirHeight dh80;
+
+    public DirHeight getDh80() {
+        return dh80;
+    }
+    
+    @OneToOne @JoinColumn(name = "dh100")
+    DirHeight dh100;
+
+    public DirHeight getDh100() {
+        return dh100;
+    }
+
     public void addSamples(BuoySample buoySample, MastSample mastSample) {
         sh40.addSamples(buoySample, mastSample);
         sh60.addSamples(buoySample, mastSample);
         sh80.addSamples(buoySample, mastSample);
         sh100.addSamples(buoySample, mastSample);
+        dh40.addSamples(buoySample, mastSample);
+        dh60.addSamples(buoySample, mastSample);
+        dh80.addSamples(buoySample, mastSample);
+        dh100.addSamples(buoySample, mastSample);
     }
 
-    public void saveData(SpeedHeightTable speedHeights) {
+    public void saveData(SpeedHeightTable speedHeights, DirHeightTable dirHeights) {
         speedHeights.save(sh40);
         speedHeights.save(sh60);
         speedHeights.save(sh80);
         speedHeights.save(sh100);
+        dirHeights.save(dh40);
+        dirHeights.save(dh60);
+        dirHeights.save(dh80);
+        dirHeights.save(dh100);
     }
 
-    public void reset(SpeedHeightTable speedHeights) {
+    public void reset(SpeedHeightTable speedHeights, DirHeightTable dirHeights) {
         sh40.reset();
         sh60.reset();
         sh80.reset();
         sh100.reset();
-        saveData(speedHeights);
+        saveData(speedHeights, dirHeights);
     }
 }

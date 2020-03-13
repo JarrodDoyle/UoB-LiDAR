@@ -17,6 +17,9 @@ public class SystemManager implements InitializingBean {
     @Autowired
     SpeedHeightTable speedHeights;
 
+    @Autowired
+    DirHeightTable dirHeights;
+
     Map<String, BuoyController> buoys;
 
     ProcTimerTask task;
@@ -24,7 +27,7 @@ public class SystemManager implements InitializingBean {
     public void afterPropertiesSet() {
         buoys = new HashMap<String, BuoyController>();
         for (Buoy buoy : buoyTable.findAll()) {
-            buoys.put(buoy.getSerial(), new BuoyController(buoy, buoyTable, speedHeights));
+            buoys.put(buoy.getSerial(), new BuoyController(buoy, buoyTable, speedHeights, dirHeights));
         }
 
         task = new ProcTimerTask(buoys);
@@ -35,7 +38,7 @@ public class SystemManager implements InitializingBean {
     public void reloadBuoys() {
         buoys.clear();
         for (Buoy buoy : buoyTable.findAll()) {
-            buoys.put(buoy.getSerial(), new BuoyController(buoy, buoyTable, speedHeights));
+            buoys.put(buoy.getSerial(), new BuoyController(buoy, buoyTable, speedHeights, dirHeights));
         }
     }
 

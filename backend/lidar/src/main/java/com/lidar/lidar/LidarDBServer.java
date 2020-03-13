@@ -44,6 +44,9 @@ public class LidarDBServer {
     SpeedHeightTable speedHeights;
 
     @Autowired
+    DirHeightTable dirHeights;
+
+    @Autowired
     SystemManager systemManager;
 
     public static void main(String[] args) {
@@ -109,7 +112,7 @@ public class LidarDBServer {
     public String registerBuoy(@RequestParam(name = "serial", required = true) String serial, @RequestParam(name = "mast", required = true) String mast) {
         Optional<Mast> maybeMast = masts.findById(mast);
         if (maybeMast.isPresent()) {
-            Buoy buoy = new Buoy(serial, maybeMast.get(), speedHeights);
+            Buoy buoy = new Buoy(serial, maybeMast.get(), speedHeights, dirHeights);
             buoys.save(buoy);
             systemManager.reloadBuoys();
             return "AAAAA";

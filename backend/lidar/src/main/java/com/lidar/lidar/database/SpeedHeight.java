@@ -184,8 +184,8 @@ public class SpeedHeight {
         Double buoyVal = buoySample.getSpeeds().get(getBuoyIndex());
         Double mastVal = mastSample.getSpeeds().get(getMastIndex());
 
-        Boolean a = buoyVal >= Constants.aMin && buoyVal <= Constants.aMax;
-        Boolean b = buoyVal >= Constants.bMin;
+        Boolean a = buoyVal >= Constants.speedaMin && buoyVal <= Constants.speedaMax;
+        Boolean b = buoyVal >= Constants.speedbMin;
 
         if (a) {
             speeda += buoyVal;
