@@ -4,6 +4,14 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Line } from 'nivo';
 import { getSite, getKpis } from './redux/selectors.js';
+import { 
+  CardGrid,
+  Card,
+  CardHeaderFull,
+  CardRow,
+  CardFooter
+} from "./Cards.js";
+import { PercentageIndicator } from "./Indicators.js";
 import "./Dashboard.css";
 
 // Placedholder data for graphs
@@ -205,35 +213,35 @@ class DashboardGridd extends React.Component {
   }
 }
 
-function Card(props) {
-  const parcingIcons = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"];
-  const parcingStyle = parcingIcons[0];
+function KpiCard(props) {
   return (
-    <div className="lidars-card">
-      <div className="kpi-indicator">
+    <Card>
+      <CardRow>
         <h3>{props.name}</h3>
-        <i className={parcingStyle}></i>
-      </div>
+        <PercentageIndicator percentage={props.percentComplete}/> 
+      </CardRow>
       <div className="dash-content">
         {props.data.map((data, i) => {   
           const cardView = data.cardview;
           console.log(cardView);
           if (cardView.type === "number"){
-            // TODO change this to new card style
             return (
-              <p>{cardView.text}{cardView.number}</p>
+              <CardRow>
+                <span>{cardView.text}</span>
+                <span>{cardView.number}</span>
+              </CardRow>
             )
           }
           // TODO support other types  
         })}
       </div>
-      <div className="lidars-btns">
+      <CardFooter>
         <h4>More details</h4>
         <button className="circle-btn" onClick={() => props.togglePopup(props.id)}>
           <i className="fas fa-chevron-right"/>
         </button>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 }
 
@@ -242,13 +250,13 @@ function DashboardGrid(props){
   const kpis = useSelector((state) => getKpis(state, props.siteId));
   return (
     <>
-      <div className="lidars-grid">
+      <CardGrid>
         {kpis.map((card, i) => {       
           return (
-          <Card id={i} {...card} togglePopup={() => setPopup(true)}/>
+          <KpiCard id={i} {...card} togglePopup={() => setPopup(true)}/>
           ) 
         })}
-      </div>
+      </CardGrid>
       {showPopup ?  
         <Popup 
           cards={this.state.cards}

@@ -4,14 +4,20 @@ import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { getSites } from './redux/selectors.js';
 import turbine from "./res/turbine-clear-bold.gif";
+import { 
+  CardGrid,
+  Card,
+  CardHeaderFull,
+  CardRow,
+  CardFooter
+} from "./Cards.js";
+import { PercentageIndicator } from "./Indicators.js";
 import "./Lidars.css";
 
-function Card(props) {
-  let names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
-  let style = names[props.totalComplete === 100 ? 0 : props.totalComplete >= 60 ? 1 : 2];
+function SiteCard(props) {
   return (
-    <div className="lidars-card">
-      <div className="lidars-card-map">
+    <Card>
+      <CardHeaderFull>
         <WrappedMap
           googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAuy0y-1edccXfqufhhq3JFUa0NCBtUzsE"
           loadingElement={<div style={{ height: `100%`, borderRadius: '10px 10px 0px 0px' }} />}
@@ -19,20 +25,20 @@ function Card(props) {
           mapElement={<div style={{ height: `100%`, borderRadius: '10px 10px 0px 0px' }} />}
           location={props.location}
         />
-      </div>
-      <h3>{props.name}
-        <div className="kpi-indicator">
-        <i className={style}></i>
-      </div></h3>
+      </CardHeaderFull>
+      <CardRow>
+        <h3>{props.name}</h3>
+        <PercentageIndicator percentage={props.totalComplete}/>
+      </CardRow>
       
       <p>{props.desc}</p>
-      <div className="lidars-btns">
+      <CardFooter>
         <h4>Go to dash</h4>
         <Link className="circle-btn" to={`/app/Dashboard/${props.id}`}>
           <i className="fas fa-chevron-right"/>
         </Link>
-      </div>
-    </div>  
+      </CardFooter>
+    </Card>
   );
 }
 
@@ -99,13 +105,13 @@ export default function Sites() {
   let sites = useSelector(getSites);
   return (
     <main className="lidars-wrapper">
-      <div className="lidars-grid">
+      <CardGrid>
         {sites.map (card => {
           return(
-            <Card key={card.id} id={card.id} name={card.name} desc={card.desc} location={card.location} totalComplete={card.totalComplete}/>
+            <SiteCard key={card.id} {...card}/>
           )
         })}
-      </div>
+      </CardGrid>
       <Link to="/login" className="circle-btn lidars-add">
         <i className="fas fa-plus"/>
       </Link>
