@@ -259,10 +259,10 @@ function DashboardGrid(props){
       </CardGrid>
       {showPopup ?  
         <Popup 
-          cards={this.state.cards}
+          cards={kpis}
           closePopup={() => setPopup(false)}
-          updatePopup={this.openPopup}
-          kpiID={this.state.currentKPI}
+          updatePopup={() => setPopup(true)}
+          kpiID={"55"}
         />  
         : null  
       }  
