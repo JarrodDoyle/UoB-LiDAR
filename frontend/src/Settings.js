@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useSelector } from 'react-redux';
 import { Formik, Form } from "formik";
 import { getEmail, getMasterKey } from './redux/selectors.js';
-import { MaterialText } from "./Material-Inp.js";
+import { MaterialText } from "./Components/Material-Inp.js";
 
 function CredsCard(props){
   const [success, setSuccess] = useState(false);

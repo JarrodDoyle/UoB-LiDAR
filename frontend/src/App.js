@@ -17,7 +17,7 @@ import Nav from './Nav.js';
 import MapPage from "./MapPage.js";
 import PageNotFound from "./ErrorPage.js";
 import './App.css';
-import './Material-Inp.css';
+import './Components/Material-Inp.css';
 
 function NavPage(){
   const email = useSelector(getEmail);

@@ -10,8 +10,8 @@ import {
   CardHeaderFull,
   CardRow,
   CardFooter
-} from "./Cards.js";
-import { PercentageIndicator } from "./Indicators.js";
+} from "./Components/Cards.js";
+import { PercentageIndicator } from "./Components/Indicators.js";
 import "./Dashboard.css";
 
 // Placedholder data for graphs
