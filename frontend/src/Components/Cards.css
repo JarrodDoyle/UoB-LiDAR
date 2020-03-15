@@ -8,9 +8,26 @@
 }
 
 .card-grid .card {
+  width: 250px;
+}
+
+.card-column {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding-top: 15px;
+}
+
+.card-column .card {
+  max-width: 1000px;
+  margin: 0px auto 25px auto;
+}
+
+.card {
   margin: 0px 12.5px 25px 12.5px;
   padding: 10px 15px;
-  width: 250px;
   box-shadow: 0px 0px 10px var(--shadow);
   border-radius: 10px;
   display: flex;

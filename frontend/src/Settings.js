@@ -4,12 +4,13 @@ import { useSelector } from 'react-redux';
 import { Formik, Form } from "formik";
 import { getEmail, getMasterKey } from './redux/selectors.js';
 import { MaterialText } from "./Components/Material-Inp.js";
+import { CardColumn, Card } from "./Components/Cards.js";
 
 function CredsCard(props){
   const [success, setSuccess] = useState(false);
   const email = useSelector(getEmail);
   return (
-    <div className="settings-card">
+    <Card>
       <Formik
         initialValues={{ email: '', password: ''}}
         validateOnChange
@@ -45,7 +46,7 @@ function CredsCard(props){
       {success &&
         <p>Succesfully updated</p>
       }
-    </div>
+    </Card>
   );
 }
 
@@ -53,7 +54,7 @@ function ApiCard(props){
   const [success, setSuccess] = useState(false);
   const masterKey = useSelector(getMasterKey);
   return (
-    <div className="settings-card">
+    <Card>
       <Formik
         initialValues={{ email: '', }}
         validateOnChange
@@ -82,30 +83,30 @@ function ApiCard(props){
       {success &&
         <p>Succesfully udpated</p>
       }
-    </div>
+    </Card>
   );
 }
 
 function AdminSettingsCard(props) {
   return (
-    <div className="settings-card">
-       <h1>Admin Settings</h1>
-       <h3>Assign lidar to account</h3>
-        <h3>Change user perms</h3>
-        <h3>Edit lidar (need to add edit link to Lidars page) - with add lidar link</h3>
-    </div>
+    <Card>
+      <h1>Admin Settings</h1>
+      <h3>Assign lidar to account</h3>
+      <h3>Change user perms</h3>
+      <h3>Edit lidar (need to add edit link to Lidars page) - with add lidar link</h3>
+    </Card>
   )
 }
 
 
 export default function Settings(props) {
   return (
-  <main className="lidars-wrapper">
-    <div className="settings-grid">
+  <main>
+    <CardColumn>
       <CredsCard></CredsCard>
       <ApiCard></ApiCard>
       <AdminSettingsCard></AdminSettingsCard>
-      </div>
+    </CardColumn>
   </main>
   );
 }

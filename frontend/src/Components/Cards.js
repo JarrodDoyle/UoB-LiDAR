@@ -9,6 +9,14 @@ export function CardGrid(props){
   );
 }
 
+export function CardColumn(props){
+  return (
+    <div {...props} className="card-column">
+      {props.children}
+    </div>
+  );
+}
+
 export function Card(props){
   return (
     <div {...props} className="card">

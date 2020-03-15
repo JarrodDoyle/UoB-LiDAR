@@ -104,7 +104,7 @@ const WrappedMap = withScriptjs(withGoogleMap(Map))
 export default function Sites() {
   let sites = useSelector(getSites);
   return (
-    <main className="lidars-wrapper">
+    <main>
       <CardGrid>
         {sites.map (card => {
           return(
