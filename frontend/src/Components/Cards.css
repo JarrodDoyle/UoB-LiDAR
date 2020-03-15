@@ -21,6 +21,7 @@
 }
 
 .card-column .card {
+  width: 80%;
   max-width: 1000px;
   margin: 0px auto 25px auto;
 }
