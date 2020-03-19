@@ -2,7 +2,12 @@ import React, { useState } from "react";
 //import { findByLabelText } from "@testing-library/react";
 import { useSelector } from 'react-redux';
 import { Formik, Form } from "formik";
-import { getEmail, getMasterKey } from './redux/selectors.js';
+import { getEmail,
+  getMasterKey,
+  getAPIKeys,
+  getSites,
+  getTeamMembers,
+} from './redux/selectors.js';
 import { MaterialText } from "./Components/Material-Inp.js";
 import { CardColumn, Card } from "./Components/Cards.js";
 
@@ -50,7 +55,7 @@ function CredsCard(props){
   );
 }
 
-function ApiCard(props){
+function MasterCard(props){
   const [success, setSuccess] = useState(false);
   const masterKey = useSelector(getMasterKey);
   return (
@@ -98,13 +103,48 @@ function AdminSettingsCard(props) {
   )
 }
 
+function ApiKeysCard(props) {
+  const keys = useSelector(getAPIKeys);
+  return (
+    <Card>
+      <h1>API Keys</h1>
+      // TODO add content
+    </Card>
+  );
+}
+
+function TeamMembersCard(props) {
+  const users = useSelector(getTeamMembers);
+  return (
+    <Card>
+      <h1>Team Members</h1>
+      // TODO add content
+    </Card>
+  );
+}
+
+function SitesCard(props) {
+  const sies = useSelector(getSites);
+  return (
+    <Card>
+      <h1>Organisation's sites</h1>
+      // TODO add content
+    </Card>
+  );
+}
 
 export default function Settings(props) {
   return (
   <main>
     <CardColumn>
-      <CredsCard></CredsCard>
-      <ApiCard></ApiCard>
+      <CredsCard/>
+      <ApiKeysCard/>
+      <TeamMembersCard/>
+      <SitesCard/>
+
+      <hr/>
+      <h1>Old stuff...</h1>
+      <MasterCard></MasterCard>
       <AdminSettingsCard></AdminSettingsCard>
     </CardColumn>
   </main>

@@ -4,6 +4,7 @@ import {
   SET_MASTER_API_KEY,
   ADD_API_KEY,
   SET_EMAIL,
+  ADD_TEAM_MEMBER,
 } from './actionTypes.js'
 
 export const addSite = site => ({
@@ -29,9 +30,19 @@ export const setMasterApiKey = key => ({
 export const addApiKey = key => ({
   type: ADD_API_KEY,
   key: key.key,
+  name: key.name,
+  sites: key.sites,
 });
 
 export const setEmail = email => ({
   type: SET_EMAIL,
   email: email,
+});
+
+export const addTeamMember = member => ({
+  type: ADD_TEAM_MEMBER,
+  userId: member.userId,
+  name: member.name,
+  email: member.email,
+  sites: member.sites,
 });
