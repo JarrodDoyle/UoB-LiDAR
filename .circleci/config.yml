@@ -7,12 +7,18 @@ jobs:
     working_directory: ~/lidar
     steps:
       - checkout
+      - save_cache:
+        key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+        paths:
+          - ~/lidar
 
   test_frontend:
     docker: 
       - image: circleci/node:latest
     working_directory: ~/lidar/frontend
     steps:
+      - restore_cache:
+        key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: npm-cache-v1-{{ checksum "package-lock.json" }}
       - run:
@@ -32,6 +38,8 @@ jobs:
       - image: circleci/mariadb:latest
     working_directory: ~/lidar/backend/lidar
     steps:
+      - restore_cache:
+        key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: backend-cache-v1-{{ checksum "pom.xml" }}
       - run: mvn -f pom.xml dependency:go-offline
@@ -80,6 +88,8 @@ jobs:
     working_directory: ~/lidar/frontend
     steps:
       - restore_cache:
+          key: login-cache-v1-{{ checksum "pom.xml" }}
+      - restore_cache:
           key: npm-cache-v1-{{ checksum "package-lock.json" }}
       - run:
           name: Build
@@ -96,6 +106,8 @@ jobs:
     working_directory: ~/lidar/backend/lidar
     steps:
       - restore_cache:
+          key: login-cache-v1-{{ checksum "pom.xml" }}
+      - restore_cache:
           key: mvn-cache-v1-{{ checksum "pom.xml" }}
 
   deploy_login:
@@ -103,6 +115,8 @@ jobs:
       - image: circleci/openjdk:latest
     working_directory: ~/lidar/Login-Server
     steps:
+      - restore_cache:
+          key: login-cache-v1-{{ checksum "pom.xml" }}
       - restore_cache:
           key: login-cache-v1-{{ checksum "pom.xml" }}
    
