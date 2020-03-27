@@ -1,14 +1,14 @@
 version: 2.1
 
 jobs:
-  checkout:
+  get_code:
     docker:
       - image: cimg/base:2020.01
     working_directory: ~/
     steps:
       - checkout
   test_frontend:
-    doker: 
+    docker: 
       - image: circleci/node:latest
     working_directory: ~/frontend
     steps:
@@ -71,7 +71,7 @@ jobs:
         name: Run Tests
         command: mvn -f pom.xml integration-test
   deploy_frontend:
-    doker: 
+    docker: 
       - image: circleci/node:latest
     working_directory: ~/frontend
     steps:
@@ -85,7 +85,7 @@ jobs:
         command: |
           tar -cf frontend.tar build/*
           ssh ubuntu@lidar.icedcoffee.dev "tar -xf frontend.tar && rm frontend.tar && cp -r build/* /var/www/html && rm -r build"
-  deploy_backen:
+  deploy_backend:
     docker:
       - image: circleci/openjdk:latest
     working_directory: ~/backend/lidar
@@ -105,7 +105,7 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - checkout
+      - get_code
       - test_frontend:
         filters:
           branches:
@@ -114,7 +114,7 @@ workflows:
               - dev
               - fontend
         requires:
-          - checkout
+          - get_code
       - test_backend:
         filters:
           branches:
@@ -123,7 +123,7 @@ workflows:
               - dev
               - backend
         requires:
-          - checkout
+          - get_code
       - test_login:
         filters:
           branches:
@@ -132,7 +132,7 @@ workflows:
               - dev
               - Login
         requires:
-          - checkout
+          - get_code
       - deploy_frontend:
         filters:
           branches:
