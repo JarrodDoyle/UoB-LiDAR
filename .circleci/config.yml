@@ -64,7 +64,7 @@ jobs:
       - image: circleci/mariadb:latest
     working_directory: ~/lidar/Login-Server
     steps:
-      - resotre_cache:
+      - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: login-cache-v1-{{ checksum "pom.xml" }}
