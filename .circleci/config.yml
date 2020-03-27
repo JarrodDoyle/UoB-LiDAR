@@ -7,6 +7,7 @@ jobs:
     working_directory: ~/
     steps:
       - checkout
+
   test_frontend:
     docker: 
       - image: circleci/node:latest
@@ -24,6 +25,7 @@ jobs:
       - run:
           name: Run Tests
           command: npm test
+
   test_backend:
     docker:
       - image: circleci/openjdk:latest
@@ -36,7 +38,7 @@ jobs:
       - save_cahce:
           paths:
             - ~/.m2
-        key: backend-cache-v1-{{ checksum "pom.xml" }}
+          key: backend-cache-v1-{{ checksum "pom.xml" }}
       - run:
           name: Setup db
           command: |
@@ -47,6 +49,7 @@ jobs:
       - run:
           name: Run Tests
           command: mvn -f pom.xml integration-test
+
   test_login:
     docker:
       - image: circleci/openjdk:latest
@@ -70,6 +73,7 @@ jobs:
       - run:
           name: Run Tests
           command: mvn -f pom.xml integration-test
+
   deploy_frontend:
     docker: 
       - image: circleci/node:latest
@@ -85,6 +89,7 @@ jobs:
           command: |
             tar -cf frontend.tar build/*
             ssh ubuntu@lidar.icedcoffee.dev "tar -xf frontend.tar && rm frontend.tar && cp -r build/* /var/www/html && rm -r build"
+
   deploy_backend:
     docker:
       - image: circleci/openjdk:latest
@@ -92,6 +97,7 @@ jobs:
     steps:
       - restore_cache:
           key: mvn-cache-v1-{{ checksum "pom.xml" }}
+
   deploy_login:
     docker:
       - image: circleci/openjdk:latest
