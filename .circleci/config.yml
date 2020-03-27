@@ -43,10 +43,15 @@ jobs:
       - run: 
           name: Install MariaDB, node, and npm
           command: |
-            sudo apt update -y && sudo apt upgrade -y && sudo apt install -y mariadb-server npm || true
-            curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-            sudo apt install -y nodejs
-
+            sudo apt install -y mariadb-server
+            sudo service mysql start
+      - run:
+          name: Setup db
+          command: |
+            echo "CREATE DATABASE lidarDB" | sudo mysql -u root  
+            sudo mysql -u root "lidarDB" < test_dump.sql
+            echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
+            echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
       - run:
           name: Start database
           command: sudo service mysql start
@@ -61,7 +66,22 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
+          key: login-cache-v1-{{ checksum "pom.xml" }}
+      - run: 
+          name: Install MariaDB
+          command: |
+            sudo apt install -y mariadb-server
+            sudo service mysql start
+      - run:
+          name: Setup db
+          command: |
+            echo "CREATE DATABASE Login" | sudo mysql -u root  
+            sudo mysql -u root "Login" < test_dump.sql
+            echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
+            echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
+      - run:
+          name: Run Tests
+          command: mvn -f pom.xml integration-test
 
       - run:
           name: Run backend tests
