@@ -49,13 +49,11 @@ jobs:
       - run: 
           name: Install MariaDB
           command: |
-            sudo apt update -y
             sudo apt install -y mariadb-server
             sudo service mysql start
       - run:
           name: Setup db
           command: |
-            sudo apt install default-mysql-client
             echo "CREATE DATABASE lidarDB" | sudo mysql -u root  
             sudo mysql -u root "lidarDB" < test_dump.sql
             echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
@@ -81,13 +79,11 @@ jobs:
       - run: 
           name: Install MariaDB
           command: |
-            sudo apt update -y
             sudo apt install -y mariadb-server
             sudo service mysql start
       - run:
           name: Setup db
           command: |
-            sudo apt install default-mysql-client
             echo "CREATE DATABASE Login" | sudo mysql -u root  
             sudo mysql -u root "Login" < test_dump.sql
             echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
