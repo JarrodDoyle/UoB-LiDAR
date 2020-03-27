@@ -27,7 +27,6 @@ jobs:
   test_backend:
     docker:
       - image: circleci/openjdk:latest
-    docker:
       - image: circleci/mariadb:latest
     working_directory: ~/backend/lidar
     steps:
@@ -51,7 +50,6 @@ jobs:
   test_login:
     docker:
       - image: circleci/openjdk:latest
-    docker:
       - image: circleci/mariadb:latest
     working_directory: ~/Login-Server
     steps:
