@@ -48,8 +48,20 @@ jobs:
             - ~/.m2
           key: backend-cache-v1-{{ checksum "pom.xml" }}
       - run:
+      # Our primary container isn't MYSQL so run a sleep command until it's ready.
+          name: Waiting for MySQL to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+      - run:
           name: Setup db
           command: |
+            sudo apt install default-mysql-client
             echo "CREATE DATABASE lidarDB" | sudo mysql -u root  
             sudo mysql -u root "lidarDB" < test_dump.sql
             echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
@@ -74,8 +86,20 @@ jobs:
             - ~/.m2
           key: login-cache-v1-{{ checksum "pom.xml" }}
       - run:
+      # Our primary container isn't MYSQL so run a sleep command until it's ready.
+          name: Waiting for MySQL to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+      - run:
           name: Setup db
           command: |
+            sudo apt install default-mysql-client
             echo "CREATE DATABASE Login" | sudo mysql -u root  
             sudo mysql -u root "Login" < test_dump.sql
             echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
