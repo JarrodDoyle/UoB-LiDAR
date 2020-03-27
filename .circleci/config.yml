@@ -35,7 +35,6 @@ jobs:
   test_backend:
     docker:
       - image: circleci/openjdk:latest
-      - image: circleci/mariadb:latest
     working_directory: ~/lidar/backend/lidar
     steps:
       - restore_cache:
@@ -47,17 +46,11 @@ jobs:
           paths:
             - ~/.m2
           key: backend-cache-v1-{{ checksum "pom.xml" }}
-      - run:
-      # Our primary container isn't MYSQL so run a sleep command until it's ready.
-          name: Waiting for MySQL to be ready
+      - run: 
+          name: Install MariaDB
           command: |
-            for i in `seq 1 10`;
-            do
-              nc -z 127.0.0.1 3306 && echo Success && exit 0
-              echo -n .
-              sleep 1
-            done
-            echo Failed waiting for MySQL && exit 1
+            sudo apt update -y && sudo apt upgrade -y && sudo apt install -y mariadb-server npm || true
+            sudo service mysql start 
       - run:
           name: Setup db
           command: |
@@ -73,7 +66,6 @@ jobs:
   test_login:
     docker:
       - image: circleci/openjdk:latest
-      - image: circleci/mariadb:latest
     working_directory: ~/lidar/Login-Server
     steps:
       - restore_cache:
@@ -85,17 +77,11 @@ jobs:
           paths:
             - ~/.m2
           key: login-cache-v1-{{ checksum "pom.xml" }}
-      - run:
-      # Our primary container isn't MYSQL so run a sleep command until it's ready.
-          name: Waiting for MySQL to be ready
+      - run: 
+          name: Install MariaDB
           command: |
-            for i in `seq 1 10`;
-            do
-              nc -z 127.0.0.1 3306 && echo Success && exit 0
-              echo -n .
-              sleep 1
-            done
-            echo Failed waiting for MySQL && exit 1
+            sudo apt update -y && sudo apt upgrade -y && sudo apt install -y mariadb-server npm || true
+            sudo service mysql start
       - run:
           name: Setup db
           command: |
