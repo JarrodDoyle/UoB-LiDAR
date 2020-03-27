@@ -4,7 +4,7 @@ CREATE TABLE `logins` (
 	`email` VARCHAR(255) NOT NULL UNIQUE,
 	`pw_hash` VARCHAR(255) NOT NULL,
 	PRIMARY KEY (`user_id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `loaded_files`;
 CREATE TABLE `time_stamps` (
@@ -14,7 +14,7 @@ CREATE TABLE `time_stamps` (
 	`ip` VARCHAR(255) NOT NULL,
 	`browser` VARCHAR(255) NOT NULL,
 	PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 ALTER TABLE `time_stamps` ADD CONSTRAINT `time_stamps_fk0` FOREIGN KEY (`user_id`) REFERENCES `logins`(`user_id`);
 
