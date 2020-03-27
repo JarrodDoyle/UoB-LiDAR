@@ -113,53 +113,53 @@ workflows:
     jobs:
       - get_code
       - test_frontend:
-        filters:
-          branches:
-            only:
-              - master
-              - dev
-              - fontend
-        requires:
-          - get_code
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+                - fontend
+          requires:
+            - get_code
       - test_backend:
-        filters:
-          branches:
-            only:
-              - master
-              - dev
-              - backend
-        requires:
-          - get_code
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+                - backend
+          requires:
+            - get_code
       - test_login:
-        filters:
-          branches:
-            only:
-              - master
-              - dev
-              - Login
-        requires:
-          - get_code
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+                - Login
+          requires:
+            - get_code
       - deploy_frontend:
-        filters:
-          branches:
-            only: master
-        requires:
-          - test_frontend
-          - test_backend
-          - test_login
+          filters:
+            branches:
+              only: master
+          requires:
+            - test_frontend
+            - test_backend
+            - test_login
       - deploy_backend:
-        filters:
-          branches:
-            only: master
-        requires:
-          - test_frontend
-          - test_backend
-          - test_login
+          filters:
+            branches:
+              only: master
+          requires:
+            - test_frontend
+            - test_backend
+            - test_login
       - deploy_login:
-        filters:
-          branches:
-            only: master
-        requires:
-          - test_frontend
-          - test_backend
-          - test_login
+          filters:
+            branches:
+              only: master
+          requires:
+            - test_frontend
+            - test_backend
+            - test_login
