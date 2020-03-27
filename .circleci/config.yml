@@ -50,7 +50,6 @@ jobs:
           name: Install MariaDB
           command: |
             sudo apt update -y
-            sudo apt upgrade -y
             sudo apt install -y mariadb-server
             sudo service mysql start
       - run:
@@ -83,7 +82,6 @@ jobs:
           name: Install MariaDB
           command: |
             sudo apt update -y
-            sudo apt upgrade -y
             sudo apt install -y mariadb-server
             sudo service mysql start
       - run:
