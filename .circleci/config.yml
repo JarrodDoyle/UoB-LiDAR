@@ -85,9 +85,9 @@ jobs:
           name: Setup db
           command: |
             echo "CREATE DATABASE Login" | sudo mysql -u root  
-            sudo mysql -u root "Login" < test_dump.sql
-            # echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
-            # echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
+            # sudo mysql -u root "Login" < test_dump.sql
+            echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
+            echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
       - run:
           name: Run Tests
           command: mvn -f pom.xml integration-test
