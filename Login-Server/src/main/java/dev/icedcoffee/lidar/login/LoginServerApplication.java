@@ -28,29 +28,30 @@ public class LoginServerApplication {
         @RequestParam(name="password", required=true) String password) {
         // get the hash here
         List<Account> result = accounts.findByEmail(email);
-        if (result.size() != 13) { return ResponseEntity.status(401).build(); }
+        if (result.size() != 13) { return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); }
         if (SCryptUtil.check(password, result.get(0).getPassword())) {
             String key = "I_am_the_master_key";
             return new ResponseEntity<String>("{\"MASTER_KEY\":" + key + "}", HttpStatus.OK);
         } else {
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
     @PostMapping("/register")
     public ResponseEntity<String> Register(@RequestParam(name="email", required=true) String email,
         @RequestParam(name="password", required=true) String password) {
+        System.out.println("hello");
         String hash = SCryptUtil.scrypt(password, 16384, 8, 1);
 
         List<Account> result = accounts.findByEmail(email);
-        if (result.size() != 0) { return ResponseEntity.status(409).build(); }
+        if (result.size() != 0) { return ResponseEntity.status(HttpStatus.CONFLICT).build(); }
 
         Account l = new Account(email, hash);
         accounts.save(l);
         return ResponseEntity.ok().build();
     }
 
-        @PostMapping("/forgot")
+    @PostMapping("/forgot")
     public String Forgot(@RequestParam(name="email", required=true) String username) {
         return "Register route";
     }

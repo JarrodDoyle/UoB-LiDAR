@@ -27,9 +27,21 @@ class LoginServerApplicationTests {
 
     @Test
     void registration() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/register?email=a@a.com&password=a")
-            .with(csrf())
-            .accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.post("/register")
+            .content("email=a%40a%46com&password=a")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            //.with(csrf())
+            .accept(MediaType.ALL))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void login() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/login")
+            .content("email=a%40a.com&password=a")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+           // .with(csrf())
+            .accept(MediaType.ALL))
             .andExpect(status().isOk());
     }
 }
