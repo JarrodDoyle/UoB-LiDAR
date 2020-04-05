@@ -1,65 +1,60 @@
 #!/usr/bin/env python3
 from flask import Flask, request
 from DatabaseHandler import *
-import scrypt
-import base64
-import os
+import Util
 app = Flask(__name__)
 
-def hashPassword(password):
-    return base64.b64encode(scrypt.hash('password', os.environ['LOGIN_SERVER_SALT'])).decode()
+def genSuccessResponse(datatype, data):
+    return {
+        "status": "Success",
+        "type": datatype,
+        "data": data,
+    }
 
-def notJsonError():
+def genErrorResponse(message):
     return {
         "status": "Error",
-        "error_msg": "Request payload must be JSON",
+        "error_msg": message,
     }
+
+notJsonError = genErrorResponse("Request payload must be JSON")
 
 @app.route('/login', methods=['POST'])
 def login():
     if not request.is_json:
-        return notJsonError()
+        return notJsonError
     data = request.get_json()
     account = getAccount(data['email'])
 
     closeDBCon()
-    print(account["pw_hash"], hashPassword(data['password']))
-    if not account or account["pw_hash"] != hashPassword(data['password']):
-        return {
-            "status": "Error",
-            "error_msg": "Invalid username or password"
-        }
-    return {
-        "status": "Success",
-        "master_key": account["token"],
-    }
+    guessedPass = Util.hashPassword(data['password'], account["salt"])
+    if not account or account["pw_hash"] != guessedPass:
+        return genErrorResponse("Invalid username or password")
+
+    addLoginMeta(account["user_id"])
+    return genSuccessResponse("login", {"master_key": account["token"],})
 
 @app.route('/register', methods=['POST'])
 def register():
     if not request.is_json:
-        return notJsonError()
+        return notJsonError
     data = request.get_json()
     response = None
     if getAccount(data['email']):
-        response = {
-            "status": "Error",
-            "error_msg": "Account already exists",
-        }
-    if addAccount(data['email'], hashPassword(data['password'])): 
-        response = {
-            "status": "Success",
-        }
+        response = genErrorResponse("Account already exists")
+    salt = Util.genRandomString(64)
+    if addAccount(data['email'], Util.hashPassword(data['password'], salt), salt): 
+        response = genSuccessResponse("register", {})
     else:
-        response = {
-            "status": "Error",
-            "error_msg": "Internal Server Error",
-        }
-    closeDBCon()
+        response = genErrorResponse("Internal Server Error")
+        closeDBCon()
     return response
 
 @app.route('/forgot', methods=['POST'])
 def forgot():
-    return 'Forgot';
+    if not request.is_json:
+        return notJsonError
+    return genErrorResponse("Not Implemented")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=6000)
