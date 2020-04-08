@@ -105,6 +105,19 @@ function AdminSettingsCard(props) {
 
 function ApiKeysCard(props) {
   const keys = useSelector(getAPIKeys);
+  /* keys = [
+   *  {
+   *    name: aa,
+   *    sites: [
+   *      {
+   *        siteid: site1,
+   *        write: false,
+   *        read: true,
+   *      },
+   *    ]
+   *  }
+   * ]
+   */
   return (
     <Card>
       <h1>API Keys</h1>
@@ -115,6 +128,22 @@ function ApiKeysCard(props) {
 
 function TeamMembersCard(props) {
   const users = useSelector(getTeamMembers);
+  /*
+   * users = [
+   *  {
+   *    userId: id,
+   *    name: bob,
+   *    email: bob@bob.com,
+   *    sites: [
+   *      {
+   *        siteid: site1,
+   *        write false,
+   *        read: false,
+   *      }
+   *    ]
+   *   }
+   *  ]
+   */
   return (
     <Card>
       <h1>Team Members</h1>
@@ -124,7 +153,16 @@ function TeamMembersCard(props) {
 }
 
 function SitesCard(props) {
-  const sies = useSelector(getSites);
+  const sites = useSelector(getSites);
+  /*
+   * sites = [
+   *  {
+   *   name: name,
+   *   desc: description,
+   *   location: location,
+   *  }
+   * ]
+   */
   return (
     <Card>
       <h1>Organisation's sites</h1>
