@@ -2,6 +2,14 @@ import React, { useState } from "react";
 //import { findByLabelText } from "@testing-library/react";
 import { useSelector } from 'react-redux';
 import { Formik, Form } from "formik";
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 import { getEmail,
   getMasterKey,
   getAPIKeys,
@@ -121,7 +129,33 @@ function ApiKeysCard(props) {
   return (
     <Card>
       <h1>API Keys</h1>
-      // TODO add content
+      <TableContainer component={Paper}>
+      <Table  aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell align="right">Token</TableCell>
+            <TableCell align="right">Site</TableCell>
+            <TableCell align="right">Read</TableCell>
+            <TableCell align="right">Write</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {apiData.map((row) => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell align="right">{row.token}</TableCell>
+              <TableCell align="right">{row.site}</TableCell>
+              <TableCell align="right">{row.read}</TableCell>
+              <TableCell align="right">{row.write}</TableCell>
+              <TableCell align="right"><i className="fas fa-trash"/></TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
     </Card>
   );
 }
@@ -152,6 +186,8 @@ function TeamMembersCard(props) {
   );
 }
 
+
+
 function SitesCard(props) {
   const sites = useSelector(getSites);
   /*
@@ -166,10 +202,25 @@ function SitesCard(props) {
   return (
     <Card>
       <h1>Organisation's sites</h1>
-      // TODO add content
+      
     </Card>
   );
 }
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+});
+
+function createApiData(name, token, site, read, write) {
+  return { name, token, site, read, write};
+}
+
+const apiData = [
+  createApiData('Upload Key', "ea12a61dbasd", "Site 1", true, false),
+];
+
 
 export default function Settings(props) {
   return (
@@ -179,11 +230,6 @@ export default function Settings(props) {
       <ApiKeysCard/>
       <TeamMembersCard/>
       <SitesCard/>
-
-      <hr/>
-      <h1>Old stuff...</h1>
-      <MasterCard></MasterCard>
-      <AdminSettingsCard></AdminSettingsCard>
     </CardColumn>
   </main>
   );
