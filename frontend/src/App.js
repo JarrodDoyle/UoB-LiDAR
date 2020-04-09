@@ -23,7 +23,7 @@ function NavPage(){
   const email = useSelector(getEmail);
   let location = useLocation();
   if (email == null){
-    return (<Redirect to={"/Login?redirect=" + location.pathname}/>);
+    return (<Redirect to={"/Login?redirect=" + String(location.pathname)}/>);
   }
   return (
     <div className="nav-page">
