@@ -29,9 +29,12 @@ const Modal = () => (
     trigger={<button className="elipticle-btn"><h5>Edit</h5></button>}
     modal
     closeOnDocumentClick
+    contentStyle = {{borderRadius: 10}}
   >
-    <h1>Edit an API Key</h1>
-  </Popup>
+    
+      <h1>Edit an API Key</h1>
+    
+    </Popup>
 );
 
 const useStyles = makeStyles({
