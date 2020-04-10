@@ -18,6 +18,27 @@ import { getEmail,
 } from './redux/selectors.js';
 import { MaterialText } from "./Components/Material-Inp.js";
 import { CardColumn, Card } from "./Components/Cards.js";
+import { colors } from "@material-ui/core";
+import Popup from "reactjs-popup";
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+// Modal Popup
+const Modal = () => (
+  <Popup
+    trigger={<button className="elipticle-btn"><h5>Edit</h5></button>}
+    modal
+    closeOnDocumentClick
+  >
+    <h1>Edit an API Key</h1>
+  </Popup>
+);
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+});
 
 function CredsCard(props){
   const [success, setSuccess] = useState(false);
@@ -141,9 +162,7 @@ function ApiKeysCard(props) {
               <TableCell align="right">{row.read}</TableCell>
               <TableCell align="right">{row.write}</TableCell>
               <TableCell>
-                <div className="elipticle-btn">
-                  <h5>Edit</h5>
-                </div>
+                <Modal data={row} />
                 </TableCell>
             </TableRow>
           ))}
@@ -231,11 +250,7 @@ function SitesCard(props) {
   );
 }
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
+
 
 function createApiData(name, token, site, read, write) {
   return { name, token, site, read, write};
