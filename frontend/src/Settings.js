@@ -100,17 +100,6 @@ function MasterCard(props){
   );
 }
 
-function AdminSettingsCard(props) {
-  return (
-    <Card>
-      <h1>Admin Settings</h1>
-      <h3>Assign lidar to account</h3>
-      <h3>Change user perms</h3>
-      <h3>Edit lidar (need to add edit link to Lidars page) - with add lidar link</h3>
-    </Card>
-  )
-}
-
 function ApiKeysCard(props) {
   const keys = useSelector(getAPIKeys);
   /* keys = [
@@ -135,9 +124,10 @@ function ApiKeysCard(props) {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell align="right">Token</TableCell>
-            <TableCell align="right">Site</TableCell>
+            <TableCell align="right">Sites</TableCell>
             <TableCell align="right">Read</TableCell>
             <TableCell align="right">Write</TableCell>
+            <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -150,7 +140,11 @@ function ApiKeysCard(props) {
               <TableCell align="right">{row.site}</TableCell>
               <TableCell align="right">{row.read}</TableCell>
               <TableCell align="right">{row.write}</TableCell>
-              <TableCell align="right"><i className="fas fa-trash"/></TableCell>
+              <TableCell>
+                <div className="elipticle-btn">
+                  <h5>Edit</h5>
+                </div>
+                </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -181,7 +175,38 @@ function TeamMembersCard(props) {
   return (
     <Card>
       <h1>Team Members</h1>
-      // TODO add content
+      <TableContainer component={Paper}>
+      <Table  aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell align="right">Email</TableCell>
+            <TableCell align="right">Sites</TableCell>
+            <TableCell align="right">Read</TableCell>
+            <TableCell align="right">Write</TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {apiData.map((row) => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell align="right">{row.token}</TableCell>
+              <TableCell align="right">{row.site}</TableCell>
+              <TableCell align="right">{row.read}</TableCell>
+              <TableCell align="right">{row.write}</TableCell>
+              <TableCell>
+                <div className="elipticle-btn">
+                  <h5>Edit</h5>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
     </Card>
   );
 }
@@ -202,7 +227,6 @@ function SitesCard(props) {
   return (
     <Card>
       <h1>Organisation's sites</h1>
-      
     </Card>
   );
 }
@@ -218,7 +242,8 @@ function createApiData(name, token, site, read, write) {
 }
 
 const apiData = [
-  createApiData('Upload Key', "ea12a61dbasd", "Site 1", true, false),
+  createApiData('Upload Key', "ea12a61dbasd", ["Site 1", "Site 2"], true, false),
+  createApiData('James Mac', "ea12a61dbasd", "Site 1", true, false),
 ];
 
 
