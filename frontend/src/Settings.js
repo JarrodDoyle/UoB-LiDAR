@@ -63,7 +63,7 @@ function CredsCard(props){
             <MaterialText type="email" name="email" label="Email" placeholder={email}/>  
             <MaterialText type="password" name="password" label="Password"/>
             <div className="elipticle-btn" style={{width: 170}}>
-              <button type="submit">Submit <i className="fas fa-chevron-right"/></button>
+              <button type="submit">Submit</button>
             </div>
           </Form>
         )}
@@ -136,9 +136,7 @@ function ApiKeysCard(props) {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell align="right">Token</TableCell>
-            <TableCell align="right">Sites</TableCell>
-            <TableCell align="right">Read</TableCell>
-            <TableCell align="right">Write</TableCell>
+            <TableCell align="center">Sites</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
@@ -149,12 +147,25 @@ function ApiKeysCard(props) {
                 {row.name}
               </TableCell>
               <TableCell align="right">{row.token}</TableCell>
-              <TableCell align="right">{row.sites}</TableCell>
-              <TableCell align="right">{row.read}</TableCell>
-              <TableCell align="right">{row.write}</TableCell>
-              <TableCell>
+              <TableCell align="right">
+                <div align="center">
+                  <TableRow align="inherit">
+                    <TableCell>Site</TableCell>
+                    <TableCell >Read</TableCell>
+                    <TableCell >Write</TableCell>
+                  </TableRow>
+                  {row.sites.map(site => (
+                    <TableRow align="right">
+                      <TableCell>{site}</TableCell>
+                      <TableCell align="right"><i className="fas fa-check"/></TableCell>
+                      <TableCell align="right"><i className="fas fa-times"/></TableCell>
+                    </TableRow>
+                  ))}
+                  </div>
+              </TableCell>
+              <TableCell align="center">
                 <APIModalPopup {...row} />
-                </TableCell>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -205,6 +216,10 @@ function APIModalPopup(props){
             </TableBody>
           </Table>
       </Card>
+      <div className="elipticle-btn" style={{width: 170}}>
+        <h5>Save Changes<i className="fas fa-chevron-right"/></h5>
+      </div>
+      
     </Popup>
   );
 }
