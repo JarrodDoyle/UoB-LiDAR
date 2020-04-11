@@ -189,7 +189,7 @@ function APIModalPopup(props){
       <h1>Edit API Key - {props.name}</h1>
       <Card>
         <h2>Token</h2>
-        {props.token}
+        {props.token} <i className="fas fa-trash"/>
       </Card>
       <Card>
         <h2>Sites</h2>
@@ -206,20 +206,22 @@ function APIModalPopup(props){
               {props.sites.map((site) => (
                 <TableRow key={site}>
                   <TableCell component="th" scope="row">
-                    {site}
+                    {site} <i className="fas fa-trash"/>
                   </TableCell>
                   <TableCell align="right"><input type="checkbox"></input></TableCell>
                   <TableCell align="right"><input type="checkbox"></input></TableCell>
-                  <TableCell align="right"><i className="fas fa-trash"/></TableCell>
+                  <TableCell align="right"></TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
       </Card>
       <div className="elipticle-btn" style={{width: 170}}>
-        <h5>Save Changes<i className="fas fa-chevron-right"/></h5>
+        <h5>Save Changes</h5>
       </div>
-      
+      <div className="elipticle-btn" style={{width: 170}}>
+        <h5>Delete API Key</h5>
+      </div>
     </Popup>
   );
 }
@@ -251,26 +253,35 @@ function TeamMembersCard(props) {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Sites</TableCell>
-            <TableCell align="right">Read</TableCell>
-            <TableCell align="right">Write</TableCell>
+            <TableCell align="center">Sites</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {apiData.map((row) => (
+          {emailData.map((row) => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
               <TableCell align="right">{row.token}</TableCell>
-              <TableCell align="right">{row.site}</TableCell>
-              <TableCell align="right">{row.read}</TableCell>
-              <TableCell align="right">{row.write}</TableCell>
-              <TableCell>
-                <div className="elipticle-btn">
-                  <h5>Edit</h5>
-                </div>
+              <TableCell align="right">
+                <div align="center">
+                  <TableRow align="inherit">
+                    <TableCell>Site</TableCell>
+                    <TableCell >Read</TableCell>
+                    <TableCell >Write</TableCell>
+                  </TableRow>
+                  {row.sites.map(site => (
+                    <TableRow align="right">
+                      <TableCell>{site}</TableCell>
+                      <TableCell align="right"><i className="fas fa-check"/></TableCell>
+                      <TableCell align="right"><i className="fas fa-times"/></TableCell>
+                    </TableRow>
+                  ))}
+                  </div>
+              </TableCell>
+              <TableCell align="center">
+                <APIModalPopup {...row} />
               </TableCell>
             </TableRow>
           ))}
@@ -311,6 +322,17 @@ const apiData = [
   createApiData('Upload Key', "ea12a61dbasd", ["Site 1", "Site 2"], true, false),
   createApiData('James Mac', "ea12a61dbasd", ["Site 1", "Site 2", "Site 3"], true, false),
 ];
+
+function createEmailData(name, email, sites, read, write) {
+  return { name, email, sites, read, write};
+}
+
+const emailData = [
+  createApiData('Alex A', "alex@alex.com", ["Site 1", "Site 2"], true, false),
+  createApiData('James Mac', "james@mac.com", ["Site 1", "Site 2", "Site 3"], true, false),
+];
+
+
 
 
 export default function Settings(props) {
