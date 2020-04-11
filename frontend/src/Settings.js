@@ -23,19 +23,7 @@ import Popup from "reactjs-popup";
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
-// Modal Popup
-const Modal = () => (
-  <Popup
-    trigger={<button className="elipticle-btn"><h5>Edit</h5></button>}
-    modal
-    closeOnDocumentClick
-    contentStyle = {{borderRadius: 10}}
-  >
-    
-      <h1>Edit an API Key</h1>
-    
-    </Popup>
-);
+
 
 const useStyles = makeStyles({
   table: {
@@ -161,11 +149,11 @@ function ApiKeysCard(props) {
                 {row.name}
               </TableCell>
               <TableCell align="right">{row.token}</TableCell>
-              <TableCell align="right">{row.site}</TableCell>
+              <TableCell align="right">{row.sites}</TableCell>
               <TableCell align="right">{row.read}</TableCell>
               <TableCell align="right">{row.write}</TableCell>
               <TableCell>
-                <Modal data={row} />
+                <APIModalPopup {...row} />
                 </TableCell>
             </TableRow>
           ))}
@@ -173,6 +161,51 @@ function ApiKeysCard(props) {
       </Table>
     </TableContainer>
     </Card>
+  );
+}
+
+// Modal Popup
+function APIModalPopup(props){
+  return(
+  <Popup
+    trigger={<button className="elipticle-btn"><h5>Edit</h5></button>}
+    modal
+    closeOnDocumentClick
+    contentStyle = {{borderRadius: 10}}
+  >
+    {console.log(props)}
+    
+      <h1>Edit API Key - {props.name}</h1>
+      <Card>
+        <h2>Token</h2>
+        {props.token}
+      </Card>
+      <Card>
+        <h2>Sites</h2>
+          <Table  aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell align="right">Read</TableCell>
+                <TableCell align="right">Write</TableCell>
+                <TableCell align="right"></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {props.sites.map((site) => (
+                <TableRow key={site}>
+                  <TableCell component="th" scope="row">
+                    {site}
+                  </TableCell>
+                  <TableCell align="right"><input type="checkbox"></input></TableCell>
+                  <TableCell align="right"><input type="checkbox"></input></TableCell>
+                  <TableCell align="right"><i className="fas fa-trash"/></TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+      </Card>
+    </Popup>
   );
 }
 
@@ -255,13 +288,13 @@ function SitesCard(props) {
 
 
 
-function createApiData(name, token, site, read, write) {
-  return { name, token, site, read, write};
+function createApiData(name, token, sites, read, write) {
+  return { name, token, sites, read, write};
 }
 
 const apiData = [
   createApiData('Upload Key', "ea12a61dbasd", ["Site 1", "Site 2"], true, false),
-  createApiData('James Mac', "ea12a61dbasd", "Site 1", true, false),
+  createApiData('James Mac', "ea12a61dbasd", ["Site 1", "Site 2", "Site 3"], true, false),
 ];
 
 
