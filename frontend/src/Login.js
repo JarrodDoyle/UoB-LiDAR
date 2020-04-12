@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import { Switch, Redirect, Route, Link, useLocation } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { MaterialText } from './Material-Inp.js';
+import { MaterialText } from './Components/Material-Inp.js';
 import { setEmail, setMasterApiKey } from './redux/actions.js';
 import Tracking from './Tracking.js';
 import i0 from './res/login-bg0.jpg';
@@ -78,7 +78,7 @@ function LoginForm(props){
   if (redirect){
     let redirect = query.get("redirect");
     if (redirect === null){
-      redirect = "/Sites";
+      redirect = "/app/Sites";
     }
     return (<Redirect to={redirect}/>);
   }else{

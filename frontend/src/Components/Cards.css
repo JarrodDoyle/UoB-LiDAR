@@ -1,0 +1,74 @@
+.card-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  padding-top: 15px;
+}
+
+.card-grid .card {
+  width: 250px;
+}
+
+.card-column {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding-top: 15px;
+}
+
+.card-column .card {
+  width: 80%;
+  max-width: 1000px;
+  margin: 0px auto 25px auto;
+}
+
+.card {
+  margin: 0px 12.5px 25px 12.5px;
+  padding: 10px 15px;
+  box-shadow: 0px 0px 10px var(--shadow);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+}
+
+.card .card-header-full{
+  padding: 0px;
+  margin: -10px -15px 10px -15px;
+  border-radius: 10px;
+  height: 200px;
+}
+
+.card .card-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.card-row .fas{
+  font-size: 1.5rem;
+  color: var(--darkgray);
+  width: 1.5rem;
+  text-align: center;
+}
+
+.card-row p {
+  line-height: 1.5rem;
+}
+
+.card .card-footer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  margin-top: auto;
+}

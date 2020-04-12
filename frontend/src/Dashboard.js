@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
+import { AutoSizer } from 'react-virtualized';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Line } from 'nivo';
+import { getSite, getKpis } from './redux/selectors.js';
+import { 
+  CardGrid,
+  Card,
+  CardHeaderFull,
+  CardRow,
+  CardFooter
+} from "./Components/Cards.js";
+import { PercentageIndicator } from "./Components/Indicators.js";
 import "./Dashboard.css";
-import { Line } from 'nivo'
-import { AutoSizer } from 'react-virtualized'
 
+// Placedholder data for graphs
 const mydata = [
   {
     "id": "japan",
@@ -29,33 +41,21 @@ const mydata = [
 ]
 
 function Popup(props) {
-  let names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
-  let style = names[Math.floor(Math.random() * 3)];
-  let kpiTitles = [
-    "System Availability", 
-    "Post Processed Data Availability",
-    "Data Coverage",
-    "Maintenance Visits",
-    "Unscheduled Outages",
-    "Comms. Uptime",
-    "Mean Wind Speed",
-    "Mean Wind Direction",
-    "Turbulence Intensity",
-    "Wind Shear",
-  ]
-
-  for( var i = 0; i < kpiTitles.length; i++){ 
-    if ( kpiTitles[i] === props.currentKPI) {
-      kpiTitles.splice(i, 1); 
-    }
+  var kpiTitles = []
+  for (var i=0; i<props.cards.length; i++) {
+    kpiTitles.push(props.cards[i].title)
   }
-  kpiTitles.unshift(props.currentKPI)
 
   return (
     <div className="popup-background">
       <div className="popup-box">
         <div className="popup-header">
-          <select className="kpi-dropdown">
+          <select className="kpi-dropdown" value={props.kpiID} onChange={
+            (event) => {
+              // console.log(event.target.value)
+              props.updatePopup(event.target.value); // Updates the popup with the new KPI id and rerenders.
+            }
+          }>
             {kpiTitles.map((kpi, i) => {       
               return (<option value={i}>{kpi}</option>) 
             })}
@@ -66,9 +66,9 @@ function Popup(props) {
             <span>6 Months</span>
             <span>Year</span>
           </div>
-          <i className={style}></i>
+          <i className={props.cards[props.kpiID].passingStyle}></i>
           <div className="lidars-btns">
-            <button className="circle-btn" onClick={() => props.togglePopup(null)}>
+            <button className="circle-btn" onClick={() => props.closePopup(null)}>
               <i className="fas fa-times"/>
             </button>
           </div>
@@ -125,76 +125,168 @@ function Graph(props) {
   )
 }
 
-function Card(props) {
-  let names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
-  let style = names[Math.floor(Math.random() * 3)];
-  return (
-    <div className="lidars-card">
-      <div className="kpi-indicator">
-        <h3>{props.title}</h3>
-        <i className={style}></i>
-      </div>
-      <div className="dash-content">
-        {props.content.map((line, i) => {       
-           return (<p>{line}</p>) 
-        })}
-      </div>
-      <div className="lidars-btns">
-        <h4>More details</h4>
-        <button className="circle-btn" onClick={() => props.togglePopup(props.title)}>
-          <i className="fas fa-chevron-right"/>
-        </button>
-      </div>
-    </div>
-  );
-}
-
-class Dashboard extends React.Component {
+class DashboardGridd extends React.Component {
   constructor(props) {
     super(props);
+    this.closePopup = this.closePopup.bind(this);
+    this.openPopup = this.openPopup.bind(this);
+    this.generateCards = this.generateCards.bind(this);
     this.state = {
       showPopup: false,
-      popupTitle: null,
+      cards: this.generateCards(),
+      currentKPI: null,
     };
-    this.togglePopup = this.togglePopup.bind(this);
-    this.openPopup = this.openPopup.bind(this);
+    
   }
 
-  togglePopup() {
+  closePopup() {
     this.setState({
-      showPopup: !this.state.showPopup,
+      showPopup: false,
     });
   }
 
-  openPopup(newPopupTitle) {
-    this.togglePopup();
+  openPopup(kpiID) {
+    this.setState({
+      showPopup: true,
+    });
     this.setState( {
-      popupTitle: newPopupTitle,
-    })
+      currentKPI: kpiID,
+    });
+  }
+
+  generateCards() {
+    var cards = []
+    var titles = [
+      "System Availability",
+      "Post Processed Data Availability",
+      "Data Coverage", "Maintenance Visits",
+      "Unscheduled Outages",
+      "Comms. Uptime",
+      "Mean Wind Speed",
+      "Mean Wind Direction",
+      "Turbulence Intensity",
+      "Wind Shear"
+    ]
+    var contents = [
+      ["1 month average - 91%", "Campaign average - 97%"],
+      ["1 month average - 88%", "Campaign average - 88%"],
+      ["something"],
+      ["0"],
+      ["0"],
+      ["100%"],
+      ["Slope - 1.00", "Coefficient of Determination - 1.00"],
+      ["Slope - 1.00", "Coefficient of Determination - 1.00"],
+      ["Slope - x", "Correlation Co-efficient - x"],
+      ["Shear exponent - x"]
+    ]
+    var names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
+    for (var i=0; i<10; i++) {
+      cards[i] = {title: titles[i], content: contents[i], passingStyle: names[Math.floor(Math.random() * 3)]}
+    }
+    return cards
   }
 
   render() {
     return (
-      <main>
+      <>
         <div className="lidars-grid">
-          <Card title="System Availability" content={["1 month average - 91%", "Campaign average - 97%"]} togglePopup={this.openPopup}/>
-          <Card title="Post Processed Data Availability" content={["1 month average - 88%", "Campaign average - 88%"]} togglePopup={this.openPopup}/>
-          <Card title="Data Coverage" content={["something"]} togglePopup={this.openPopup}/>
-          <Card title="Maintenance Visits" content={["0"]} togglePopup={this.openPopup}/>
-          <Card title="Unscheduled Outages" content={["0"]} togglePopup={this.openPopup}/>
-          <Card title="Comms. Uptime" content={["100%"]} togglePopup={this.openPopup}/>
-          <Card title="Mean Wind Speed" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]} togglePopup={this.openPopup}/>
-          <Card title="Mean Wind Direction" content={["Slope - 1.00", "Coefficient of Determination - 1.00"]} togglePopup={this.openPopup}/>
-          <Card title="Turbulence Intensity" content={["Slope - x", "Correlation Co-efficient - x"]} togglePopup={this.openPopup}/>
-          <Card title="Wind Shear" content={["Shear exponent - x"]} togglePopup={this.openPopup}/>
+          {this.state.cards.map((card, i) => {       
+            return (
+              <Card id={i}
+                title={card.title}
+                content={card.content}
+                passingStyle={card.passingStyle}
+                togglePopup={this.openPopup}
+                />
+              ) 
+          })}
         </div>
         {this.state.showPopup ?  
-          <Popup togglePopup={this.togglePopup} currentKPI={this.state.popupTitle}/>  
+          <Popup cards={this.state.cards} 
+            closePopup={this.closePopup}
+            updatePopup={this.openPopup}
+            kpiID={this.state.currentKPI}/>  
           : null  
         }  
-      </main>
+      </>
     );
   }
 }
 
-export default Dashboard
+function KpiCard(props) {
+  return (
+    <Card>
+      <CardRow>
+        <h3>{props.name}</h3>
+        <PercentageIndicator percentage={props.percentComplete}/> 
+      </CardRow>
+      <div className="dash-content">
+        {props.data.map((data, i) => {   
+          const cardView = data.cardview;
+          console.log(cardView);
+          if (cardView.type === "number"){
+            return (
+              <CardRow>
+                <span>{cardView.text}</span>
+                <span>{cardView.number}</span>
+              </CardRow>
+            )
+          }
+          // TODO support other types  
+        })}
+      </div>
+      <CardFooter>
+        <h4>More details</h4>
+        <button className="circle-btn" onClick={() => props.togglePopup(props.id)}>
+          <i className="fas fa-chevron-right"/>
+        </button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function DashboardGrid(props){
+  const [showPopup, setPopup] = useState(false);
+  const kpis = useSelector((state) => getKpis(state, props.siteId));
+  return (
+    <>
+      <CardGrid>
+        {kpis.map((card, i) => {       
+          return (
+          <KpiCard id={i} {...card} togglePopup={() => setPopup(true)}/>
+          ) 
+        })}
+      </CardGrid>
+      {showPopup ?  
+        <Popup 
+          cards={kpis}
+          closePopup={() => setPopup(false)}
+          updatePopup={() => setPopup(true)}
+          kpiID={"55"}
+        />  
+        : null  
+      }  
+    </>
+  );
+}
+
+function SiteInfo(props){
+  let site = useSelector(state => getSite(state, props.siteId));  
+  return (
+    <section>
+      <h2>{site.name}</h2>
+      <p>Description: {site.desc}</p>
+      <p>Percentage complete: {site.totalComplete}</p>
+    </section>
+  );
+}
+
+export default function Dashboard(){
+  let { siteId } = useParams();
+  return (
+    <main>
+      <SiteInfo siteId={siteId}/>
+      <DashboardGrid siteId={siteId}/>
+    </main>
+  );   
+}

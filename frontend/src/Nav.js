@@ -15,10 +15,12 @@ function NavBtn(props){
 function Nav(){
   return (
     <nav className="Nav">
-      <NavBtn name="Sites" page="Sites" icon="fas fa-home"/>
-      <NavBtn name="Dash" page="Dashboard" icon="fas fa-chart-line"/>
-      <NavBtn name="Map" page="Map" icon="fas fa-map-marker-alt"/>
-      <NavBtn name="Settings" page="Settings" icon="fas fa-cog"/>
+      <NavBtn name="Sites" page="/app/Sites" icon="fas fa-home"/>
+      {
+        //<NavBtn name="Dash" page="/app/Dashboard" icon="fas fa-chart-line"/>
+      }
+      <NavBtn name="Map" page="/app/Map" icon="fas fa-map-marker-alt"/>
+      <NavBtn name="Settings" page="/app/Settings" icon="fas fa-cog"/>
     </nav>
   );
 }
