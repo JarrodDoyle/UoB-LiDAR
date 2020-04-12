@@ -13,6 +13,10 @@ import {
 } from "./Components/Cards.js";
 import { PercentageIndicator } from "./Components/Indicators.js";
 import "./Dashboard.css";
+import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
+
+import turbine from "./res/turbine-clear-bold.gif";
+import { Divider } from "@material-ui/core";
 
 // Placedholder data for graphs
 const mydata = [
@@ -273,19 +277,92 @@ function DashboardGrid(props){
 function SiteInfo(props){
   let site = useSelector(state => getSite(state, props.siteId));  
   return (
-    <section>
-      <h2>{site.name}</h2>
-      <p>Description: {site.desc}</p>
-      <p>Percentage complete: {site.totalComplete}</p>
-    </section>
+    <Card>
+      <CardHeaderFull>
+        <WrappedMap
+          googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAuy0y-1edccXfqufhhq3JFUa0NCBtUzsE"
+          loadingElement={<div style={{ height: `100%`, borderRadius: '10px 10px 0px 0px' }} />}
+          containerElement={<div style={{ height: `100%`, borderRadius: '10px 10px 0px 0px' }} />}
+          mapElement={<div style={{ height: `100%`, borderRadius: '10px 10px 0px 0px' }} />}
+          location={site.location}
+        />
+      </CardHeaderFull>
+      <CardRow>
+        <h3>{site.name}</h3>
+        <PercentageIndicator percentage={site.totalComplete}/>
+      </CardRow>
+      
+      <p>{site.desc}</p>
+    </Card>
   );
 }
+
+function Map(props) {
+  return(
+    <GoogleMap 
+      defaultZoom={6}
+      defaultCenter={props.location}
+      defaultOptions={{
+        fullscreenControl: false,
+        mapTypeControl: false,
+        streetViewControl: false,
+        zoomControl: false,
+        panControl: false,
+        draggable: false,
+        draggableCursor: "default",
+        mapTypeId: "terrain",
+        minZoom: 6,
+        maxZoom: 6,
+        gestureHandling: "none",
+        styles: [
+          {
+            featureType: 'road',
+            elementType: 'geometry',
+            stylers: [{visibility: 'off'}]
+          },
+          {
+            featureType: 'road',
+            elementType: 'labels',
+            stylers: [{visibility: 'off'}]
+          },
+        ],
+      }}
+    >
+      <Marker
+        position={props.location}
+        icon={{
+          url: turbine,
+            size:{
+              width: 256,
+              height: 256,
+              widthUnit: "px",
+              heightUnit: "px"
+            },
+            scaledSize:{
+              width: 64,
+              height: 64,
+              widthUnit: "px",
+              heightUnit: "px",
+            },
+            anchor: {
+              x: 32,
+              y: 64,
+            }
+          }
+        }
+      />
+    </GoogleMap>
+  );
+}
+const WrappedMap = withScriptjs(withGoogleMap(Map))
 
 export default function Dashboard(){
   let { siteId } = useParams();
   return (
     <main>
       <SiteInfo siteId={siteId}/>
+      <h2>Key Performance Indicators:</h2>
+      <Divider></Divider>
       <DashboardGrid siteId={siteId}/>
     </main>
   );   
