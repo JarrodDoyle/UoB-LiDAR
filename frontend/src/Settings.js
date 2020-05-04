@@ -2,7 +2,6 @@ import React, { useState } from "react";
 //import { findByLabelText } from "@testing-library/react";
 import { useSelector } from 'react-redux';
 import { Formik, Form } from "formik";
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -18,18 +17,8 @@ import { getEmail,
 } from './redux/selectors.js';
 import { MaterialText } from "./Components/Material-Inp.js";
 import { CardColumn, Card } from "./Components/Cards.js";
-import { colors } from "@material-ui/core";
 import Popup from "reactjs-popup";
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
 
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
 
 function CredsCard(props){
   const [success, setSuccess] = useState(false);
@@ -127,6 +116,7 @@ function ApiKeysCard(props) {
    *  }
    * ]
    */
+  console.log(keys)
   return (
     <Card>
       <h1>API Keys</h1>
@@ -171,6 +161,11 @@ function ApiKeysCard(props) {
         </TableBody>
       </Table>
     </TableContainer>
+    <div align="center">
+      <div className="elipticle-btn" style={{width: 200, margin: 10}}>
+        <h5>Add an API Key</h5>
+      </div>
+    </div>
     </Card>
   );
 }
@@ -184,12 +179,16 @@ function APIModalPopup(props){
     closeOnDocumentClick
     contentStyle = {{borderRadius: 10}}
   >
-    {console.log(props)}
     
       <h1>Edit API Key - {props.name}</h1>
       <Card>
         <h2>Token</h2>
-        {props.token} <i className="fas fa-trash"/>
+        <div>{props.token } <i className="fas fa-trash"/></div>
+        <div align="center">
+          <div className="elipticle-btn" align="right" style={{width:150, margin: 10}}>
+              <h5>Add a Token</h5>
+          </div>
+        </div>
       </Card>
       <Card>
         <h2>Sites</h2>
@@ -206,21 +205,29 @@ function APIModalPopup(props){
               {props.sites.map((site) => (
                 <TableRow key={site}>
                   <TableCell component="th" scope="row">
-                    {site} <i className="fas fa-trash"/>
+                    {site}
                   </TableCell>
+
+                  <TableCell align="right"><input type="checkbox" ></input></TableCell>
                   <TableCell align="right"><input type="checkbox"></input></TableCell>
-                  <TableCell align="right"><input type="checkbox"></input></TableCell>
-                  <TableCell align="right"></TableCell>
+                  <TableCell align="right"><i className="fas fa-trash"/></TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
+          <div align="center">
+            <div className="elipticle-btn" align="right" style={{width:150, margin: 10}}>
+                <h5>Add a site</h5>
+            </div>
+          </div>
       </Card>
-      <div className="elipticle-btn" style={{width: 170}}>
-        <h5>Save Changes</h5>
-      </div>
-      <div className="elipticle-btn" style={{width: 170}}>
-        <h5>Delete API Key</h5>
+      <div align="center">
+        <div className="elipticle-btn" style={{width: 170, margin: 10}}>
+          <h5>Save Changes</h5>
+        </div>
+        <div className="elipticle-btn" style={{width: 170, margin: 10}}>
+          <h5>Delete API Key</h5>
+        </div>
       </div>
     </Popup>
   );
@@ -244,6 +251,8 @@ function TeamMembersCard(props) {
    *   }
    *  ]
    */
+
+  console.log(users)
   return (
     <Card>
       <h1>Team Members</h1>
@@ -263,7 +272,7 @@ function TeamMembersCard(props) {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.token}</TableCell>
+              <TableCell align="right">{row.email}</TableCell>
               <TableCell align="right">
                 <div align="center">
                   <TableRow align="inherit">
@@ -281,14 +290,76 @@ function TeamMembersCard(props) {
                   </div>
               </TableCell>
               <TableCell align="center">
-                <APIModalPopup {...row} />
+                <TeamMemberModalPopup {...row} />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+    <div align="center">
+        <div className="elipticle-btn" style={{width: 200, margin: 10}}>
+          <h5>Add a Team Member</h5>
+        </div>
+    </div>
     </Card>
+  );
+}
+
+function TeamMemberModalPopup(props){
+  return(
+  <Popup
+    trigger={<button className="elipticle-btn"><h5>Edit</h5></button>}
+    modal
+    closeOnDocumentClick
+    contentStyle = {{borderRadius: 10}}
+  >
+      <h1>Edit Team Member - {props.name}</h1>
+      <Card>
+        <h2>Details</h2>
+        {props.name} <br></br>
+        {props.email} 
+      </Card>
+      <Card>
+        <h2>Sites</h2>
+          <Table  aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell align="right">Read</TableCell>
+                <TableCell align="right">Write</TableCell>
+                <TableCell align="right"></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {props.sites.map((site) => (
+                <TableRow key={site}>
+                  <TableCell component="th" scope="row">
+                    {site}
+                  </TableCell>
+
+                  <TableCell align="right"><input type="checkbox" ></input></TableCell>
+                  <TableCell align="right"><input type="checkbox"></input></TableCell>
+                  <TableCell align="right"><i className="fas fa-trash"/></TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <div align="center">
+            <div className="elipticle-btn" align="right" style={{width:150, margin: 10}}>
+                <h5>Add a site</h5>
+            </div>
+          </div>  
+      </Card>
+      <div align="center">
+        <div className="elipticle-btn" style={{width: 170, margin: 10}}>
+          <h5>Save Changes</h5>
+        </div>
+        <div className="elipticle-btn" style={{width: 170, margin: 10}}>
+          <h5>Delete Team Member</h5>
+        </div>
+      </div>
+    </Popup>
   );
 }
 
@@ -320,7 +391,7 @@ function createApiData(name, token, sites, read, write) {
 
 const apiData = [
   createApiData('Upload Key', "ea12a61dbasd", ["Site 1", "Site 2"], true, false),
-  createApiData('James Mac', "ea12a61dbasd", ["Site 1", "Site 2", "Site 3"], true, false),
+  createApiData('View Key', "ea12a61dbasd", ["Site 1", "Site 2", "Site 3"], true, false),
 ];
 
 function createEmailData(name, email, sites, read, write) {
@@ -328,8 +399,8 @@ function createEmailData(name, email, sites, read, write) {
 }
 
 const emailData = [
-  createApiData('Alex A', "alex@alex.com", ["Site 1", "Site 2"], true, false),
-  createApiData('James Mac', "james@mac.com", ["Site 1", "Site 2", "Site 3"], true, false),
+  createEmailData('Alex A', "alex@alex.com", ["Site 1", "Site 2"], true, false),
+  createEmailData('James Mac', "james@mac.com", ["Site 1", "Site 2", "Site 3"], true, false),
 ];
 
 
