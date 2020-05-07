@@ -29,9 +29,6 @@ public class LidarDBServer {
     FileLoader fileLoader;
 
     @Autowired
-    SampleTable samples;
-
-    @Autowired
     TestTable tests;
 
     @Autowired
@@ -45,6 +42,15 @@ public class LidarDBServer {
 
     @Autowired
     DirHeightTable dirHeights;
+
+    /*@Autowired
+    GraphConfigTable graphConfigs;
+
+    @Autowired
+    MastGraphTable mastGraphs;
+
+    @Autowired
+    BuoyGraphTable buoyGraphs;*/
 
     @Autowired
     SystemManager systemManager;
