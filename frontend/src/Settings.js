@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 //import { findByLabelText } from "@testing-library/react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form } from "formik";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,14 +15,15 @@ import { getEmail,
   getSites,
   getTeamMembers,
 } from './redux/selectors.js';
+import { logout } from './redux/actions.js';
 import { MaterialText } from "./Components/Material-Inp.js";
 import { CardColumn, Card } from "./Components/Cards.js";
 import Popup from "reactjs-popup";
 
-
 function CredsCard(props){
   const [success, setSuccess] = useState(false);
   const email = useSelector(getEmail);
+  const dispatch = useDispatch();
   return (
     <Card>
       <Formik
@@ -60,6 +61,9 @@ function CredsCard(props){
       {success &&
         <p>Succesfully updated</p>
       }
+      <button className="elipticle-btn" onClick={() => dispatch(logout())}>
+        Logout
+      </button>
     </Card>
   );
 }

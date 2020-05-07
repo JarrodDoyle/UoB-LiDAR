@@ -22,7 +22,7 @@ import './Components/Material-Inp.css';
 function NavPage(){
   const email = useSelector(getEmail);
   let location = useLocation();
-  if (email == null){
+  if (email === null || email === ""){
     return (<Redirect to={"/Login?redirect=" + String(location.pathname)}/>);
   }
   return (

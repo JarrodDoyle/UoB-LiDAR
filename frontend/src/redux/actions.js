@@ -7,7 +7,17 @@ import {
   SET_EMAIL,
   ADD_TEAM_MEMBER,
   UPDATE_TEAM_MEMBER,
+  RESET_STORE,
+  LOGIN_FETCH,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  REGISTER_FETCH,
+  REGISTER_FAILURE,
+  REGISTER_SUCCESS,
+  REGISTER_RESET,
 } from './actionTypes.js'
+
+const domain = "http://localhost:6000"
 
 export const addSite = site => ({
   type: ADD_SITE,
@@ -63,3 +73,86 @@ export const updateTeamMember = member => ({
   email: member.email,
   sites: member.sites,
 })
+
+export const logout = () => ({
+  type: RESET_STORE,
+});
+
+export const loginSuccess = user => ({
+  type: LOGIN_SUCCESS,
+  email: user.email,
+});
+
+export const loginFailure = () => ({
+  type: LOGIN_FAILURE,
+});
+
+export const loginFetch = () => ({
+  type: LOGIN_FETCH,
+});
+
+export const login = credentials => {
+  return (dispatch) => {
+    dispatch(loginFetch())
+    fetch(domain + "/login", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify(credentials),
+    })
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(r => {
+            dispatch(loginSuccess(credentials));
+            dispatch(setMasterApiKey(r.data.master_key));
+          });
+        } else {
+          dispatch(loginFailure());
+        }
+      })
+      .catch(error => {
+        dispatch(loginFailure());
+      });
+  }
+};
+
+export const registerFetch = () => ({
+  type: REGISTER_FETCH,
+});
+
+export const registerSuccess = () => ({
+  type: REGISTER_SUCCESS,
+});
+
+export const registerFailure = () => ({
+  type: REGISTER_FAILURE,
+});
+
+export const registerReset = () => ({
+  type: REGISTER_RESET,
+});
+
+export const register = credentials => {
+  return (dispatch) => {
+    dispatch(registerFetch());
+    fetch(domain + "/register", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify(credentials),
+    })
+      .then(response => {
+        if (response.status === 200)
+          dispatch(registerSuccess());
+        else
+          dispatch(registerFailure());
+      })
+      .catch(error => {
+        dispatch(registerFailure());
+      });
+  }
+};

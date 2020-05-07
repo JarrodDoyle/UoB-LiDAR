@@ -1,21 +1,28 @@
 #!/usr/bin/env python3
-from flask import Flask, request
+from flask import Flask, request, Response
+from flask_cors import CORS
 from DatabaseHandler import *
+import json
 import Util
 app = Flask(__name__)
+CORS(app)
 
 def genSuccessResponse(datatype, data):
-    return {
+    return Response(json.dumps({
         "status": "Success",
         "type": datatype,
         "data": data,
-    }
+    }), status=200, mimetype='application/json', headers={
+        "Content-Type": "application/json",
+    })
 
 def genErrorResponse(message):
-    return {
+    return Response(json.dumps({
         "status": "Error",
         "error_msg": message,
-    }
+    }), status=500, mimetype='application/json', headers={
+        "Content-Type": "application/json",
+    })
 
 notJsonError = genErrorResponse("Request payload must be JSON")
 
@@ -27,6 +34,10 @@ def login():
     account = getAccount(data['email'])
 
     closeDBCon()
+
+    if not account:
+        return genErrorResponse("Invalid username or password")
+
     guessedPass = Util.hashPassword(data['password'], account["salt"])
     if not account or account["pw_hash"] != guessedPass:
         return genErrorResponse("Invalid username or password")

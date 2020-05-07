@@ -7,7 +7,7 @@ export const sites = (state = [], action) => {
   switch (action.type){
     case ADD_SITE:
       return [
-        ...state,
+        ...(state.filter(a => a.id !== action.id)),
         {
           id: action.id,
           name: action.name,
