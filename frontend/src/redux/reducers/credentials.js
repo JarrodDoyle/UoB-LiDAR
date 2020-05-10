@@ -17,7 +17,7 @@ export const credentials = (state = {
   regSuccess: false,
   regFailure: false,
 }, action) => {
-  switch (action.type){
+  switch (action.type) {
     case SET_EMAIL:
       return Object.assign({}, state, {
         email: action.email,

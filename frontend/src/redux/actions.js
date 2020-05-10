@@ -15,6 +15,11 @@ import {
   REGISTER_FAILURE,
   REGISTER_SUCCESS,
   REGISTER_RESET,
+  ORG_FETCHING,
+  ORG_ERROR,
+  ORG_SET,
+  TEAM_FETCHING,
+  TEAM_ERROR,
 } from './actionTypes.js'
 
 const domain = "http://localhost:6000"
@@ -63,7 +68,9 @@ export const addTeamMember = member => ({
   userId: member.userId,
   name: member.name,
   email: member.email,
+  perms: member.perms,
   sites: member.sites,
+  lidars: member.lidars,
 });
 
 export const updateTeamMember = member => ({
@@ -118,15 +125,15 @@ export const login = credentials => {
   }
 };
 
-export const registerFetch = () => ({
+const registerFetch = () => ({
   type: REGISTER_FETCH,
 });
 
-export const registerSuccess = () => ({
+const registerSuccess = () => ({
   type: REGISTER_SUCCESS,
 });
 
-export const registerFailure = () => ({
+const registerFailure = () => ({
   type: REGISTER_FAILURE,
 });
 
@@ -146,13 +153,73 @@ export const register = credentials => {
       body: JSON.stringify(credentials),
     })
       .then(response => {
-        if (response.status === 200)
+        if (response.status === 200) {
           dispatch(registerSuccess());
-        else
+        } else {
           dispatch(registerFailure());
+        }
       })
       .catch(error => {
         dispatch(registerFailure());
       });
   }
 };
+
+const orgFetching = () => ({
+  type: ORG_FETCHING,
+});
+
+const setOrg = org => ({
+  type: ORG_SET,
+  org
+});
+
+const orgError = () => ({
+  type: ORG_ERROR,
+});
+
+export const fetchOrganisationDetails = masterToken => {
+  return (dispatch) => {
+    dispatch(orgFetching());
+    fetch(`${domain}/getUserOrganisation?token=${masterToken}`)
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(r => {
+            dispatch(setOrg(r.data))
+          });
+        } else
+          dispatch(orgError());
+      })
+      .catch(error => {
+        dispatch(orgError());
+      });
+  }
+}
+
+const teamFetching = () => ({
+  type: TEAM_FETCHING,
+});
+
+const teamError = () => ({
+  type: TEAM_ERROR,
+});
+
+export const fetchTeamMembers = masterToken => {
+  return (dispatch) => {
+    dispatch(teamFetching());
+    fetch(`${domain}/getTeamMembers?token=${masterToken}`)
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(r => {
+            r.data.map(member =>
+              dispatch(addTeamMember(member))
+            );
+          });
+        } else
+          dispatch(teamError());
+      })
+      .catch(error => {
+        dispatch(teamError());
+      });
+  }
+}

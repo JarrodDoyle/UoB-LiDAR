@@ -4,12 +4,14 @@ import { sites } from './sites.js';
 import { tokens } from './tokens.js';
 import { credentials } from './credentials.js';
 import { team } from './team.js';
+import { org } from './org.js';
 
 const appReducer = combineReducers({
   sites,
   tokens,
   credentials,
   team,
+  org,
 });
 
 export default (state, action) => {

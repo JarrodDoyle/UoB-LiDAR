@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import { Switch, Redirect, Route, Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
@@ -142,6 +142,7 @@ function RegistrationForm(props){
   const fail = useSelector(getRegisterFailure);
   const isSubmitting = useSelector(getRegisterLoading);
   const dispatch = useDispatch();
+  useEffect(() => {dispatch(registerReset())}, [dispatch]);
   if (redirect){
     return (<Redirect to="/Login"/>);
   }else{
@@ -171,7 +172,7 @@ function RegistrationForm(props){
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values,) => {
           dispatch(register(values));
         }}
       >
@@ -183,7 +184,7 @@ function RegistrationForm(props){
             <MaterialText type="password" name="passwordr" label="Repeat Password"/>
             <div>
               <h3>Register</h3>
-              <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
+              <button type="submit" className="circle-btn" disabled={isSubmitting}><i className="fas fa-chevron-right"/></button>
             </div>
             { fail &&
               <p>There was an error... Please try again</p>

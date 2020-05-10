@@ -13,6 +13,13 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
 export const REGISTER_RESET = "REGISTER_RESET";
-export const REGISTER_FETCH = "REGISTER_FAILURE";
+export const REGISTER_FETCH = "REGISTER_FETCH";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAILURE = "REGISTER_FAILURE";
+
+export const ORG_FETCHING = "ORG_FETCHING";
+export const ORG_SET = "ORG_SET";
+export const ORG_ERROR = "ORG_ERROR";
+
+export const TEAM_FETCHING = "TEAM_FETCHING";
+export const TEAM_ERROR = "TEAM_ERROR";

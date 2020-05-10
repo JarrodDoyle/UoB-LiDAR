@@ -7,7 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { connect, useSelector } from 'react-redux';
-import { addSite, addApiKey, addTeamMember } from './redux/actions.js';
+import { addSite, addApiKey } from './redux/actions.js';
 import { getEmail } from './redux/selectors.js';
 import Dashboard from './Dashboard.js';
 import Sites from './Sites.js';
@@ -62,18 +62,6 @@ function NavPage(){
 }
 
 function App(props) {
-  props.dispatch(addTeamMember({
-    userId: 1,
-    name: "Jeff",
-    email: "Jeff@icedcoffee.dev",
-    sites: [
-      {
-        siteId: "site1",
-        read: true,
-        write: true,
-      }
-    ]
-  }));
   props.dispatch(addApiKey({
     key: "abcdefghijklmnopqrstuvwxyz",
     name: "Hornsea One upload",
