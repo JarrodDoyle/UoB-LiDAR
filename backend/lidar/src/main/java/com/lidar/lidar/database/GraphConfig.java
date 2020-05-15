@@ -8,8 +8,8 @@ public class GraphConfig {
 
     }
 
-    public GraphConfig(String mode, Long pageLength, Long dataLength) {
-        this.mode = mode;
+    public GraphConfig(String name, Long pageLength, Long dataLength) {
+        this.name = name;
         this.pageLength = pageLength;
         this.dataLength = dataLength;
     }
@@ -46,17 +46,6 @@ public class GraphConfig {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Column(name = "mode")
-    String mode;
-
-    public String getMode() {
-        return mode;
-    }
-
-    public void setMode(String mode) {
-        this.mode = mode;
     }
 
     @Column(name = "page_length")

@@ -133,6 +133,10 @@ public class Buoy {
         sh60.reset();
         sh80.reset();
         sh100.reset();
+        dh40.reset();
+        dh60.reset();
+        dh80.reset();
+        dh100.reset();
         saveData(speedHeights, dirHeights);
     }
 }

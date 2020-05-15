@@ -20,6 +20,9 @@ public class SystemManager implements InitializingBean {
     @Autowired
     DirHeightTable dirHeights;
 
+    @Autowired
+    GraphManager graphManager;
+
     Map<String, BuoyController> buoys;
 
     ProcTimerTask task;
@@ -29,10 +32,6 @@ public class SystemManager implements InitializingBean {
         for (Buoy buoy : buoyTable.findAll()) {
             buoys.put(buoy.getSerial(), new BuoyController(buoy, buoyTable, speedHeights, dirHeights));
         }
-
-        task = new ProcTimerTask(buoys);
-
-        new Timer().scheduleAtFixedRate(task, Constants.processInterval, Constants.processInterval);
     }
 
     public void reloadBuoys() {
@@ -42,18 +41,44 @@ public class SystemManager implements InitializingBean {
         }
     }
 
-    public void addBuoySample(BuoySample sample) {
-        buoys.get(sample.getSerial()).addBuoySample(sample);
-        task.registerChange();
+    public void addBuoySample(String serial, BuoySample sample) {
+        BuoyController buoy = buoys.get(serial);
+        buoy.addBuoySample(sample);
+        graphManager.AddBuoySample(serial, sample);
+        buoy.processSamples();
     }
     
-    public void addMastSample(MastSample sample) {
+    public void addBuoySamples(String serial, List<BuoySample> samples) {
+        BuoyController buoy = buoys.get(serial);
+        for (BuoySample sample : samples) {
+            buoy.addBuoySample(sample);
+            graphManager.AddBuoySample(serial, sample);
+        }
+        buoy.processSamples();
+    }
+    
+    public void addMastSample(String serial, MastSample sample) {
         for (BuoyController buoy : buoys.values()) {
-            if (buoy.getMastSerial().equals(sample.getSerial())) {
+            if (buoy.getMastSerial().equals(serial)) {
                 buoy.addMastSample(sample);
+                buoy.processSamples();
             }
         }
-        task.registerChange();
+        graphManager.AddMastSample(serial, sample);
+    }
+    
+    public void addMastSamples(String serial, List<MastSample> samples) {
+        for (BuoyController buoy : buoys.values()) {
+            if (buoy.getMastSerial().equals(serial)) {
+                for (MastSample sample : samples) {
+                    buoy.addMastSample(sample);
+                }
+                buoy.processSamples();
+            }
+        }
+        for (MastSample sample : samples) {
+            graphManager.AddMastSample(serial, sample);
+        }
     }
 
     public void resetBuoy(String serial) {
@@ -62,6 +87,12 @@ public class SystemManager implements InitializingBean {
         }
         else {
             throw new IllegalArgumentException("Buoy does not exist.");
+        }
+    }
+
+    public void resetAll() {
+        for (BuoyController buoy : buoys.values()) {
+            buoy.reset();
         }
     }
 }

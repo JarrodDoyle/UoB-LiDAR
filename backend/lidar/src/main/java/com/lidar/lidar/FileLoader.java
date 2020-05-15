@@ -70,7 +70,7 @@ public class FileLoader {
                             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                                 if (buoyTable.existsById(serial)) {
                                     try {
-                                        systemManager.addBuoySample(BuoySampleFactory.fromCSVLine(serial, line));
+                                        systemManager.addBuoySample(serial, BuoySampleFactory.fromCSVLine(serial, line));
                                     }
                                     catch (IllegalArgumentException e) {
                                         
@@ -78,7 +78,7 @@ public class FileLoader {
                                 }
                                 else if (mastTable.existsById(serial)) {
                                     try {
-                                        systemManager.addMastSample(MastSampleFactory.fromCSVLine(serial, line));
+                                        systemManager.addMastSample(serial, MastSampleFactory.fromCSVLine(line));
                                     }
                                     catch (IllegalArgumentException e) {
         
