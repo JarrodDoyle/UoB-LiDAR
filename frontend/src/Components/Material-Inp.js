@@ -25,3 +25,16 @@ export function MaterialText(props){
     </div>
   );
 }
+
+export function Selector(props) {
+  return (
+    <div>
+      <label htmlFor={props.name}>{props.label}</label>
+      <select {...props}>
+        {props.values.map(i =>
+          <option value={i}>{i}</option>
+        )}
+      </select>
+    </div>
+  );
+}

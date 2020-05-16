@@ -108,11 +108,12 @@ def getUserOrganisationDetails(token):
         "org_id"                : org[0],
         "org_name"              : org[1],
         "org_user_perm_level"   : org[2],
-        "org_user_add_user"     : org[3],
-        "org_user_add_site"     : org[4],
-        "org_user_add_lidar"    : org[5],
-        "org_user_change_perms" : org[6],
-        "org_grant_site_access" : org[7],
+        "org_user_write_meta"   : bool(org[3]),
+        "org_user_add_user"     : bool(org[4]),
+        "org_user_add_site"     : bool(org[5]),
+        "org_user_add_lidar"    : bool(org[6]),
+        "org_user_change_perms" : bool(org[7]),
+        "org_grant_site_access" : bool(org[8]),
     }
 
 def getTeamMembersDB(token):

@@ -129,7 +129,7 @@ function Graph(props) {
   )
 }
 
-class DashboardGridd extends React.Component {
+/* class DashboardGridd extends React.Component {
   constructor(props) {
     super(props);
     this.closePopup = this.closePopup.bind(this);
@@ -215,7 +215,7 @@ class DashboardGridd extends React.Component {
       </>
     );
   }
-}
+} */
 
 function KpiCard(props) {
   return (
@@ -235,6 +235,8 @@ function KpiCard(props) {
                 <span>{cardView.number}</span>
               </CardRow>
             )
+          } else {
+            return (<></>);
           }
           // TODO support other types  
         })}

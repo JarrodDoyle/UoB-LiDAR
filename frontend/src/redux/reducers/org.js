@@ -28,7 +28,7 @@ export const org = (state = {
         can_add_site: action.org.org_user_add_site,
         can_add_lidar: action.org.org_user_add_lidar,
         can_change_user_perms: action.org.org_user_change_perms,
-        can_grant_stie_access: action.org.org_grant_site_access,
+        can_grant_site_access: action.org.org_grant_site_access,
         fetching: false,
         error: false,
       });

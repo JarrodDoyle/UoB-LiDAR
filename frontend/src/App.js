@@ -12,7 +12,7 @@ import { getEmail } from './redux/selectors.js';
 import Dashboard from './Dashboard.js';
 import Sites from './Sites.js';
 import Login from './Login.js';
-import Settings from './Settings.js';
+import Settings from './Settings';
 import Nav from './Nav.js';
 import MapPage from "./MapPage.js";
 import PageNotFound from "./ErrorPage.js";
