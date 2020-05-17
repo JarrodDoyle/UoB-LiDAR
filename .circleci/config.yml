@@ -122,21 +122,16 @@ jobs:
   deploy_login:
     docker:
       - image: circleci/python:latest
-    working_directory: ~/lidar/Login
+    working_directory: ~/lidar
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Install build deps
-          command: pip3 install wheel Flask Flask-Cors pytest mysql-connector-python mysqlclient scrypt
-      - run:
-          name: Build
-          command: python3 setup.py bdist_wheel
-      - run:
           name: Deploy
           command: |
-            scp -o StrictHostKeyChecking=no dist/Server* ubuntu@lidar.icedcoffee.dev
-            ssh -o StrictHostKeyChecking=no ubuntu@lidar.icedcoffee.dev "pip3 install Server* && waitress-serve --call 'Server' &"
+            tar -cf Login.tar Login/*
+            scp -o StrictHostKeyChecking=no Login.tar ubuntu@lidar.icedcoffee.dev
+            ssh -o StrictHostKeyChecking=no ubuntu@lidar.icedcoffee.dev "tar -xf Login.tar && python3 Login/Server.py"
 
 workflows:
   version: 2
