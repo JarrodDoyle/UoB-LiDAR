@@ -121,6 +121,8 @@ jobs:
       - image: circleci/python:latest
     working_directory: ~/lidar/Login
     steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
         name: "Install build deps"
         command: pip3 install wheel Flask Flask-Cors pytest mysql-connector-python mysqlclient scrypt
