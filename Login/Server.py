@@ -11,7 +11,10 @@ CORS(app)
 app.register_blueprint(accountBlueprint)
 CORS(accountBlueprint)
 
-app.register_blueprint(siteBlueprint)
+app.register_blueprint(siteBlueprint, url_prefix="/sites")
+CORS(siteBlueprint)
+
+app.register_blueprint(siteBlueprint, url_prefix="/lidars")
 CORS(siteBlueprint)
 
 app.register_blueprint(organisationBlueprint)
