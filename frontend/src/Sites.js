@@ -1,17 +1,23 @@
 import React from "react";
 import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getSites } from './redux/selectors.js';
 import turbine from "./res/turbine-clear-bold.gif";
+import { 
+  CardGrid,
+  Card,
+  CardHeaderFull,
+  CardRow,
+  CardFooter
+} from "./Components/Cards.js";
+import { PercentageIndicator } from "./Components/Indicators.js";
 import "./Lidars.css";
 
-function Card(props) {
-  let names = ["fas fa-check ok", "fas fa-bacon almost", "fas fa-times bad"]
-  let style = names[Math.floor(Math.random() * 3)];
+function SiteCard(props) {
   return (
-    <div className="lidars-card">
-      <div className="lidars-card-map">
+    <Card>
+      <CardHeaderFull>
         <WrappedMap
           googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAuy0y-1edccXfqufhhq3JFUa0NCBtUzsE"
           loadingElement={<div style={{ height: `100%`, borderRadius: '10px 10px 0px 0px' }} />}
@@ -19,20 +25,20 @@ function Card(props) {
           mapElement={<div style={{ height: `100%`, borderRadius: '10px 10px 0px 0px' }} />}
           location={props.location}
         />
-      </div>
-      <h3>{props.name}
-        <div className="kpi-indicator">
-        <i className={style}></i>
-      </div></h3>
+      </CardHeaderFull>
+      <CardRow>
+        <h3>{props.name}</h3>
+        <PercentageIndicator percentage={props.totalComplete}/>
+      </CardRow>
       
       <p>{props.desc}</p>
-      <div className="lidars-btns">
+      <CardFooter>
         <h4>Go to dash</h4>
-        <Link className="circle-btn" to="/Dashboard">
+        <Link className="circle-btn" to={`/app/Dashboard/${props.id}`}>
           <i className="fas fa-chevron-right"/>
         </Link>
-      </div>
-    </div>  
+      </CardFooter>
+    </Card>
   );
 }
 
@@ -95,20 +101,20 @@ function Map(props) {
 }
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 
-function Sites(props) {
+export default function Sites() {
+  let sites = useSelector(getSites);
   return (
-  <main className="lidars-wrapper">
-    <div className="lidars-grid">
-      {props.sites.map (card => {
-        return(
-          <Card key={card.id} name={card.name}  desc={card.desc} location={card.location}/>
-        )
-      })}
-    </div>
-    <Link to="/login" className="circle-btn lidars-add">
-      <i className="fas fa-plus"/>
-    </Link>
-  </main>
+    <main>
+      <CardGrid>
+        {sites.map (card => {
+          return(
+            <SiteCard key={card.id} {...card}/>
+          )
+        })}
+      </CardGrid>
+      <Link to="/login" className="circle-btn lidars-add">
+        <i className="fas fa-plus"/>
+      </Link>
+    </main>
   );
 }
-export default connect(getSites)(Sites)

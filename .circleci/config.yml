@@ -1,86 +1,193 @@
-# Java Maven CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
-version: 2
-
-general:
-    branches:
-        only:
-            - master
-            - dev
+version: 2.1
 
 jobs:
-  build:
+  get_code:
     docker:
-      # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-        #    working_directory: ~/repo/backend/lidar
-    working_directory: ~/project
-
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
-
+      - image: cimg/base:2020.01
+    working_directory: ~/lidar
     steps:
       - checkout
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/lidar
 
-      # Download and cache dependencies
+  test_frontend:
+    docker:
+      - image: circleci/node:latest
+    working_directory: ~/lidar/frontend
+    steps:
       - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: mvn -f backend/lidar/pom.xml dependency:go-offline
-
-      - run: 
-          name: Install MariaDB, node, and npm
-          command: |
-            sudo apt update -y && sudo apt upgrade -y && sudo apt install -y mariadb-server npm || true
-            curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-            sudo apt install -y nodejs
-
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: npm-cache-v1-{{ checksum "package-lock.json" }}
       - run:
-          name: Start database
-          command: sudo service mysql start
-
+          name: Install Dependencies
+          command: npm ci
+      - save_cache:
+          key: npm-cache-v1-{{ checksum "package-lock.json" }}
+          paths:
+            - /home/circleci/.npm
       - run:
-          name: Populate Database
-          command: |
-              echo "CREATE DATABASE lidarDB" | sudo mysql -u root  
-              sudo mysql -u root "lidarDB" < backend/lidar/test_dump.sql
-              echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
-              echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
+          name: Run Tests
+          command: npm test
+
+  test_backend:
+    docker:
+      - image: circleci/openjdk:latest
+    working_directory: ~/lidar/backend/lidar
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: backend-cache-v1-{{ checksum "pom.xml" }}
+      - run: mvn -f pom.xml dependency:go-offline
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "backend/lidar/pom.xml" }}
-
+          key: backend-cache-v1-{{ checksum "pom.xml" }}
       - run:
-          name: Run backend tests
-          command: mvn -f backend/lidar/pom.xml integration-test
-
-      - run:
-          name: "Deploy to production"
+          name: Install MariaDB
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              cd frontend
-              npm install
-              npm run build
-              tar -cf frontend.tar build/*
-              scp -oStrictHostKeyChecking=no frontend.tar ubuntu@lidar.icedcoffee.dev:
-              ssh ubuntu@lidar.icedcoffee.dev "tar -xf frontend.tar && rm frontend.tar && cp -r build/* /var/www/html && rm -r build"
+            sudo apt install -y mariadb-server
+            sudo service mysql start
+      - run:
+          name: Setup db
+          command: |
+            echo "CREATE DATABASE lidarDB" | sudo mysql -u root
+            sudo mysql -u root "lidarDB" < test_dump.sql
+            echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
+            echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
+      - run:
+          name: Run Tests
+          command: mvn -f pom.xml integration-test
 
-              cd ..
-              mvn -f backend/lidar/pom.xml install
-              scp -oStrictHostKeyChecking=no backend/lidar/target/lidar-0.0.1-SNAPSHOT.jar ubuntu@lidar.icedcoffee.dev:
-                #ssh ubuntu@lidar.icedcoffee.dev "sudo killall java && sudo java -jar lidar-0.0.1-SNAPSHOT.jar &"
-            fi
+  test_login:
+    docker:
+      - image: circleci/python:latest
+    working_directory: ~/lidar/Login
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run: pip3 install Flask Flask-Cors pytest mysql-connector-python mysqlclient scrypt
+      - run:
+          name: Install MariaDB
+          command: |
+            sudo apt install -y mariadb-server
+            sudo service mysql start
+      - run:
+          name: Setup db
+          command: |
+            echo "CREATE DATABASE Account" | sudo mysql -u root
+            sudo mysql -u root "Account" < database_schema2.sql
+            sudo mysql -u root "Account" < organisation_perm.sql
+            echo "CREATE USER aaa IDENTIFIED BY 'bbb';" | sudo mysql -u root
+            echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
+      - run:
+          name: Run Tests
+          command: pytest
 
+  deploy_frontend:
+    docker:
+      - image: circleci/node:latest
+    working_directory: ~/lidar/frontend
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: npm-cache-v1-{{ checksum "package-lock.json" }}
+      - run:
+          name: Build
+          command: npm run build
+      - run:
+          name: Deploy
+          command: |
+            tar -cf frontend.tar build/*
+            scp frontend.tar ubuntu@lidar.icedcoffee.dev:
+            ssh ubuntu@lidar.icedcoffee.dev "tar -xf frontend.tar && rm frontend.tar && cp -r build/* /var/www/html && rm -r build"
+
+  deploy_backend:
+    docker:
+      - image: circleci/openjdk:latest
+    working_directory: ~/lidar/backend/lidar
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: mvn-cache-v1-{{ checksum "pom.xml" }}
+
+  deploy_login:
+    docker:
+      - image: circleci/python:latest
+    working_directory: ~/lidar/Login
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install build deps
+          command: pip3 install wheel Flask Flask-Cors pytest mysql-connector-python mysqlclient scrypt
+      - run:
+          name: Build
+          command: python3 setup.py bdist_wheel
+      - run:
+          name: Deploy
+          command: |
+            scp dist/Server* ubuntu@lidar.icedcoffee.dev
+            ssh ubuntu@lidar.icedcoffee.dev "pip3 install Server* && waitress-serve --call 'Server' &"
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - get_code
+      - test_frontend:
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+                - fontend
+          requires:
+            - get_code
+      - test_backend:
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+                - backend
+          requires:
+            - get_code
+      - test_login:
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+                - Login
+          requires:
+            - get_code
+      - deploy_frontend:
+          filters:
+            branches:
+              only: master
+          requires:
+            - test_frontend
+            - test_backend
+            - test_login
+      - deploy_backend:
+          filters:
+            branches:
+              only: master
+          requires:
+            - test_frontend
+            - test_backend
+            - test_login
+      - deploy_login:
+          filters:
+            branches:
+              only: master
+          requires:
+            - test_frontend
+            - test_backend
+            - test_login

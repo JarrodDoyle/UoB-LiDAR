@@ -3,24 +3,18 @@ package com.lidar.lidar.samples;
 import java.util.*;
 
 public class BuoySample {
-    private String serial;
     private String timestamp;  
     private List<Double> directions;
     private Double gust;
     private List<Double> speeds;
     private List<Double> tis;
 
-    public BuoySample(String serial, String timestamp, List<Double> directions, Double gust, List<Double> speeds, List<Double> tis) {
-        this.serial = serial;
+    public BuoySample(String timestamp, List<Double> directions, Double gust, List<Double> speeds, List<Double> tis) {
         this.timestamp = timestamp;
         this.directions = directions;
         this.gust = gust;
         this.speeds = speeds;
         this.tis = tis;
-    }
-
-    public String getSerial() {
-        return serial;
     }
 
     public String getTimestamp() {
@@ -41,5 +35,25 @@ public class BuoySample {
 
     public List<Double> getTIs() {
         return Collections.unmodifiableList(tis);
+    }
+
+    public String toCSVLine() {
+        String line = timestamp;
+
+        for (Integer i = 0; i < directions.size(); i++) {
+            line += "," + directions.get(i).toString();
+        }
+        
+        line += "," + gust.toString();
+
+        for (Integer i = 0; i < speeds.size(); i++) {
+            line += "," + speeds.get(i).toString();
+        }
+
+        for (Integer i = 0; i < tis.size(); i++) {
+            line += "," + tis.get(i).toString();
+        }
+
+        return line;
     }
 }

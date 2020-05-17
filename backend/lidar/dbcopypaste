@@ -1,0 +1,30 @@
+CREATE TABLE `dirheights` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `height` int(11) DEFAULT NULL,
+  `dira` double DEFAULT NULL,
+  `dirb` double DEFAULT NULL,
+  `mastdira` double DEFAULT NULL,
+  `mastdirb` double DEFAULT NULL,
+  `dirasqr` double DEFAULT NULL,
+  `dirbsqr` double DEFAULT NULL,
+  `mastdirasqr` double DEFAULT NULL,
+  `mastdirbsqr` double DEFAULT NULL,
+  `diraprod` double DEFAULT NULL,
+  `dirbprod` double DEFAULT NULL,
+  `counta` bigint(20) DEFAULT NULL,
+  `countb` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+ADD `dh40` bigint(20) DEFAULT NULL,
+ADD `dh60` bigint(20) DEFAULT NULL,
+ADD `dh80` bigint(20) DEFAULT NULL,
+ADD `dh100` bigint(20) DEFAULT NULL,
+ADD KEY `dh40` (`dh40`),
+ADD KEY `dh60` (`dh60`),
+ADD KEY `dh80` (`dh80`),
+ADD KEY `dh100` (`dh100`),
+ADD CONSTRAINT `dh100` FOREIGN KEY (`dh100`) REFERENCES `dirheights` (`id`),
+ADD CONSTRAINT `dh40` FOREIGN KEY (`dh40`) REFERENCES `dirheights` (`id`),
+ADD CONSTRAINT `dh60` FOREIGN KEY (`dh60`) REFERENCES `dirheights` (`id`),
+ADD CONSTRAINT `dh80` FOREIGN KEY (`dh80`) REFERENCES `dirheights` (`id`)

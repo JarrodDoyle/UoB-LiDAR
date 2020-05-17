@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Percentage Indicator almost lower bound 1`] = `
+<div
+  className="percentage-indicator"
+  percentage={60}
+>
+  <i
+    className="fas fa-bacon almost"
+  />
+</div>
+`;
+
+exports[`Percentage Indicator almost upper bound 1`] = `
+<div
+  className="percentage-indicator"
+  percentage={99}
+>
+  <i
+    className="fas fa-bacon almost"
+  />
+</div>
+`;
+
+exports[`Percentage Indicator bad lower bound 1`] = `
+<div
+  className="percentage-indicator"
+  percentage={0}
+>
+  <i
+    className="fas fa-times bad"
+  />
+</div>
+`;
+
+exports[`Percentage Indicator bad upper bound 1`] = `
+<div
+  className="percentage-indicator"
+  percentage={59}
+>
+  <i
+    className="fas fa-times bad"
+  />
+</div>
+`;
+
+exports[`Percentage Indicator okay 1`] = `
+<div
+  className="percentage-indicator"
+  percentage={100}
+>
+  <i
+    className="fas fa-check ok"
+  />
+</div>
+`;
