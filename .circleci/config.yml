@@ -107,7 +107,7 @@ jobs:
           command: |
             tar -cf frontend.tar build/*
             scp -o StrictHostKeyChecking=no frontend.tar ubuntu@lidar.icedcoffee.dev:
-            ssh ubuntu@lidar.icedcoffee.dev "tar -xf frontend.tar && rm frontend.tar && cp -r build/* /var/www/html && rm -r build"
+            ssh -o StrictHostKeyChecking=no ubuntu@lidar.icedcoffee.dev "tar -xf frontend.tar && rm frontend.tar && cp -r build/* /var/www/html && rm -r build"
 
   deploy_backend:
     docker:
@@ -136,7 +136,7 @@ jobs:
           name: Deploy
           command: |
             scp -o StrictHostKeyChecking=no dist/Server* ubuntu@lidar.icedcoffee.dev
-            ssh ubuntu@lidar.icedcoffee.dev "pip3 install Server* && waitress-serve --call 'Server' &"
+            ssh -o StrictHostKeyChecking=no ubuntu@lidar.icedcoffee.dev "pip3 install Server* && waitress-serve --call 'Server' &"
 
 workflows:
   version: 2
