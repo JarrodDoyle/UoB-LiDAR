@@ -69,7 +69,7 @@ jobs:
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - run: pip install Flask Flask-Cors pytest mysql-connector-python mysqlclient
+      - run: pip install Flask Flask-Cors pytest mysql-connector-python mysqlclient scrypt
       - run: 
           name: Install MariaDB
           command: |
