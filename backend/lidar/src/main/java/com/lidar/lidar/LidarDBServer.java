@@ -59,6 +59,9 @@ public class LidarDBServer {
     @Autowired
     SystemManager systemManager;
 
+    @Autowired
+    GraphManager graphManager;
+
     public static void main(String[] args) {
         SpringApplication.run(LidarDBServer.class, args);
     }
@@ -133,6 +136,11 @@ public class LidarDBServer {
         graphConfigs.save(config);
 
         return "AAAAAA";
+    }
+
+    @GetMapping("/database/graphs/{serial}/{config}/getdatabetween")
+    public String getDataBetween(@PathVariable String serial, @PathVariable String config, @RequestParam(name = "start") String start, @RequestParam(name = "end") String end) {
+        return graphManager.getSamplesBetween(serial, config, start, end);
     }
 
     @PostMapping("/database/registermast")

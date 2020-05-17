@@ -6,6 +6,8 @@ import org.springframework.beans.factory.*;
 
 import java.util.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -44,23 +46,25 @@ public class GraphManager implements InitializingBean {
             Map<String, BufferedWriter> serialMap = new HashMap<String, BufferedWriter>();
             Map<String, List<String>> serialNameMap = new HashMap<String, List<String>>();
 
-            for (final File nameFile : serialFile.listFiles()) {
+            for (final File configFile : serialFile.listFiles()) {
                 Instant latestTime = null;
+                List<String> configFilenames = new ArrayList<String>();
                 
-                for (final File timeFile : nameFile.listFiles()) {
+                for (final File timeFile : configFile.listFiles()) {
                     Instant thisTime = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(timeFile.getName()));
-
+                    configFilenames.add(timeFile.getName());
                     if (latestTime == null || thisTime.isAfter(latestTime)) {
                         latestTime = thisTime;
                     }
                 }
 
+                configFilenames.sort(null);
+
                 try {
+
                     if (latestTime != null) {
-                        serialMap.put(nameFile.getName(), new BufferedWriter(new FileWriter(new File(nameFile, latestTime.toString()))));
-                        List<String> nameFilenames = new ArrayList<String>();
-                        nameFilenames.add(latestTime.toString());
-                        serialNameMap.put(nameFile.getName(), nameFilenames);
+                        serialMap.put(configFile.getName(), new BufferedWriter(new FileWriter(new File(configFile, latestTime.toString()))));
+                        serialNameMap.put(configFile.getName(), configFilenames);
                     }
                 }
                 catch (IOException e) {
@@ -70,6 +74,19 @@ public class GraphManager implements InitializingBean {
 
             files.put(serialFile.getName(), serialMap);
             filenames.put(serialFile.getName(), serialNameMap);
+        }
+    }
+
+    public void processSamples() {
+        for (Map<String, BufferedWriter> serialMap : files.values()) {
+            for (BufferedWriter file : serialMap.values()) {
+                try {
+                    file.flush();
+                }
+                catch (IOException e) {
+
+                }
+            }
         }
     }
 
@@ -91,28 +108,28 @@ public class GraphManager implements InitializingBean {
         }
     }
 
-    void SaveBuoyEntry(String serial, String name, String time, BuoySample entry) {
+    void SaveBuoyEntry(String serial, String config, String time, BuoySample entry) {
         try {
             if (!files.containsKey(serial)) {
-                NewBuoyPage(serial, name, time);
+                NewBuoyPage(serial, config, time);
             }
-            else if (!files.get(serial).containsKey(name)) {
-                NewBuoyPage(serial, name, time);
+            else if (!files.get(serial).containsKey(config)) {
+                NewBuoyPage(serial, config, time);
             }
-            else if (!filenames.get(serial).get(name).get(filenames.get(serial).get(name).size() - 1).equals(time)) {
-                NewBuoyPage(serial, name, time);
+            else if (!filenames.get(serial).get(config).get(filenames.get(serial).get(config).size() - 1).equals(time)) {
+                NewBuoyPage(serial, config, time);
             }
 
-            BufferedWriter fw = files.get(serial).get(name);
+            BufferedWriter fw = files.get(serial).get(config);
 
-            fw.append(entry.toCSVLine() + "\n");
+            fw.append("\n" + entry.toCSVLine());
         }
         catch (IOException e) {
 
         }
     }
 
-    void NewBuoyPage(String serial, String name, String time) {
+    void NewBuoyPage(String serial, String config, String time) {
         if (!files.containsKey(serial)) {
             new File("../../graphs/" + serial).mkdir();
             files.put(serial, new HashMap<String, BufferedWriter>());
@@ -122,12 +139,12 @@ public class GraphManager implements InitializingBean {
         Map<String, BufferedWriter> serialMap = files.get(serial);
         Map<String, List<String>> serialNameMap = filenames.get(serial);
 
-        if (!serialNameMap.containsKey(name)) {
-            new File("../../graphs/" + serial + "/" + name).mkdir();
-            serialNameMap.put(name, new ArrayList<String>());
+        if (!serialNameMap.containsKey(config)) {
+            new File("../../graphs/" + serial + "/" + config).mkdir();
+            serialNameMap.put(config, new ArrayList<String>());
         }
             
-        File f = new File("../../graphs/" + serial + "/" + name + "/" + time);
+        File f = new File("../../graphs/" + serial + "/" + config + "/" + time);
 
         try {
             f.createNewFile();
@@ -142,14 +159,14 @@ public class GraphManager implements InitializingBean {
                     "WindSpeed100mh m/s,WindSpeed120mh m/s,WindSpeed140mh m/s,WindSpeed160mh m/s,WindSpeed180mh m/s," + 
                     "WindSpeed200mh m/s,TI 030m,TI 040m,TI 040m ref,TI 060m," + 
                     "TI 080m,TI 100m,TI 120m,TI 140m,TI 160m," +
-                    "TI 180m,TI 200m\n");
+                    "TI 180m,TI 200m");
 
-            if (serialMap.containsKey(name)) {
-                serialMap.get(name).close();
+            if (serialMap.containsKey(config)) {
+                serialMap.get(config).close();
             }
 
-            serialMap.put(name, fw);
-            serialNameMap.get(name).add(time);
+            serialMap.put(config, fw);
+            serialNameMap.get(config).add(time);
         }
         catch (IOException e) {
 
@@ -174,28 +191,28 @@ public class GraphManager implements InitializingBean {
         }
     }
 
-    void SaveMastEntry(String serial, String name, String time, MastSample entry) {
+    void SaveMastEntry(String serial, String config, String time, MastSample entry) {
         try {
             if (!files.containsKey(serial)) {
-                NewMastPage(serial, name, time);
+                NewMastPage(serial, config, time);
             }
-            else if (!files.get(serial).containsKey(name)) {
-                NewMastPage(serial, name, time);
+            else if (!files.get(serial).containsKey(config)) {
+                NewMastPage(serial, config, time);
             }
-            else if (!filenames.get(serial).get(name).get(filenames.get(serial).get(name).size() - 1).equals(time)) {
-                NewMastPage(serial, name, time);
+            else if (!filenames.get(serial).get(config).get(filenames.get(serial).get(config).size() - 1).equals(time)) {
+                NewMastPage(serial, config, time);
             }
 
-            BufferedWriter fw = files.get(serial).get(name);
+            BufferedWriter fw = files.get(serial).get(config);
 
-            fw.append(entry.toCSVLine() + "\n");
+            fw.append("\n" + entry.toCSVLine());
         }
         catch (IOException e) {
 
         }
     }
 
-    void NewMastPage(String serial, String name, String time) {
+    void NewMastPage(String serial, String config, String time) {
         if (!files.containsKey(serial)) {
             new File("../../graphs/" + serial).mkdir();
             files.put(serial, new HashMap<String, BufferedWriter>());
@@ -205,12 +222,12 @@ public class GraphManager implements InitializingBean {
         Map<String, BufferedWriter> serialMap = files.get(serial);
         Map<String, List<String>> serialNameMap = filenames.get(serial);
 
-        if (!serialNameMap.containsKey(name)) {
-            new File("../../graphs/" + serial + "/" + name).mkdir();
-            serialNameMap.put(name, new ArrayList<String>());
+        if (!serialNameMap.containsKey(config)) {
+            new File("../../graphs/" + serial + "/" + config).mkdir();
+            serialNameMap.put(config, new ArrayList<String>());
         }
             
-        File f = new File("../../graphs/" + serial + "/" + name + "/" + time);
+        File f = new File("../../graphs/" + serial + "/" + config + "/" + time);
 
         try {
             f.createNewFile();
@@ -220,17 +237,166 @@ public class GraphManager implements InitializingBean {
                     "SYSTEM SERIAL: " + serial + "\n" +
                     "TIMESTAMP (ISO-8601) UTC,WindDir030m deg,WindDir040m deg,WindDir060m deg,WindDir080m deg," +
                     "WindDir100m deg,WindSpeed030mh m/s,WindSpeed040mh m/s,WindSpeed060mh m/s,WindSpeed080mh m/s," +
-                    "WindSpeed100mh m/s,TI 030m,TI 040m,TI 060m,TI 080m,TI 100m\n");
+                    "WindSpeed100mh m/s,TI 030m,TI 040m,TI 060m,TI 080m,TI 100m");
 
-            if (serialMap.containsKey(name)) {
-                serialMap.get(name).close();
+            if (serialMap.containsKey(config)) {
+                serialMap.get(config).close();
             }
 
-            serialMap.put(name, fw);
-            serialNameMap.get(name).add(time);
+            serialMap.put(config, fw);
+            serialNameMap.get(config).add(time);
         }
         catch (IOException e) {
     
         }
+    }
+
+    public String getSamplesBetween(String serial, String config, String start, String end) {
+        try {
+            StringBuilder samples = new StringBuilder();
+    
+            final List<String> configFilenames = filenames.get(serial).get(config);
+    
+            if (configFilenames.size() > 0) {
+                Integer startIndex = 0;
+                Integer endIndex = 0;
+    
+                while (startIndex < configFilenames.size() && configFilenames.get(startIndex).compareTo(start) <= 0) {
+                    startIndex++;
+                    endIndex++;
+                }
+                startIndex--;
+                
+                while (endIndex < configFilenames.size() && configFilenames.get(endIndex).compareTo(end) <= 0) {
+                    endIndex++;
+                }
+                endIndex--;
+    
+                if (startIndex.equals(endIndex)) {
+                    if (startIndex.equals(configFilenames.size() - 1)) {
+                        files.get(serial).get(config).close();
+                    }
+                    
+                    BufferedReader fr = new BufferedReader(new FileReader("../../graphs/" + serial + "/" + config + "/" + configFilenames.get(startIndex)));
+                    String fileSamples = getSamplesWithin(fr, start, end);
+                    if (fileSamples != null) samples.append(fileSamples);
+                    fr.close();
+
+                    /*if (startIndex.equals(configFilenames.size() - 1)) {
+                        files.get(serial).put(config, new BufferedWriter(new FileWriter("../../graphs/" + serial + "/" + config + "/" + configFilenames.get(startIndex))));
+                    }*/
+                }
+                else {
+                    if (startIndex >= 0) {
+                        BufferedReader fr = new BufferedReader(new FileReader("../../graphs/" + serial + "/" + config + "/" + configFilenames.get(startIndex)));
+            
+                        String fileSamples = getSamplesAfter(fr, start);
+                        if (fileSamples != null) samples.append(fileSamples);
+                        fr.close();
+                    }
+        
+                    for (Integer fileIndex = startIndex + 1; fileIndex < endIndex; fileIndex++) {
+                        BufferedReader fr = new BufferedReader(new FileReader("../../graphs/" + serial + "/" + config + "/" + configFilenames.get(fileIndex)));
+                        fr.readLine();
+                        fr.readLine();
+                        fr.readLine();
+                        samples.append(readAll(fr));
+                        fr.close();
+                    }
+                    
+                    if (endIndex < configFilenames.size()) {
+                        if (endIndex.equals(configFilenames.size() - 1)) {
+                            files.get(serial).get(config).close();
+                            //files.get(serial).get(config).;
+                            //files.get(serial).put(config, null);
+                        }
+                        
+                        BufferedReader fr = new BufferedReader(new FileReader("../../graphs/" + serial + "/" + config + "/" + configFilenames.get(endIndex)));
+                        String fileSamples = getSamplesBefore(fr, end);
+                        if (fileSamples != null) samples.append(fileSamples);
+                        fr.close();
+
+                        /*if (endIndex.equals(configFilenames.size() - 1)) {
+                            files.get(serial).put(config, new BufferedWriter(new FileWriter("../../graphs/" + serial + "/" + config + "/" + configFilenames.get(endIndex))));
+                        }*/
+                    }
+                }
+            }
+    
+            return samples.toString();
+        }
+        catch (Exception e) {
+            return "fuck";
+        }
+    }
+
+    String getSamplesWithin(BufferedReader fr, String start, String end) throws IOException {
+        String sample = fr.readLine();
+        while (!(sample.charAt(0) >= '0' && sample.charAt(0) <= '9') || sample.subSequence(0, 20).toString().compareTo(start) < 0) {
+            sample = fr.readLine();
+            if (sample == null) {
+                return null;
+            }
+        }
+        
+        String samples = sample;
+        if (sample.subSequence(0, 20).toString().compareTo(end) > 0) {
+            return null;
+        }
+        sample = fr.readLine();
+        
+        while (sample != null && sample.subSequence(0, 20).toString().compareTo(end) <= 0) {
+            samples += "\n" + sample;
+            sample = fr.readLine();
+        }
+
+        return samples;
+    }
+
+    String getSamplesAfter(BufferedReader fr, String start) throws IOException {
+        String sample = fr.readLine();
+        while (!(sample.charAt(0) >= '0' && sample.charAt(0) <= '9') || sample.subSequence(0, 20).toString().compareTo(start) < 0) {
+            sample = fr.readLine();
+            if (sample == null) {
+                return null;
+            }
+        }
+
+        return sample + "\n" + readAll(fr);
+    }
+
+    String getSamplesBefore(BufferedReader fr, String end) throws IOException {
+        String sample = fr.readLine();
+        while (!(sample.charAt(0) >= '0' && sample.charAt(0) <= '9')) {
+            sample = fr.readLine();
+            if (sample == null) {
+                return null;
+            }
+        }
+        
+        String samples = sample;
+        if (sample.subSequence(0, 20).toString().compareTo(end) > 0) {
+            return null;
+        }
+        sample = fr.readLine();
+        
+        while (sample != null && sample.subSequence(0, 20).toString().compareTo(end) <= 0) {
+            samples += "\n" + sample;
+            sample = fr.readLine();
+        }
+
+        return samples;
+    }
+
+    String readAll(BufferedReader fr) throws IOException {
+        StringBuilder output = new StringBuilder();
+
+        int character = fr.read();
+        while (character != -1) {
+            output.append((char)character);
+            character = fr.read();
+        }
+
+        return output.toString();
     }
 }

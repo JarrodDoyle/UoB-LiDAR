@@ -1,7 +1,9 @@
 package com.lidar.lidar;
 
 import com.lidar.lidar.database.*;
+import com.lidar.lidar.samples.BuoySample;
 import com.lidar.lidar.samples.BuoySampleFactory;
+import com.lidar.lidar.samples.MastSample;
 import com.lidar.lidar.samples.MastSampleFactory;
 
 import java.util.*;
@@ -67,23 +69,29 @@ public class FileLoader {
                             reader.skip(15);
                             String serial = reader.readLine().replace(",", "").replaceAll("^[ \t]+|[ \t]+$", "");
                             reader.readLine();
-                            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                                if (buoyTable.existsById(serial)) {
+                            if (buoyTable.existsById(serial)) {
+                                List<BuoySample> samples = new ArrayList<BuoySample>();
+                                for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                                     try {
-                                        systemManager.addBuoySample(serial, BuoySampleFactory.fromCSVLine(serial, line));
+                                        samples.add(BuoySampleFactory.fromCSVLine(serial, line));
                                     }
                                     catch (IllegalArgumentException e) {
                                         
                                     }
                                 }
-                                else if (mastTable.existsById(serial)) {
+                                systemManager.addBuoySamples(serial, samples);
+                            }
+                            else if (mastTable.existsById(serial)) {
+                                List<MastSample> samples = new ArrayList<MastSample>();
+                                for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                                     try {
-                                        systemManager.addMastSample(serial, MastSampleFactory.fromCSVLine(line));
+                                        samples.add(MastSampleFactory.fromCSVLine(line));
                                     }
                                     catch (IllegalArgumentException e) {
-        
+                                        
                                     }
                                 }
+                                systemManager.addMastSamples(serial, samples);
                             }
                             reader.close();
                         }

@@ -46,6 +46,7 @@ public class SystemManager implements InitializingBean {
         buoy.addBuoySample(sample);
         graphManager.AddBuoySample(serial, sample);
         buoy.processSamples();
+        graphManager.processSamples();
     }
     
     public void addBuoySamples(String serial, List<BuoySample> samples) {
@@ -55,6 +56,7 @@ public class SystemManager implements InitializingBean {
             graphManager.AddBuoySample(serial, sample);
         }
         buoy.processSamples();
+        graphManager.processSamples();
     }
     
     public void addMastSample(String serial, MastSample sample) {
@@ -65,6 +67,7 @@ public class SystemManager implements InitializingBean {
             }
         }
         graphManager.AddMastSample(serial, sample);
+        graphManager.processSamples();
     }
     
     public void addMastSamples(String serial, List<MastSample> samples) {
@@ -79,6 +82,7 @@ public class SystemManager implements InitializingBean {
         for (MastSample sample : samples) {
             graphManager.AddMastSample(serial, sample);
         }
+        graphManager.processSamples();
     }
 
     public void resetBuoy(String serial) {
