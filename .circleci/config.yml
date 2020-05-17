@@ -64,18 +64,12 @@ jobs:
 
   test_login:
     docker:
-      - image: circleci/openjdk:latest
-    working_directory: ~/lidar/Login-Server
+      - image: circleci/python:latest
+    working_directory: ~/lidar/Login
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: login-cache-v1-{{ checksum "pom.xml" }}
-      - run: mvn -f pom.xml dependency:go-offline
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: login-cache-v1-{{ checksum "pom.xml" }}
+      - run: pip install Flask Flast-Cors pytest mysql-connector-python mysqlclient
       - run: 
           name: Install MariaDB
           command: |
@@ -90,7 +84,7 @@ jobs:
             echo "GRANT ALL PRIVILEGES ON *.* TO 'aaa'@localhost IDENTIFIED BY 'bbb';" | sudo mysql -u root
       - run:
           name: Run Tests
-          command: mvn -f pom.xml integration-test
+          command: pytest
 
   deploy_frontend:
     docker: 
@@ -122,11 +116,9 @@ jobs:
 
   deploy_login:
     docker:
-      - image: circleci/openjdk:latest
-    working_directory: ~/lidar/Login-Server
+      - image: circleci/python:latest
+    working_directory: ~/lidar/Login
     steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: login-cache-v1-{{ checksum "pom.xml" }}
    
