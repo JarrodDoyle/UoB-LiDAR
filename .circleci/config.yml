@@ -124,16 +124,16 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-        name: Install build deps
-        command: pip3 install wheel Flask Flask-Cors pytest mysql-connector-python mysqlclient scrypt
+          name: Install build deps
+          command: pip3 install wheel Flask Flask-Cors pytest mysql-connector-python mysqlclient scrypt
       - run:
-        name: Build
-        command: python3 setup.py bdist_wheel
+          name: Build
+          command: python3 setup.py bdist_wheel
       - run:
-        name: Deploy
-        command: |
-          scp dist/Server* ubuntu@lidar.icedcoffee.dev
-          ssh ubuntu@lidar.icedcoffee.dev "pip3 install Server* && waitress-serve --call 'Server' &"
+          name: Deploy
+          command: |
+            scp dist/Server* ubuntu@lidar.icedcoffee.dev
+            ssh ubuntu@lidar.icedcoffee.dev "pip3 install Server* && waitress-serve --call 'Server' &"
 
 workflows:
   version: 2
