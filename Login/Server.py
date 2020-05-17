@@ -6,25 +6,21 @@ from AccountHandler import accountBlueprint
 from SiteHandler import siteBlueprint
 from OrganisationHandler import organisationBlueprint
 
-def create_app():
-    app = Flask(__name__)
-    CORS(app)
+app = Flask(__name__)
+CORS(app)
 
-    app.register_blueprint(accountBlueprint)
-    CORS(accountBlueprint)
+app.register_blueprint(accountBlueprint)
+CORS(accountBlueprint)
 
-    app.register_blueprint(siteBlueprint, url_prefix="/sites")
-    CORS(siteBlueprint)
+app.register_blueprint(siteBlueprint, url_prefix="/sites")
+CORS(siteBlueprint)
 
-    app.register_blueprint(siteBlueprint, url_prefix="/lidars")
-    CORS(siteBlueprint)
+app.register_blueprint(siteBlueprint, url_prefix="/lidars")
+CORS(siteBlueprint)
 
-    app.register_blueprint(organisationBlueprint)
-    CORS(organisationBlueprint)
-
-    return app
+app.register_blueprint(organisationBlueprint)
+CORS(organisationBlueprint)
 
 if __name__ == "__main__":
-    app = create_app()
     serve(app, host='0.0.0.0', port=6000)
     #app.run(host='0.0.0.0', port=6000)
