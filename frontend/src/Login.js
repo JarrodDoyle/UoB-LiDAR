@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import { Switch, Redirect, Route, Link, useLocation } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { MaterialText } from './Material-Inp.js';
-import { setEmail, setMasterApiKey } from './redux/actions.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { MaterialText } from './Components/Material-Inp.js';
+import { login, register, registerReset } from './redux/actions.js';
+import {
+  getMasterKey,
+  getLoginLoading,
+  getLoginFailure,
+  getRegisterFailure,
+  getRegisterLoading,
+  getRegisterSuccess,
+} from './redux/selectors.js';
 import Tracking from './Tracking.js';
 import i0 from './res/login-bg0.jpg';
 import i1 from './res/login-bg1.jpg';
@@ -72,15 +80,18 @@ function useQuery() {
 }
 
 function LoginForm(props){
-  const [redirect, setRedirect] = useState(false);
+  const masterKey = useSelector(getMasterKey);
+  const redirect = masterKey !== "" && masterKey !== null;
+  const failure = useSelector(getLoginFailure);
+  const isLoading = useSelector(getLoginLoading);
   const dispatch = useDispatch();
   let query = useQuery();
   if (redirect){
-    let redirect = query.get("redirect");
-    if (redirect === null){
-      redirect = "/Sites";
+    let redirectLocation = query.get("redirect");
+    if (redirectLocation === null){
+      redirectLocation = "/app/Sites";
     }
-    return (<Redirect to={redirect}/>);
+    return (<Redirect to={redirectLocation}/>);
   }else{
     return (
       <Formik
@@ -99,22 +110,22 @@ function LoginForm(props){
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          setSubmitting(false);
-          dispatch(setEmail(values.email));
-          dispatch(setMasterApiKey("I_am_the_master"));
-          setRedirect(true);
+        onSubmit={(values) => {
+          dispatch(login(values));
         }}
       >
-        {({ isSubmitting, isValidating }) => (
+        {({ _ , isValidating }) => (
           <Form className="Login" method="post">
             <h2>LiDAR {isValidating}</h2>
             <MaterialText type="email" name="email" label="Email"/>
             <MaterialText type="password" name="password" label="Password" required/>
             <div>
               <h3>Login</h3>
-              <button type="submit" disabled={isSubmitting} className="circle-btn"><i className="fas fa-chevron-right"/></button>
+              <button type="submit" disabled={isLoading} className="circle-btn"><i className="fas fa-chevron-right"/></button>
             </div>
+            { failure &&
+            <p>Error: Incorrect username or password</p>
+            }
             <div>
               <Link to="/login/register">Create account</Link>
               <Link to="/login/forgot">Forgot password</Link>
@@ -127,7 +138,11 @@ function LoginForm(props){
 }
 
 function RegistrationForm(props){
-  const [redirect, setRedirect] = useState(false);
+  const redirect = useSelector(getRegisterSuccess);
+  const fail = useSelector(getRegisterFailure);
+  const isSubmitting = useSelector(getRegisterLoading);
+  const dispatch = useDispatch();
+  useEffect(() => {dispatch(registerReset())}, [dispatch]);
   if (redirect){
     return (<Redirect to="/Login"/>);
   }else{
@@ -147,7 +162,7 @@ function RegistrationForm(props){
           if (!values.password){
             errors.password = "Required";
           }
-          
+
           if (!values.passwordr){
             errors.passwordr = "Required";
           }
@@ -157,12 +172,11 @@ function RegistrationForm(props){
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          setSubmitting(false);
-          setRedirect(true);
+        onSubmit={(values,) => {
+          dispatch(register(values));
         }}
       >
-        {({ isSubmitting, isValidating }) => (
+        {({ _, isValidating }) => (
           <Form className="Login" method="post">
             <h2>LiDAR</h2>
             <MaterialText type="email" name="email" label="Email"/>
@@ -170,8 +184,11 @@ function RegistrationForm(props){
             <MaterialText type="password" name="passwordr" label="Repeat Password"/>
             <div>
               <h3>Register</h3>
-              <button type="submit" className="circle-btn"><i className="fas fa-chevron-right"/></button>
+              <button type="submit" className="circle-btn" disabled={isSubmitting}><i className="fas fa-chevron-right"/></button>
             </div>
+            { fail &&
+              <p>There was an error... Please try again</p>
+            }
             <div>
               <Link to="/login/">I've got a login</Link>
             </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoogleMap, withScriptjs, withGoogleMap, Marker, InfoWindow } from 'react-google-maps';
-import { connect } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 import { toggleSiteMapOpen } from './redux/actions.js';
 import { getSites } from './redux/selectors.js';
 import turbine from "./res/turbine-clear-bold.gif";
@@ -45,7 +45,7 @@ let SiteMarker = connect()((props) => {
         <InfoWindow
           zIndex={100}
           position={{
-            lat: props.site.location.lat + 0.3,
+            lat: props.site.location.lat,
             lng: props.site.location.lng,
           }}
           onCloseClick={() => props.dispatch(toggleSiteMapOpen(props.site.id))}
@@ -54,7 +54,7 @@ let SiteMarker = connect()((props) => {
               <h2>{props.site.name}</h2>
               <span>{props.site.desc}</span>
               <div className="lidars-btns">
-              <Link className="elipticle-btn" to="/Dashboard">
+              <Link className="elipticle-btn" to={`/app/Dashboard/${props.site.id}`}>
               <h5>Go to dash <i className="fas fa-chevron-right"/></h5>
               </Link>
             </div>
@@ -84,10 +84,11 @@ function Map(props) {
 }
 
 const WrappedMap = withScriptjs(withGoogleMap(Map))
-function MapPage(props){
+export default function MapPage(props){
+  let sites = useSelector(getSites);
   return(
     <WrappedMap
-      sites = {props.sites}
+      sites = {sites}
       googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAuy0y-1edccXfqufhhq3JFUa0NCBtUzsE"
       loadingElement={<div style={{ height: `100%` }} />}
       containerElement={<div style={{ height: `100%` }} />}
@@ -96,4 +97,3 @@ function MapPage(props){
     />
   );
 }
-export default connect(getSites)(MapPage);

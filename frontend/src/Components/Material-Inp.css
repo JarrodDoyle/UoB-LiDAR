@@ -1,13 +1,16 @@
 .Material-Inp-Group{
   position: relative;  
   display: block !important;
+  --input-text-size: 0.85rem;
+  --label-text-size: 1.05rem;
+  margin-top: var(--label-text-size);
 }
 
 .Material-Inp-Group input{
   border: none;
   border-bottom: 1px solid var(--lightgray);
   background-color: transparent;
-  font-size:14px;
+  font-size: var(--input-text-size);
   padding:10px 10px 10px 5px;
   width: calc(100% - 15px);
 }
@@ -19,25 +22,25 @@
 
 .Material-Inp-Group label{
   color: var(--gray); 
-  font-size:18px;
+  font-size: var(--input-text-size);
   font-weight:normal;
   position:absolute;
   pointer-events:none;
-  left:5px;
-  top:10px;
+  left: 5px;
+  top: var(--input-text-size);
   transition:0.2s ease all; 
 }
 
 /* active state */
 .Material-Inp-Group input:focus ~ label{
-  top:-20px;
-  font-size:14px;
+  top: calc(var(--input-text-size) - var(--label-text-size) - 0.9rem);
+  font-size: var(--label-text-size);
   color: var(--salmon)
 }
 /* Keeps text high when not focused */
 .Material-Inp-Group label.active, .Material-Inp-Group input:placeholder-shown ~ label {
-  top: -20px;
-  font-size:14px;
+  top: calc(var(--input-text-size) - var(--label-text-size) - 0.9rem);
+  font-size: var(--label-text-size);
   color: var(--gray) !important;
 }
 
@@ -123,6 +126,6 @@ input:focus ~ .highlight {
   background-color: var(--salmon-light);
 }
 
-.material-form *{
+.material-form > *{
   margin-bottom: 20px;
 }
