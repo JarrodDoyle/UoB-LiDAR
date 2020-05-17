@@ -10,10 +10,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
+			.authorizeRequests().anyRequest().permitAll();
+				/*.antMatchers("/test/**").hasIpAddress("127.0.0.1").and()
 			.authorizeRequests()
-				.antMatchers("/test/**").hasIpAddress("127.0.0.1").and()
-			.authorizeRequests()
-				.regexMatchers("^/(?!test).*$").permitAll();
+				.regexMatchers("^/(?!test).*$").permitAll();*/
 	}
 }
 

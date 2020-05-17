@@ -15,8 +15,8 @@ public class JsonFactory {
         JSONObject speed = speed(buoy);
         json.put("speed", speed);
         
-        JSONObject distance = distance();
-        json.put("distance", distance);
+        JSONObject direction = direction(buoy);
+        json.put("direction", direction);
         
         JSONObject ti = ti();
         json.put("ti", ti);
@@ -58,22 +58,45 @@ public class JsonFactory {
         return kpis;
     }
 
-    private static JSONObject distance() {
-        JSONObject distance = new JSONObject();
+    private static JSONObject direction(Buoy buoy) {
+        JSONObject direction = new JSONObject();
         
-        /*JSONObject h40 = exampleDistanceKPIs();
-        distance.put("h40", h40);    
+        JSONObject h40 = directionKPIs(buoy.getDh40());
+        direction.put("h40", h40);    
 
-        JSONObject h60 = exampleDistanceKPIs();
-        distance.put("h60", h60);    
+        JSONObject h60 = directionKPIs(buoy.getDh60());
+        direction.put("h60", h60);    
 
-        JSONObject h80 = exampleDistanceKPIs();
-        distance.put("h80", h80);    
+        JSONObject h80 = directionKPIs(buoy.getDh80());
+        direction.put("h80", h80);    
 
-        JSONObject h100 = exampleDistanceKPIs();
-        distance.put("h100", h100);*/
+        JSONObject h100 = directionKPIs(buoy.getDh100());
+        direction.put("h100", h100);
 
-        return distance;
+        return direction;
+    }
+
+    private static JSONObject directionKPIs(DirHeight dirHeight) {
+        Random r = new Random();
+
+        JSONObject kpis = new JSONObject();
+
+        JSONObject slope = new JSONObject();
+        slope.put("a", dirHeight.slopea());
+        slope.put("b", dirHeight.slopeb());
+        kpis.put("slope", slope);
+        
+        JSONObject offset = new JSONObject();
+        offset.put("a", dirHeight.intercepta());
+        offset.put("b", dirHeight.interceptb());
+        kpis.put("offset", offset);
+
+        JSONObject rSqr = new JSONObject();
+        rSqr.put("a", dirHeight.rSquareda());
+        rSqr.put("b", dirHeight.rSquaredb());
+        kpis.put("rSqr", rSqr);
+
+        return kpis;
     }
 
     private static JSONObject ti() {
@@ -103,8 +126,8 @@ public class JsonFactory {
         JSONObject speed = exampleSpeed();
         json.put("speed", speed);
         
-        JSONObject distance = exampleDistance();
-        json.put("distance", distance);
+        JSONObject direction = exampleDirection();
+        json.put("direction", direction);
         
         JSONObject ti = exampleTi();
         json.put("ti", ti);
@@ -148,25 +171,25 @@ public class JsonFactory {
         return kpis;
     }
     
-    private static JSONObject exampleDistance() {
-        JSONObject distance = new JSONObject();
+    private static JSONObject exampleDirection() {
+        JSONObject direction = new JSONObject();
         
-        JSONObject h40 = exampleDistanceKPIs();
-        distance.put("h40", h40);    
+        JSONObject h40 = exampleDirectionKPIs();
+        direction.put("h40", h40);    
 
-        JSONObject h60 = exampleDistanceKPIs();
-        distance.put("h60", h60);    
+        JSONObject h60 = exampleDirectionKPIs();
+        direction.put("h60", h60);    
 
-        JSONObject h80 = exampleDistanceKPIs();
-        distance.put("h80", h80);    
+        JSONObject h80 = exampleDirectionKPIs();
+        direction.put("h80", h80);    
 
-        JSONObject h100 = exampleDistanceKPIs();
-        distance.put("h100", h100);    
+        JSONObject h100 = exampleDirectionKPIs();
+        direction.put("h100", h100);    
 
-        return distance;
+        return direction;
     }
 
-    private static JSONObject exampleDistanceKPIs() {
+    private static JSONObject exampleDirectionKPIs() {
         Random r = new Random();
 
         JSONObject kpis = new JSONObject();
@@ -219,5 +242,14 @@ public class JsonFactory {
         kpis.put("rSqr", 0.94d + 0.06d * r.nextDouble());
 
         return kpis;
+    }
+
+    public static JSONObject exampleCoverage() {
+        JSONObject coverage = new JSONObject();
+
+        coverage.put("serial", "EXBUOY");
+        coverage.put("mast", "EXMAST");
+
+        return coverage;
     }
 }
