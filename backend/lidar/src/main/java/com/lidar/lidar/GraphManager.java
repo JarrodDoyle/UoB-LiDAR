@@ -32,17 +32,17 @@ public class GraphManager implements InitializingBean {
     MastGraphTable mastGraphs;
 
     Map<String, Map<String, BufferedWriter>> files;
-    Map<String, Map<String, String>> filenames;
+    Map<String, Map<String, List<String>>> filenames;
 
     public void afterPropertiesSet() {
         files = new HashMap<String, Map<String, BufferedWriter>>();
-        filenames = new HashMap<String, Map<String, String>>();
+        filenames = new HashMap<String, Map<String, List<String>>>();
 
         File graphs = new File("../../graphs");
 
         for (final File serialFile : graphs.listFiles()) {
             Map<String, BufferedWriter> serialMap = new HashMap<String, BufferedWriter>();
-            Map<String, String> serialNameMap = new HashMap<String, String>();
+            Map<String, List<String>> serialNameMap = new HashMap<String, List<String>>();
 
             for (final File nameFile : serialFile.listFiles()) {
                 Instant latestTime = null;
@@ -58,11 +58,9 @@ public class GraphManager implements InitializingBean {
                 try {
                     if (latestTime != null) {
                         serialMap.put(nameFile.getName(), new BufferedWriter(new FileWriter(new File(nameFile, latestTime.toString()))));
-                        serialNameMap.put(nameFile.getName(), latestTime.toString());
-                    }
-                    else {
-                        serialMap.put(nameFile.getName(), null);
-                        serialNameMap.put(nameFile.getName(), null);
+                        List<String> nameFilenames = new ArrayList<String>();
+                        nameFilenames.add(latestTime.toString());
+                        serialNameMap.put(nameFile.getName(), nameFilenames);
                     }
                 }
                 catch (IOException e) {
@@ -101,7 +99,7 @@ public class GraphManager implements InitializingBean {
             else if (!files.get(serial).containsKey(name)) {
                 NewBuoyPage(serial, name, time);
             }
-            else if (filenames.get(serial).get(name) != time) {
+            else if (!filenames.get(serial).get(name).get(filenames.get(serial).get(name).size() - 1).equals(time)) {
                 NewBuoyPage(serial, name, time);
             }
 
@@ -118,16 +116,15 @@ public class GraphManager implements InitializingBean {
         if (!files.containsKey(serial)) {
             new File("../../graphs/" + serial).mkdir();
             files.put(serial, new HashMap<String, BufferedWriter>());
-            filenames.put(serial, new HashMap<String, String>());
+            filenames.put(serial, new HashMap<String, List<String>>());
         }
 
         Map<String, BufferedWriter> serialMap = files.get(serial);
-        Map<String, String> serialNameMap = filenames.get(serial);
+        Map<String, List<String>> serialNameMap = filenames.get(serial);
 
-        if (!serialMap.containsKey(name)) {
+        if (!serialNameMap.containsKey(name)) {
             new File("../../graphs/" + serial + "/" + name).mkdir();
-            serialMap.put(name, null);
-            serialNameMap.put(name, null);
+            serialNameMap.put(name, new ArrayList<String>());
         }
             
         File f = new File("../../graphs/" + serial + "/" + name + "/" + time);
@@ -147,12 +144,12 @@ public class GraphManager implements InitializingBean {
                     "TI 080m,TI 100m,TI 120m,TI 140m,TI 160m," +
                     "TI 180m,TI 200m\n");
 
-            if (serialMap.get(name) != null) {
+            if (serialMap.containsKey(name)) {
                 serialMap.get(name).close();
             }
 
             serialMap.put(name, fw);
-            serialNameMap.put(name, time);
+            serialNameMap.get(name).add(time);
         }
         catch (IOException e) {
 
@@ -185,7 +182,7 @@ public class GraphManager implements InitializingBean {
             else if (!files.get(serial).containsKey(name)) {
                 NewMastPage(serial, name, time);
             }
-            else if (filenames.get(serial).get(name) != time) {
+            else if (!filenames.get(serial).get(name).get(filenames.get(serial).get(name).size() - 1).equals(time)) {
                 NewMastPage(serial, name, time);
             }
 
@@ -202,16 +199,15 @@ public class GraphManager implements InitializingBean {
         if (!files.containsKey(serial)) {
             new File("../../graphs/" + serial).mkdir();
             files.put(serial, new HashMap<String, BufferedWriter>());
-            filenames.put(serial, new HashMap<String, String>());
+            filenames.put(serial, new HashMap<String, List<String>>());
         }
 
         Map<String, BufferedWriter> serialMap = files.get(serial);
-        Map<String, String> serialNameMap = filenames.get(serial);
+        Map<String, List<String>> serialNameMap = filenames.get(serial);
 
-        if (!serialMap.containsKey(name)) {
+        if (!serialNameMap.containsKey(name)) {
             new File("../../graphs/" + serial + "/" + name).mkdir();
-            serialMap.put(name, null);
-            serialNameMap.put(name, null);
+            serialNameMap.put(name, new ArrayList<String>());
         }
             
         File f = new File("../../graphs/" + serial + "/" + name + "/" + time);
@@ -226,12 +222,12 @@ public class GraphManager implements InitializingBean {
                     "WindDir100m deg,WindSpeed030mh m/s,WindSpeed040mh m/s,WindSpeed060mh m/s,WindSpeed080mh m/s," +
                     "WindSpeed100mh m/s,TI 030m,TI 040m,TI 060m,TI 080m,TI 100m\n");
 
-            if (serialMap.get(name) != null) {
+            if (serialMap.containsKey(name)) {
                 serialMap.get(name).close();
             }
 
             serialMap.put(name, fw);
-            serialNameMap.put(name, time);
+            serialNameMap.get(name).add(time);
         }
         catch (IOException e) {
     
