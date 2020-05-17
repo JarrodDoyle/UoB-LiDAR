@@ -35,6 +35,17 @@ export function Selector(props) {
           <option value={i}>{i}</option>
         )}
       </select>
+      <ErrorMessage name={props.name}/>
+    </div>
+  );
+}
+
+export function Checkbox(props) {
+  return (
+    <div>
+      <label htmlFor={props.name}>{props.label}</label>
+      <input type="checkbox" name={props.name} value={props.name} {...props}/>
+      <ErrorMessage name={props.name}/>
     </div>
   );
 }

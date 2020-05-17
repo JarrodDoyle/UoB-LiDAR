@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form } from "formik";
 import { Card } from "../Components/Cards.js";
-import { Selector } from '../Components/Material-Inp.js';
+import { Selector, Checkbox } from '../Components/Material-Inp.js';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -68,6 +68,8 @@ function AddSiteMenu(props){
           <Form className="material-form">
             <h1>Add {props.type} to {props.email}</h1>
             <Selector name="site_id" label={props.type} values={["hi","hello","nbo"]}/>
+            <Checkbox name="read" label="read"/>
+            <Checkbox name="write" label="write"/>
             <div className="elipticle-btn" style={{width: 170}}>
               <button type="submit">Submit</button>
             </div>
@@ -79,9 +81,22 @@ function AddSiteMenu(props){
   );
 }
 
+function SiteTableCheckbox(props) {
+  const [disabled, setDisabled] = useState(props.disabled || false);
+  const dispatch = useDispatch();
+  return (
+    <input type="checkbox" name={props.type} value={props.type} checked={props.checked} disabled={disabled}
+      onChange={() => {
+        setDisabled(true);
+        // TODO dispatch update here
+      }
+    }/>
+  );
+}
+
 function SitesTable(props){
   return (
-    <Table aria-label={`${props.email}'s site permissions`}>
+    <Table aria-label={`${props.email}'s ${props.type} permissions`}>
       <TableBody>
         <TableRow align="center">
           <TableCell align="center">{props.type}</TableCell>
@@ -92,8 +107,8 @@ function SitesTable(props){
         {props.sites.map(site => (
           <TableRow key={site.id} align="center">
             <TableCell align="center">{site.name}</TableCell>
-            <TableCell align="center">{site.read ? <i className="fas fa-check"/> : <i className="fas fa-times"/>}</TableCell>
-            <TableCell align="center">{site.write ? <i className="fas fa-check"/> : <i className="fas fa-times"/>}</TableCell>
+            <TableCell align="center"><SiteTableCheckbox type="read" checked={site.read}/></TableCell>
+            <TableCell align="center"><SiteTableCheckbox type="write" checked={site.write}/></TableCell>
             <TableCell align="center">{props.can_change_user_perms && <i className="fas fa-trash"/>}</TableCell>
           </TableRow>
         ))}
