@@ -184,8 +184,8 @@ public class SpeedHeight {
         Double buoyVal = buoySample.getSpeeds().get(getBuoyIndex());
         Double mastVal = mastSample.getSpeeds().get(getMastIndex());
 
-        Boolean a = buoyVal >= Constants.aMin && buoyVal <= Constants.aMax;
-        Boolean b = buoyVal >= Constants.bMin;
+        Boolean a = buoyVal >= Constants.speedaMin && buoyVal <= Constants.speedaMax;
+        Boolean b = buoyVal >= Constants.speedbMin;
 
         if (a) {
             speeda += buoyVal;
@@ -220,6 +220,21 @@ public class SpeedHeight {
         else if (height.equals(80)) return 3;
         else if (height.equals(100)) return 4;
         else return -1;
+    }
+
+    public void reset() {
+        speeda = 0.0;
+        speedb = 0.0;
+        mastSpeeda = 0.0;
+        mastSpeedb = 0.0;   
+        speedaSqr = 0.0;
+        speedbSqr = 0.0;
+        mastSpeedaSqr = 0.0;
+        mastSpeedbSqr = 0.0;
+        speedaProd = 0.0;
+        speedbProd = 0.0;
+        counta = 0l;
+        countb = 0l;
     }
 
     public Double slopea() {

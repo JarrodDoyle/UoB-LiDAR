@@ -11,14 +11,16 @@ public class BuoyController {
     private Buoy buoy;
     private BuoyTable buoys;
     private SpeedHeightTable speedHeights;
+    private DirHeightTable dirHeights;
 
     private Queue<BuoySample> buoySamples;
     private Queue<MastSample> mastSamples;
 
-    public BuoyController(Buoy buoy, BuoyTable buoys, SpeedHeightTable speedHeights) {
+    public BuoyController(Buoy buoy, BuoyTable buoys, SpeedHeightTable speedHeights, DirHeightTable dirHeights) {
         this.buoy = buoy;
         this.buoys = buoys;
         this.speedHeights = speedHeights;
+        this.dirHeights = dirHeights;
 
         buoySamples = new LinkedList<BuoySample>();
         mastSamples = new LinkedList<MastSample>();
@@ -62,7 +64,7 @@ public class BuoyController {
         
         if (updated) {
             buoys.save(buoy);
-            buoy.saveData(speedHeights);
+            buoy.saveData(speedHeights, dirHeights);
         }
     }
 
@@ -76,5 +78,11 @@ public class BuoyController {
         else {
             return buoyTime.compareTo(mastTime);
         }
+    }
+
+    public void reset() {
+        buoySamples.clear();
+        mastSamples.clear();
+        buoy.reset(speedHeights, dirHeights);
     }
 }
