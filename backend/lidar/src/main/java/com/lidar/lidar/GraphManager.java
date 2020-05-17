@@ -63,7 +63,7 @@ public class GraphManager implements InitializingBean {
                 try {
 
                     if (latestTime != null) {
-                        serialMap.put(configFile.getName(), new BufferedWriter(new FileWriter(new File(configFile, latestTime.toString()))));
+                        serialMap.put(configFile.getName(), new BufferedWriter(new FileWriter(new File(configFile, latestTime.toString()), true)));
                         serialNameMap.put(configFile.getName(), configFilenames);
                     }
                 }
@@ -273,18 +273,10 @@ public class GraphManager implements InitializingBean {
                 endIndex--;
     
                 if (startIndex.equals(endIndex)) {
-                    if (startIndex.equals(configFilenames.size() - 1)) {
-                        files.get(serial).get(config).close();
-                    }
-                    
                     BufferedReader fr = new BufferedReader(new FileReader("../../graphs/" + serial + "/" + config + "/" + configFilenames.get(startIndex)));
                     String fileSamples = getSamplesWithin(fr, start, end);
                     if (fileSamples != null) samples.append(fileSamples);
                     fr.close();
-
-                    /*if (startIndex.equals(configFilenames.size() - 1)) {
-                        files.get(serial).put(config, new BufferedWriter(new FileWriter("../../graphs/" + serial + "/" + config + "/" + configFilenames.get(startIndex))));
-                    }*/
                 }
                 else {
                     if (startIndex >= 0) {
@@ -305,20 +297,10 @@ public class GraphManager implements InitializingBean {
                     }
                     
                     if (endIndex < configFilenames.size()) {
-                        if (endIndex.equals(configFilenames.size() - 1)) {
-                            files.get(serial).get(config).close();
-                            //files.get(serial).get(config).;
-                            //files.get(serial).put(config, null);
-                        }
-                        
                         BufferedReader fr = new BufferedReader(new FileReader("../../graphs/" + serial + "/" + config + "/" + configFilenames.get(endIndex)));
                         String fileSamples = getSamplesBefore(fr, end);
                         if (fileSamples != null) samples.append(fileSamples);
                         fr.close();
-
-                        /*if (endIndex.equals(configFilenames.size() - 1)) {
-                            files.get(serial).put(config, new BufferedWriter(new FileWriter("../../graphs/" + serial + "/" + config + "/" + configFilenames.get(endIndex))));
-                        }*/
                     }
                 }
             }
@@ -398,5 +380,23 @@ public class GraphManager implements InitializingBean {
         }
 
         return output.toString();
+    }
+
+    public void resetAll() {
+        for (File serialFile : new File("../../graphs").listFiles()) {
+            for (File configFile : serialFile.listFiles()) {
+                for (File dataFile : configFile.listFiles()) {
+                    dataFile.delete();
+                }
+            }
+        }
+    }
+    
+    public void reset(String serial) {
+        for (File configFile : new File("../../graphs/" + serial).listFiles()) {
+            for (File dataFile : configFile.listFiles()) {
+                dataFile.delete();
+            }
+        }
     }
 }

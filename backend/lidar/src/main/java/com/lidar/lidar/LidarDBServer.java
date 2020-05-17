@@ -311,6 +311,8 @@ public class LidarDBServer {
                 graph.resetGraph();
             }
 
+            graphManager.reset(serial);
+            
             return "Buoy reset.";
         }
         catch (IllegalArgumentException e) {
@@ -319,6 +321,8 @@ public class LidarDBServer {
                 for (MastGraph graph : mastGraphs.findByMast(maybeMast.get())) {
                     graph.resetGraph();
                 }
+
+                graphManager.reset(serial);
 
                 return "Mast reset.";
             }
@@ -337,6 +341,8 @@ public class LidarDBServer {
         for (MastGraph graph : mastGraphs.findAll()) {
             graph.resetGraph();
         }
+
+        graphManager.resetAll();
 
         return "All devices reset.";
     }
