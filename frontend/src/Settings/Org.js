@@ -139,7 +139,7 @@ export function TeamMembersCard(props) {
 
   return (
     <Card>
-      <h1>Team Members</h1>
+      <h1>Team Membersi</h1>
       <TableContainer component={Paper}>
       <Table  aria-label="simple table">
         <TableHead>
