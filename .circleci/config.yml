@@ -101,7 +101,7 @@ jobs:
           command: npm ci
       - run:
           name: Use remote path
-          command: sed "s/http:\/\/localhost:6000/https:\/\/lidar.icedcoffee.dev\/api/g" src/redux/actions.js
+          command: sed "s/http:\/\/localhost:6000/https:\/\/lidar.icedcoffee.dev\/api/g" src/redux/actions.js > src/redux/actions.js
       - run:
           name: Build
           command: npm run build
@@ -134,7 +134,7 @@ jobs:
           command: |
             tar -cf Login.tar Login/*
             scp -o StrictHostKeyChecking=no Login.tar ubuntu@lidar.icedcoffee.dev:
-            ssh -o StrictHostKeyChecking=no ubuntu@lidar.icedcoffee.dev "tar -xf Login.tar && python3 Login/Server.py"
+            ssh -o StrictHostKeyChecking=no ubuntu@lidar.icedcoffee.dev "tar -xf Login.tar && killall python3 && python3 Login/Server.py &"
 
 workflows:
   version: 2
