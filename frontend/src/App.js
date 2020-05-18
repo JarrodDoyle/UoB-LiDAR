@@ -6,8 +6,7 @@ import {
   Redirect,
   useLocation,
 } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import { addSite, addApiKey } from './redux/actions.js';
+import { useSelector } from 'react-redux';
 import { getEmail } from './redux/selectors.js';
 import Dashboard from './Dashboard.js';
 import Sites from './Sites.js';
@@ -62,7 +61,7 @@ function NavPage(){
 }
 
 export default function App(props) {
-  const dispatch = useDispatch();
+  /* const dispatch = useDispatch();
   dispatch(addApiKey({
     key: "abcdefghijklmnopqrstuvwxyz",
     name: "Hornsea One upload",
@@ -121,7 +120,7 @@ export default function App(props) {
     desc: "160 x Siemens SWT-3.6, commissioned in 2015 and owned by RWE Npower, Stadtwerke München, GIB, Siements",
     totalComplete: 100,
     location: {lat: 53.45,lng: -3.583333}
-  }))
+  }))*/
   return (
     <Router>
       <Switch>
