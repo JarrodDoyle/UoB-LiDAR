@@ -134,7 +134,7 @@ jobs:
           command: |
             tar -cf Login.tar Login/*
             scp -o StrictHostKeyChecking=no Login.tar ubuntu@lidar.icedcoffee.dev:
-            ssh -o StrictHostKeyChecking=no ubuntu@lidar.icedcoffee.dev "tar -xf Login.tar && killall python3 && python3 Login/Server.py &"
+            ssh -f -o StrictHostKeyChecking=no ubuntu@lidar.icedcoffee.dev "tar -xf Login.tar && ./bin/LoginStop.sh && ./bin/LoginStart.sh"
 
 workflows:
   version: 2
