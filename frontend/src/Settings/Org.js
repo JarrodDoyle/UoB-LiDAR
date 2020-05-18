@@ -83,7 +83,7 @@ function AddSiteMenu(props){
 
 function SiteTableCheckbox(props) {
   const [disabled, setDisabled] = useState(props.disabled || false);
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   return (
     <input type="checkbox" name={props.type} value={props.type} checked={props.checked} disabled={disabled}
       onChange={() => {
