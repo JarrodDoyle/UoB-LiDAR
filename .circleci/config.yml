@@ -110,7 +110,7 @@ jobs:
           command: |
             tar -cf frontend.tar build/*
             scp -o StrictHostKeyChecking=no frontend.tar ubuntu@lidar.icedcoffee.dev:
-            ssh -o StrictHostKeyChecking=no ubuntu@lidar.icedcoffee.dev "tar -xf frontend.tar && rm frontend.tar && cp -r build/* /var/www/html && rm -r build"
+            ssh -o StrictHostKeyChecking=no ubuntu@lidar.icedcoffee.dev "sudo rm -rf /var/www/html/* && tar -xf frontend.tar && rm frontend.tar && cp -r build/* /var/www/html && rm -r build"
 
   deploy_backend:
     docker:
