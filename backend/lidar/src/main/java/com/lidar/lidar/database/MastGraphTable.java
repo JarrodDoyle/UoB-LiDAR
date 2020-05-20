@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MastGraphTable extends CrudRepository<MastGraph, Long> {
     public List<MastGraph> findByMast(Mast mast);
+    public List<MastGraph> deleteByMast(Mast mast);
 }

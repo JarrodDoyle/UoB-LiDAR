@@ -271,6 +271,8 @@ public class LidarDBServer {
             deletedSpeedHeights.add(maybeBuoy.get().getSh60());
             deletedSpeedHeights.add(maybeBuoy.get().getSh80());
             deletedSpeedHeights.add(maybeBuoy.get().getSh100());
+            graphManager.reset(maybeBuoy.get().getSerial());
+            buoyGraphs.deleteByBuoy(maybeBuoy.get());
             buoys.delete(maybeBuoy.get());
             for (SpeedHeight speedHeight : deletedSpeedHeights) {
                 speedHeights.delete(speedHeight);
@@ -287,11 +289,15 @@ public class LidarDBServer {
                     deletedSpeedHeights.add(buoy.getSh60());
                     deletedSpeedHeights.add(buoy.getSh80());
                     deletedSpeedHeights.add(buoy.getSh100());
+                    graphManager.reset(buoy.getSerial());
+                    buoyGraphs.deleteByBuoy(buoy);
                 }
                 buoys.deleteByMast(maybeMast.get());
                 for (SpeedHeight speedHeight : deletedSpeedHeights) {
                     speedHeights.delete(speedHeight);
                 }
+                graphManager.reset(maybeMast.get().getSerial());
+                mastGraphs.deleteByMast(maybeMast.get());
                 masts.delete(maybeMast.get());
                 systemManager.reloadBuoys();
                 return "Mast deleted.";
