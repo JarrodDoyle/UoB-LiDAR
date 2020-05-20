@@ -180,7 +180,7 @@ public class LidarDBServer {
     }
 
     @GetMapping("/database/{serial}/kpis")
-    public String getExampleKpis(@PathVariable String serial) {
+    public String getKpis(@PathVariable String serial) {
         Optional<Buoy> maybeBuoy = buoys.findById(serial);
         if (maybeBuoy.isPresent()) {
             return JsonFactory.kpis(maybeBuoy.get());
