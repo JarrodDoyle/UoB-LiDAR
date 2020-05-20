@@ -57,7 +57,7 @@ public class LidarDBServer {
     BuoyGraphTable buoyGraphs;
 
     @Autowired
-    SystemManager systemManager;
+    KPIManager kpiManager;
 
     @Autowired
     GraphManager graphManager;
@@ -162,7 +162,7 @@ public class LidarDBServer {
             if (!buoys.existsById(serial) || overwrite) {
                 Buoy buoy = new Buoy(serial, maybeMast.get(), speedHeights, dirHeights);
                 buoys.save(buoy);
-                systemManager.reloadBuoys();
+                kpiManager.reloadBuoys();
                 return "AAAAA";
             }
             else {
@@ -223,10 +223,10 @@ public class LidarDBServer {
                 JSONObject json = (JSONObject) parser.parse(body);
 
                 if (json.containsKey("samples")) {
-                    systemManager.addBuoySamples(serial, BuoySampleFactory.severalFromJSON(serial, body));
+                    kpiManager.addBuoySamples(serial, BuoySampleFactory.severalFromJSON(serial, body));
                 }
                 else {
-                    systemManager.addBuoySample(serial, BuoySampleFactory.fromJSON(serial, body));
+                    kpiManager.addBuoySample(serial, BuoySampleFactory.fromJSON(serial, body));
                 }
 
                 return "dfghjk";
@@ -244,10 +244,10 @@ public class LidarDBServer {
                     JSONObject json = (JSONObject) parser.parse(body);
 
                     if (json.containsKey("samples")) {
-                        systemManager.addMastSamples(serial, MastSampleFactory.severalFromJSON(serial, body));
+                        kpiManager.addMastSamples(serial, MastSampleFactory.severalFromJSON(serial, body));
                     }
                     else {
-                        systemManager.addMastSample(serial, MastSampleFactory.fromJSON(serial, body));
+                        kpiManager.addMastSample(serial, MastSampleFactory.fromJSON(serial, body));
                     }
 
                     return "dfghjk";
@@ -277,7 +277,7 @@ public class LidarDBServer {
             for (SpeedHeight speedHeight : deletedSpeedHeights) {
                 speedHeights.delete(speedHeight);
             }
-            systemManager.reloadBuoys();
+            kpiManager.reloadBuoys();
             return "Buoy deleted.";
         }
         else {
@@ -299,7 +299,7 @@ public class LidarDBServer {
                 graphManager.reset(maybeMast.get().getSerial());
                 mastGraphs.deleteByMast(maybeMast.get());
                 masts.delete(maybeMast.get());
-                systemManager.reloadBuoys();
+                kpiManager.reloadBuoys();
                 return "Mast deleted.";
             }
             else {
@@ -311,7 +311,7 @@ public class LidarDBServer {
     @PostMapping("/database/{serial}/reset") @Transactional
     public String resetDevice(@PathVariable String serial) {
         try {
-            systemManager.resetBuoy(serial);
+            kpiManager.resetBuoy(serial);
 
             for (BuoyGraph graph : buoyGraphs.findByBuoy(buoys.findById(serial).get())) {
                 graph.resetGraph();
@@ -338,7 +338,7 @@ public class LidarDBServer {
 
     @PostMapping("/database/resetall") @Transactional
     public String resetAll() {
-        systemManager.resetAll();
+        kpiManager.resetAll();
         
         for (BuoyGraph graph : buoyGraphs.findAll()) {
             graph.resetGraph();
