@@ -393,9 +393,12 @@ public class GraphManager implements InitializingBean {
     }
     
     public void reset(String serial) {
-        for (File configFile : new File("../../graphs/" + serial).listFiles()) {
-            for (File dataFile : configFile.listFiles()) {
-                dataFile.delete();
+        File serialFile = new File("../../graphs/" + serial);
+        if (serialFile.exists() && serialFile.isDirectory()) {
+            for (File configFile : serialFile.listFiles()) {
+                for (File dataFile : configFile.listFiles()) {
+                    dataFile.delete();
+                }
             }
         }
     }

@@ -77,8 +77,6 @@ public class JsonFactory {
     }
 
     private static JSONObject directionKPIs(DirHeight dirHeight) {
-        Random r = new Random();
-
         JSONObject kpis = new JSONObject();
 
         JSONObject slope = new JSONObject();

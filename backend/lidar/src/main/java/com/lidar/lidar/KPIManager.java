@@ -10,7 +10,7 @@ import org.springframework.beans.factory.*;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class SystemManager implements InitializingBean {
+public class KPIManager implements InitializingBean {
     @Autowired   
     BuoyTable buoyTable;
 

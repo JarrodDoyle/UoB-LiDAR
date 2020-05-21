@@ -32,7 +32,7 @@ public class FileLoader {
     LoadedFileTable loadedFiles;
 
     @Autowired
-    SystemManager systemManager;
+    KPIManager kpiManager;
 
     @Autowired
     BuoyTable buoyTable;
@@ -79,7 +79,7 @@ public class FileLoader {
                                         
                                     }
                                 }
-                                systemManager.addBuoySamples(serial, samples);
+                                kpiManager.addBuoySamples(serial, samples);
                             }
                             else if (mastTable.existsById(serial)) {
                                 List<MastSample> samples = new ArrayList<MastSample>();
@@ -91,7 +91,7 @@ public class FileLoader {
                                         
                                     }
                                 }
-                                systemManager.addMastSamples(serial, samples);
+                                kpiManager.addMastSamples(serial, samples);
                             }
                             reader.close();
                         }
