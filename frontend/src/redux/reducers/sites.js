@@ -4,7 +4,7 @@ import {
 } from '../actionTypes.js';
 
 export const sites = (state = [], action) => {
-  switch (action.type){
+  switch (action.type) {
     case ADD_SITE:
       return [
         ...state,
@@ -20,10 +20,10 @@ export const sites = (state = [], action) => {
           map_open: false,
           kpis: [
             {
-              id: "kpiMaintinanceVisits",
-              name: "Maintinance visits",
-              description: "Visits to perform maintinance tasks", 
-              percentComplete: 100,
+              id: "kpiMaintenanceVisits",
+              name: "Maintenance visits",
+              description: "Visits to perform maintinance tasks",
+              percentComplete: 20,
               data: [
                 {
                   id: 45,
@@ -32,6 +32,34 @@ export const sites = (state = [], action) => {
                     text: "Scheduled visits",
                     description: "Number of visits that where pre organised",
                     number: 5,
+                  },
+                  detailedview: {
+                    type: "graph",
+                    graphType: "line",
+                    graphData: [
+                      {
+                        "id": "japan",
+                        "color": "hsl(227, 70%, 50%)",
+                        "data": [
+                          {
+                            "x": 0,
+                            "y": 16
+                          },
+                          {
+                            "x": 1,
+                            "y": 32
+                          },
+                          {
+                            "x": 2,
+                            "y": 48
+                          },
+                          {
+                            "x": 3,
+                            "y": 64
+                          },
+                        ]
+                      }
+                    ]
                   }
                 },
                 {
@@ -41,6 +69,153 @@ export const sites = (state = [], action) => {
                     description: "Number of visits that where not organised",
                     text: "Uncheduled visits",
                     number: 25,
+                  },
+                  detailedview: {
+                    type: "graph",
+                    graphType: "line",
+                    graphData: [
+                      {
+                        "id": "japan",
+                        "color": "hsl(227, 70%, 50%)",
+                        "data": [
+                          {
+                            "x": 0,
+                            "y": 80
+                          },
+                          {
+                            "x": 1,
+                            "y": 96
+                          },
+                          {
+                            "x": 2,
+                            "y": 112
+                          },
+                          {
+                            "x": 3,
+                            "y": 128
+                          },
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              id: "kpiEpicGamer",
+              name: "Epic Gamer",
+              description: "haha",
+              percentComplete: 100,
+              data: [
+                {
+                  id: 45,
+                  cardview: {
+                    type: "number",
+                    text: "Scheduled visits",
+                    description: "Number of visits that where pre organised",
+                    number: 5,
+                  },
+                  detailedview: {
+                    type: "graph",
+                    graphType: "line",
+                    graphData: [
+                      {
+                        "id": "japan",
+                        "color": "hsl(227, 70%, 50%)",
+                        "data": [
+                          {
+                            "x": 0,
+                            "y": 144
+                          },
+                          {
+                            "x": 1,
+                            "y": 160
+                          },
+                          {
+                            "x": 2,
+                            "y": 176
+                          },
+                          {
+                            "x": 3,
+                            "y": 192
+                          },
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: 45,
+                  cardview: {
+                    type: "number",
+                    description: "Number of visits that where not organised",
+                    text: "Uncheduled visits",
+                    number: 25,
+                  },
+                  detailedview: {
+                    type: "graph",
+                    graphType: "line",
+                    graphData: [
+                      {
+                        "id": "japan",
+                        "color": "hsl(227, 70%, 50%)",
+                        "data": [
+                          {
+                            "x": 0,
+                            "y": 208
+                          },
+                          {
+                            "x": 1,
+                            "y": 224
+                          },
+                          {
+                            "x": 2,
+                            "y": 240
+                          },
+                          {
+                            "x": 3,
+                            "y": 256
+                          },
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  id: 45,
+                  cardview: {
+                    type: "number",
+                    description: "Number of visits that where not organised",
+                    text: "Uncheduled visits",
+                    number: 25,
+                  },
+                  detailedview: {
+                    type: "graph",
+                    graphType: "line",
+                    graphData: [
+                      {
+                        "id": "japan",
+                        "color": "hsl(227, 70%, 50%)",
+                        "data": [
+                          {
+                            "x": 0,
+                            "y": 208
+                          },
+                          {
+                            "x": 1,
+                            "y": 224
+                          },
+                          {
+                            "x": 2,
+                            "y": 240
+                          },
+                          {
+                            "x": 3,
+                            "y": 256
+                          },
+                        ]
+                      }
+                    ]
                   }
                 }
               ]
@@ -79,7 +254,7 @@ export const sites = (state = [], action) => {
     {
       id: ,
       name: ,
-      description: , 
+      description: ,
       percentComplete: ,
       data: [
         {
