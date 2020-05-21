@@ -27,6 +27,10 @@ import {
   LIDAR_FETCH,
   LIDAR_ERROR,
   LIDAR_FETCH_FIN,
+  KPI_FETCH,
+  KPI_ERROR,
+  KPI_FETCH_FIN,
+  KPI_ADD,
 } from './actionTypes.js'
 
 const domain = "http://localhost:6000"
@@ -302,4 +306,41 @@ export const updateSitePerm = site => {
         dispatch(teamMemberError());
       });
   }
+}
+
+const kpiFetch = () => ({
+  type: KPI_FETCH,
+});
+
+const kpiError = () => ({
+  type: KPI_ERROR,
+});
+
+const kpiFetchFin = () => ({
+  type: KPI_FETCH_FIN,
+});
+
+const kpiAdd = kpi => ({
+  type: KPI_ADD,
+  kpi,
+});
+
+export const fetchKPIs = params => {
+  return (dispatch) => {
+    dispatch(kpiFetch());
+    fetch(`${domain}/lidars/getKPIs?token=${params.token}&id=${params.id}`)
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(r => {
+            r.data.map(a => dispatch(kpiAdd(a)));
+            dispatch(kpiFetchFin());
+          }).catch(error => dispatch(kpiError()));
+        } else {
+          dispatch(kpiError());
+        }
+      })
+      .catch(error => {
+        dispatch(kpiError());
+      });
+  };
 }

@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AutoSizer } from 'react-virtualized';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Line } from 'nivo';
-import { getLidar, getKpis } from './redux/selectors.js';
-import { 
+import {
+  getMasterKey,
+  getLidar,
+  getKpis,
+  isKpisFetching,
+  isKpisError,
+} from './redux/selectors.js';
+import { fetchKPIs } from './redux/actions.js';
+import {
   CardGrid,
   Card,
   CardHeaderFull,
@@ -56,12 +63,11 @@ function Popup(props) {
         <div className="popup-header">
           <select className="kpi-dropdown" value={props.kpiID} onChange={
             (event) => {
-              // console.log(event.target.value)
               props.updatePopup(event.target.value); // Updates the popup with the new KPI id and rerenders.
             }
           }>
-            {kpiTitles.map((kpi, i) => {       
-              return (<option value={i}>{kpi}</option>) 
+            {kpiTitles.map((kpi, i) => {
+              return (<option value={i}>{kpi}</option>)
             })}
           </select>
           <div className="kpi-timescale">
@@ -125,7 +131,7 @@ function Graph(props) {
           />
         // </div>
       )}
-    </AutoSizer>        
+    </AutoSizer>
   )
 }
 
@@ -140,7 +146,6 @@ function Graph(props) {
       cards: this.generateCards(),
       currentKPI: null,
     };
-    
   }
 
   closePopup() {
@@ -194,7 +199,7 @@ function Graph(props) {
     return (
       <>
         <div className="lidars-grid">
-          {this.state.cards.map((card, i) => {       
+          {this.state.cards.map((card, i) => {
             return (
               <Card id={i}
                 title={card.title}
@@ -202,16 +207,16 @@ function Graph(props) {
                 passingStyle={card.passingStyle}
                 togglePopup={this.openPopup}
                 />
-              ) 
+              )
           })}
         </div>
-        {this.state.showPopup ?  
-          <Popup cards={this.state.cards} 
+        {this.state.showPopup ?
+          <Popup cards={this.state.cards}
             closePopup={this.closePopup}
             updatePopup={this.openPopup}
-            kpiID={this.state.currentKPI}/>  
-          : null  
-        }  
+            kpiID={this.state.currentKPI}/>
+          : null
+        }
       </>
     );
   }
@@ -222,23 +227,22 @@ function KpiCard(props) {
     <Card>
       <CardRow>
         <h3>{props.name}</h3>
-        <PercentageIndicator percentage={props.percentComplete}/> 
+        <PercentageIndicator percentage={props.percentComplete}/>
       </CardRow>
       <div className="dash-content">
-        {props.data.map((data, i) => {   
+        {props.data.map((data, i) => {
           const cardView = data.cardview;
-          console.log(cardView);
-          if (cardView.type === "number"){
+          if (cardView.type === "numeric"){
             return (
               <CardRow>
                 <span>{cardView.text}</span>
-                <span>{cardView.number}</span>
+                <span>{cardView.data}</span>
               </CardRow>
             )
           } else {
             return (<></>);
           }
-          // TODO support other types  
+          // TODO support other types
         })}
       </div>
       <CardFooter>
@@ -253,31 +257,44 @@ function KpiCard(props) {
 
 function DashboardGrid(props){
   const [showPopup, setPopup] = useState(false);
-  const kpis = useSelector((state) => getKpis(state, props.siteId));
+  const kpis = useSelector(getKpis);
+  const fetching = useSelector(isKpisFetching);
+  const error = useSelector(isKpisError);
+  const token = useSelector(getMasterKey);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchKPIs({
+    token: token,
+    id: props.siteId,
+  }))}, [props.siteId, token, dispatch]);
+  if (fetching)
+    return (<p>Loading...</p>);
+  if (error)
+    return (<p>There wasn an error. Please try again later.</p>);
   return (
     <>
       <CardGrid>
-        {kpis.map((card, i) => {       
+        {kpis.map((card, i) => {
           return (
-          <KpiCard id={i} {...card} togglePopup={() => setPopup(true)}/>
-          ) 
+          <KpiCard key={i} id={i} {...card} togglePopup={() => setPopup(true)}/>
+          )
         })}
       </CardGrid>
-      {showPopup ?  
-        <Popup 
+      {showPopup ?
+        <Popup
           cards={kpis}
           closePopup={() => setPopup(false)}
           updatePopup={() => setPopup(true)}
           kpiID={"55"}
-        />  
-        : null  
-      }  
+        />
+        : null
+      }
     </>
   );
 }
 
 function SiteInfo(props){
-  const site = useSelector(state => getLidar(state, props.siteId));  
+  const site = useSelector(state => getLidar(state, props.siteId));
   return (
     <Card>
       <CardHeaderFull>
@@ -293,7 +310,6 @@ function SiteInfo(props){
         <h3>{site.name}</h3>
         <PercentageIndicator percentage={site.totalComplete}/>
       </CardRow>
-      
       <p>{site.desc}</p>
     </Card>
   );
@@ -301,7 +317,7 @@ function SiteInfo(props){
 
 function Map(props) {
   return(
-    <GoogleMap 
+    <GoogleMap
       defaultZoom={6}
       defaultCenter={props.location}
       defaultOptions={{
@@ -362,10 +378,10 @@ export default function Dashboard(){
   let { siteId } = useParams();
   return (
     <main>
-      <SiteInfo siteId={siteId}/>
+      <SiteInfo siteId={Number(siteId)}/>
       <h2>Key Performance Indicators:</h2>
       <Divider></Divider>
-      <DashboardGrid siteId={siteId}/>
+      <DashboardGrid siteId={Number(siteId)}/>
     </main>
-  );   
+  );
 }

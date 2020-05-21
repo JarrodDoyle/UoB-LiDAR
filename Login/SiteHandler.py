@@ -28,10 +28,56 @@ def get():
 
     return genErrorResponse("Not Implemented")
 
+def kpiDataText(text):
+    return {
+        "type": "text",
+        "text": text,
+    }
+
+def kpiDataNumber(text, number):
+    return {
+        "type": "numeric",
+        "text": text,
+        "data": number,
+    }
+
+def kpiDataGraph(graphType, data):
+    return {
+        "type": "graph",
+        "graphType": graphType,
+        "data": data,
+    }
+
+def kpiDataStruct(key, cardView, detailedView):
+    return {
+        "id": key,
+        "cardview": cardView,
+        "detailedview": detailedView,
+    }
+
 @siteBlueprint.route('/getKPIs', methods=['GET'])
 def getKPIs():
     r = requests.get("http://localhost:8080/database/EXBUOY/kpis")
-    return genSuccessResponse(f'{g.type} get', r.json())
+    kpis = []
+    kpis.append({
+        "id": "maintinanceVisits",
+        "name": "Maintinance Visits",
+        "description": "Visits to perform maintinance tasks",
+        "percentComplete": 100,
+        "data": [
+            kpiDataStruct(
+                "scheduled",
+                kpiDataNumber("Scheduled Visits", 0),
+                kpiDataNumber("Scheduled Visits", 0)
+            ),
+            kpiDataStruct(
+                "unscheduled",
+                kpiDataNumber("Unscheduled Visits", 0),
+                kpiDataNumber("Unscheduled Visits", 0)
+            ),
+        ]
+    })
+    return genSuccessResponse(f'{g.type} get', kpis)
 
 if __name__ == "__main__":
     print ("Not to be run directly")
