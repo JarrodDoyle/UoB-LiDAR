@@ -6,8 +6,7 @@ import {
   Redirect,
   useLocation,
 } from "react-router-dom";
-import { connect, useSelector } from 'react-redux';
-import { addSite, addApiKey } from './redux/actions.js';
+import { useSelector } from 'react-redux';
 import { getEmail } from './redux/selectors.js';
 import Dashboard from './Dashboard.js';
 import Sites from './Sites.js';
@@ -61,8 +60,9 @@ function NavPage(){
   );
 }
 
-function App(props) {
-  props.dispatch(addApiKey({
+export default function App(props) {
+  /* const dispatch = useDispatch();
+  dispatch(addApiKey({
     key: "abcdefghijklmnopqrstuvwxyz",
     name: "Hornsea One upload",
     sites: [
@@ -73,7 +73,7 @@ function App(props) {
       }
     ],
   }));
-  props.dispatch(addSite({
+  dispatch(addSite({
     id: "site1",
     name: "Hornsea One",
     desc: " 174 turbines with a capacity of 1214MW owned by Ørsted (company) and Global Infrastructure Partners",
@@ -83,7 +83,7 @@ function App(props) {
       lng: 1.791111,
     }
  }))
-  props.dispatch(addSite({
+  dispatch(addSite({
     id: "stie2",
     name: "Hornsea Two",
     desc: " 165 turbines with a capacity of 1386MW owned by Ørsted (company) and Global Infrastructure Partners",
@@ -93,34 +93,34 @@ function App(props) {
       lng: 1.791111,
     }
   }))
-  props.dispatch(addSite({
+  dispatch(addSite({
     id: "site3",
     name: "Triton Knoll",
     desc: "90 Turbines with capacity of 857MW commissioning in 2021",
     totalComplete: 78,
     location: {lat: 53.066667,lng: 0.15}
   }))
-  props.dispatch(addSite({
+  dispatch(addSite({
     id: "site4",
     name: "Methil",
     desc: "1 x Samsung 7MW, commissioned in 2013 and owned by Samsung and 2-B energy",
     totalComplete: 100,
     location: {lat: 56.162778,lng: -3.008889}
   }))
-  props.dispatch(addSite({
+  dispatch(addSite({
     id: "site5",
     name: "London Array",
     desc: "175 x Siemens SWT-3.6, commissioned in 2013 and owned by Ørsted, E.ON UK Renewables, Masdar",
     totalComplete: 100,
     location: {lat: 51.643889,lng: 1.553611}
   }))
-  props.dispatch(addSite({
+  dispatch(addSite({
     id: "site6",
     name: "Gwynt y Môr",
     desc: "160 x Siemens SWT-3.6, commissioned in 2015 and owned by RWE Npower, Stadtwerke München, GIB, Siements",
     totalComplete: 100,
     location: {lat: 53.45,lng: -3.583333}
-  }))
+  }))*/
   return (
     <Router>
       <Switch>
@@ -143,4 +143,3 @@ function App(props) {
     </Router>
   );
 }
-export default connect()(App);

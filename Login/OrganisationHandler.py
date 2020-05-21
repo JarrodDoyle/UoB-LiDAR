@@ -15,7 +15,7 @@ def getUserOrganisation():
     if not isTokenMaster(token):
         closeDBCon()
         return genErrorResponse("Not master token", status=403)
-   
+
     res = getUserOrganisationDetails(token)
     closeDBCon()
     return genSuccessResponse("user_organisation", res)
@@ -30,7 +30,7 @@ def getTeamMembers():
     if not isTokenMaster(token):
         closeDBCon()
         return genErrorResponse("Not master token", status=403)
-   
+
     res = getTeamMembersDB(token)
     closeDBCon()
     return genSuccessResponse("team_members", res)
