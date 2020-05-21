@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import { getSites } from './redux/selectors.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { getLidars, getMasterKey } from './redux/selectors.js';
+import { fetchLidars } from './redux/actions.js';
 import turbine from "./res/turbine-clear-bold.gif";
 import { 
   CardGrid,
@@ -102,7 +103,10 @@ function Map(props) {
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 
 export default function Sites() {
-  let sites = useSelector(getSites);
+  const sites = useSelector(getLidars);
+  const token = useSelector(getMasterKey);
+  const dispatch = useDispatch();
+  useEffect(() => dispatch(fetchLidars(token)), [token]);
   return (
     <main>
       <CardGrid>

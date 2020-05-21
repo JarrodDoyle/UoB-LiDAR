@@ -23,3 +23,16 @@ export const ORG_ERROR = "ORG_ERROR";
 
 export const TEAM_FETCHING = "TEAM_FETCHING";
 export const TEAM_ERROR = "TEAM_ERROR";
+export const TEAM_MEMBER_UPDATING = "TEAM_MEMBER_UPDATING";
+export const TEAM_MEMBER_ERROR = "TEAM_MEMBER_ERROR";
+export const TEAM_MEMBER_UPDATE = "TEAM_MEMBER_UPDATE";
+
+export const ADD_LIDAR = "ADD_LIDAR";
+export const LIDAR_FETCH = "LIDAR_FETCH";
+export const LIDAR_ERROR = "LIDAR_ERROR";
+export const LIDAR_FETCH_FIN = "LIDAR_FETCH_FIN";
+
+export const KPI_FETCH = "KPI_FETCH";
+export const KPI_ERROR = "KPI_ERROR";
+export const KPI_ADD = "KPI_ADD";
+export const KPI_FETCH_FIN = "KPI_FETCH_FIN";

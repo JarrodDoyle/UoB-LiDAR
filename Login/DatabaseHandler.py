@@ -170,6 +170,27 @@ def getTeamMembersDB(token):
             })
     return res
 
+def getLiDARS(token):
+    cursor = getCursor()
+    cursor.execute("\
+        SELECT lidar.*\
+        FROM lidar\
+        INNER JOIN token_perms_lidars ON token_perms_lidars.lidar_id = lidar.lidar_id\
+        INNER JOIN tokens ON tokens.token = token_perms_lidars.token\
+        WHERE tokens.token = %s;\
+    ",(token,))
+    lidars = cursor.fetchall()
+    return list(map(lambda x: {
+        "id": x[0],
+        "name": x[1],
+        "site_id": x[2],
+        "desc": x[3],
+        "location": {
+            "lat": float(x[4]),
+            "lng": float(x[5]),
+        }
+    }, lidars))
+
 if __name__ == "__main__":
     print("Not server file... Run Server.py")
     exit(1)

@@ -16,7 +16,11 @@ import {
   getOrg,
   getTeamMembers,
 } from '../redux/selectors.js';
-import { fetchOrganisationDetails, fetchTeamMembers } from '../redux/actions.js';
+import {
+  fetchOrganisationDetails,
+  fetchTeamMembers,
+  updateSitePerm,
+} from '../redux/actions.js';
 
 export function OrgCard(props) {
   const dispatch = useDispatch();
@@ -82,13 +86,41 @@ function AddSiteMenu(props){
 }
 
 function SiteTableCheckbox(props) {
-  const [disabled, setDisabled] = useState(props.disabled || false);
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const masterToken = useSelector(getMasterKey);
   return (
-    <input type="checkbox" name={props.type} value={props.type} checked={props.checked} disabled={disabled}
+    <input type="checkbox" name={props.type} value={props.type} checked={props.checked}
       onChange={() => {
-        setDisabled(true);
-        // TODO dispatch update here
+        dispatch(updateSitePerm({
+          masterToken: masterToken,
+          change: {
+            type: props.type,
+            siteType: props.siteType,
+            siteId: props.id,
+            value: !props.checked,
+          },
+          member: Object.assign({}, props.user, {
+              sites: props.user.sites.map(site =>
+                props.id === site.id && props.siteType === "sites" ?
+                Object.assign({}, site, {
+                  read: props.type === "read" ? !props.checked : site.read,
+                  write: props.type === "write" ? !props.checked : site.write,
+                })
+                :
+                site
+              ),
+              lidars: props.user.lidars.map(site =>
+                props.id === site.id && props.siteType === "lidars" ?
+                Object.assign({}, site, {
+                  read: props.type === "read" ? !props.checked : site.read,
+                  write: props.type === "write" ? !props.checked : site.write,
+                })
+                :
+                site
+              ),
+            }
+          )
+        }));
       }
     }/>
   );
@@ -96,7 +128,7 @@ function SiteTableCheckbox(props) {
 
 function SitesTable(props){
   return (
-    <Table aria-label={`${props.email}'s ${props.type} permissions`}>
+    <Table aria-label={`${props.user.email}'s ${props.type} permissions`}>
       <TableBody>
         <TableRow align="center">
           <TableCell align="center">{props.type}</TableCell>
@@ -104,11 +136,11 @@ function SitesTable(props){
           <TableCell align="center">Write</TableCell>
           <TableCell align="center"></TableCell>
         </TableRow>
-        {props.sites.map(site => (
+        {props.user.sites.map(site => (
           <TableRow key={site.id} align="center">
             <TableCell align="center">{site.name}</TableCell>
-            <TableCell align="center"><SiteTableCheckbox type="read" checked={site.read}/></TableCell>
-            <TableCell align="center"><SiteTableCheckbox type="write" checked={site.write}/></TableCell>
+            <TableCell align="center"><SiteTableCheckbox id={site.id} user={props.user} siteType={props.type} type="read" checked={site.read}/></TableCell>
+            <TableCell align="center"><SiteTableCheckbox id={site.id} user={props.user} siteType={props.type} type="write" checked={site.write}/></TableCell>
             <TableCell align="center">{props.can_change_user_perms && <i className="fas fa-trash"/>}</TableCell>
           </TableRow>
         ))}
@@ -139,7 +171,7 @@ export function TeamMembersCard(props) {
 
   return (
     <Card>
-      <h1>Team Membersi</h1>
+      <h1>Team Members</h1>
       <TableContainer component={Paper}>
       <Table  aria-label="simple table">
         <TableHead>
@@ -159,10 +191,10 @@ export function TeamMembersCard(props) {
               </TableCell>
               <TableCell align="center">{row.perms}</TableCell>
               <TableCell align="center">
-                <SitesTable email={row.email} sites={row.sites} type="Sites" can_change_user_perms={org.can_change_user_perms}/>
+                <SitesTable user={row} type="Sites" can_change_user_perms={org.can_change_user_perms}/>
               </TableCell>
               <TableCell align="center">
-                <SitesTable email={row.email} sites={row.lidars} type="LiDARs" can_change_user_perms={org.can_change_user_perms}/>
+                <SitesTable user={row} type="LiDARs" can_change_user_perms={org.can_change_user_perms}/>
               </TableCell>
               { org.can_change_user_perms &&
                 <TableCell align="center">
