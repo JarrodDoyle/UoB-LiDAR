@@ -75,8 +75,22 @@ function Popup(props) {
               return (
                 <Graph data={detailedView.graphData} type={detailedView.graphType} />
               )
+            } else if (detailedView.type === "numeric") {
+              return (
+                <CardRow>
+                  <span>{detailedView.text}</span>
+                  <span>{detailedView.data}</span>
+                </CardRow>
+              );
+            } else if (detailedView.type === "text") {
+              return (
+                <CardRow>
+                  <span>{detailedView.text}</span>
+                </CardRow>
+              );
+            } else { 
+              return null;
             }
-            return null;
           })}
         </div>
       </div >
@@ -147,7 +161,13 @@ function KpiCard(props) {
                 <span>{cardView.text}</span>
                 <span>{cardView.data}</span>
               </CardRow>
-            )
+            );
+          } else if (cardView.type === "text") {
+            return (
+              <CardRow>
+                <span>{cardView.text}</span>
+              </CardRow>
+            );
           } else {
             return (<></>);
           }
