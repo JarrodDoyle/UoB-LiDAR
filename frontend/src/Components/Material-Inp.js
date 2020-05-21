@@ -25,3 +25,27 @@ export function MaterialText(props){
     </div>
   );
 }
+
+export function Selector(props) {
+  return (
+    <div>
+      <label htmlFor={props.name}>{props.label}</label>
+      <select {...props}>
+        {props.values.map(i =>
+          <option value={i}>{i}</option>
+        )}
+      </select>
+      <ErrorMessage name={props.name}/>
+    </div>
+  );
+}
+
+export function Checkbox(props) {
+  return (
+    <div>
+      <label htmlFor={props.name}>{props.label}</label>
+      <input type="checkbox" name={props.name} value={props.name} {...props}/>
+      <ErrorMessage name={props.name}/>
+    </div>
+  );
+}

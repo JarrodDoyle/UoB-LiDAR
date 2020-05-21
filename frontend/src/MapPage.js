@@ -2,7 +2,7 @@ import React from 'react';
 import { GoogleMap, withScriptjs, withGoogleMap, Marker, InfoWindow } from 'react-google-maps';
 import { useSelector, connect } from 'react-redux';
 import { toggleSiteMapOpen } from './redux/actions.js';
-import { getSites } from './redux/selectors.js';
+import { getLidars } from './redux/selectors.js';
 import turbine from "./res/turbine-clear-bold.gif";
 import { Link } from "react-router-dom";
 
@@ -85,7 +85,7 @@ function Map(props) {
 
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 export default function MapPage(props){
-  let sites = useSelector(getSites);
+  let sites = useSelector(getLidars);
   return(
     <WrappedMap
       sites = {sites}

@@ -13,11 +13,10 @@ function Loading(){
 }
 
 const store = storeFunc();
-console.log(store);
 
 ReactDOM.render(
   <Provider store={store.store}>
-    <PersistGate loading={null} persistor={store.persistor}>
+    <PersistGate loading={<Loading/>} persistor={store.persistor}>
       <App />
     </PersistGate>
   </Provider>

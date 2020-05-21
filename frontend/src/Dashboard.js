@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AutoSizer } from 'react-virtualized';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Line } from 'nivo';
-import { getSite, getKpis } from './redux/selectors.js';
+import {
+  getMasterKey,
+  getLidar,
+  getKpis,
+  isKpisFetching,
+  isKpisError,
+} from './redux/selectors.js';
+import { fetchKPIs } from './redux/actions.js';
 import {
   CardGrid,
   Card,
@@ -134,14 +141,15 @@ function KpiCard(props) {
       <div className="dash-content">
         {props.data.map((data, i) => {
           const cardView = data.cardview;
-          console.log(cardView);
-          if (cardView.type === "number") {
+          if (cardView.type === "numeric"){
             return (
               <CardRow>
                 <span>{cardView.text}</span>
-                <span>{cardView.number}</span>
+                <span>{cardView.data}</span>
               </CardRow>
             )
+          } else {
+            return (<></>);
           }
           return null
         })}
@@ -160,13 +168,26 @@ function DashboardGrid(props) {
   const [showPopup, setPopup] = useState(false);
   const [currentKPI, setCurrentKPI] = useState(0);
   const [currentTimeframe, setTimeframe] = useState(0);
-  const kpis = useSelector((state) => getKpis(state, props.siteId));
+  const kpis = useSelector(getKpis);
+  const fetching = useSelector(isKpisFetching);
+  const error = useSelector(isKpisError);
+  const token = useSelector(getMasterKey);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchKPIs({
+    token: token,
+    id: props.siteId,
+  }))}, [props.siteId, token, dispatch]);
+  if (fetching)
+    return (<p>Loading...</p>);
+  if (error)
+    return (<p>There wasn an error. Please try again later.</p>);
   return (
     <>
       <CardGrid>
         {kpis.map((card, i) => {
           return (
-            <KpiCard {...card} id={i} togglePopup={(kpiID) => {
+            <KpiCard key={i} {...card} id={i} togglePopup={(kpiID) => {
               setPopup(true)
               setCurrentKPI(kpiID)
             }} />
@@ -190,8 +211,8 @@ function DashboardGrid(props) {
   );
 }
 
-function SiteInfo(props) {
-  let site = useSelector(state => getSite(state, props.siteId));
+function SiteInfo(props){
+  const site = useSelector(state => getLidar(state, props.siteId));
   return (
     <Card>
       <CardHeaderFull>
@@ -207,7 +228,6 @@ function SiteInfo(props) {
         <h3>{site.name}</h3>
         <PercentageIndicator percentage={site.totalComplete} />
       </CardRow>
-
       <p>{site.desc}</p>
     </Card>
   );
@@ -276,10 +296,10 @@ export default function Dashboard() {
   let { siteId } = useParams();
   return (
     <main>
-      <SiteInfo siteId={siteId} />
+      <SiteInfo siteId={Number(siteId)}/>
       <h2>Key Performance Indicators:</h2>
       <Divider></Divider>
-      <DashboardGrid siteId={siteId} />
+      <DashboardGrid siteId={Number(siteId)}/>
     </main>
   );
 }
