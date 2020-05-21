@@ -43,7 +43,7 @@ function Popup(props) {
               }
             }>
               {kpiTitles.map((kpi, i) => {
-                return (<option value={i}>{kpi}</option>)
+                return (<option key={i} value={i}>{kpi}</option>)
               })}
             </select>
             <PercentageIndicator percentage={props.percentComplete} />
@@ -68,30 +68,30 @@ function Popup(props) {
           </CardRow>
         </div>
         <div className="popup-grid">
+          <Card>
           {props.data.map((data, i) => {
-            const detailedView = data.detailedview;
-            console.log(detailedView);
-            if (detailedView.type === "graph") {
+            if (data.type === "graph") {
               return (
-                <Graph data={detailedView.graphData} type={detailedView.graphType} />
+                <Graph key={i} data={data.data} type={data.graphType} />
               )
-            } else if (detailedView.type === "numeric") {
+            } else if (data.type === "numeric") {
               return (
-                <CardRow>
-                  <span>{detailedView.text}</span>
-                  <span>{detailedView.data}</span>
+                <CardRow key={i}>
+                  <span>{data.text}</span>
+                  <span>{data.data}</span>
                 </CardRow>
               );
-            } else if (detailedView.type === "text") {
+            } else if (data.type === "text") {
               return (
-                <CardRow>
-                  <span>{detailedView.text}</span>
+                <CardRow key={i}>
+                  <span>{data.text}</span>
                 </CardRow>
               );
             } else { 
               return null;
             }
           })}
+          </Card>
         </div>
       </div >
     </div >
@@ -153,25 +153,23 @@ function KpiCard(props) {
         <PercentageIndicator percentage={props.percentComplete} />
       </CardRow>
       <div className="dash-content">
-        {props.data.map((data, i) => {
-          const cardView = data.cardview;
-          if (cardView.type === "numeric"){
+        {props.summary.map((data, i) => {
+          if (data.type === "numeric"){
             return (
-              <CardRow>
-                <span>{cardView.text}</span>
-                <span>{cardView.data}</span>
+              <CardRow key={i}>
+                <span>{data.text}</span>
+                <span>{data.data}</span>
               </CardRow>
             );
-          } else if (cardView.type === "text") {
+          } else if (data.type === "text") {
             return (
-              <CardRow>
-                <span>{cardView.text}</span>
+              <CardRow key={i}>
+                <span>{data.text}</span>
               </CardRow>
             );
           } else {
             return (<></>);
           }
-          return null
         })}
       </div>
       <CardFooter>
