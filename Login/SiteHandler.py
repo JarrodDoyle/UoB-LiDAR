@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from flask import Blueprint, request, g
 from ResponseFactory import *
+from DatabaseHandler import getLiDARS
+import requests
 
 siteBlueprint = Blueprint('Sites', __name__)
 
@@ -15,19 +17,21 @@ def add():
         return notJsonError
     return genErrorResponse("Not Implemented")
 
-
 @siteBlueprint.route('/get', methods=['GET'])
 def get():
-    if not request.is_json:
-        return notJsonError
+    token = request.args.get('token')
+    if token == None:
+        return genErrorResponse("Token missing", status=401)
+
+    if g.type == "lidars":
+        return genSuccessResponse("lidars", getLiDARS(token))
+
     return genErrorResponse("Not Implemented")
 
 @siteBlueprint.route('/getKPIs', methods=['GET'])
 def getKPIs():
-    if not request.is_json:
-        return notJsonError
-    return genErrorResponse("Not Implemented")
-
+    r = requests.get("http://localhost:8080/database/EXBUOY/kpis")
+    return genSuccessResponse(f'{g.type} get', r.json())
 
 if __name__ == "__main__":
     print ("Not to be run directly")

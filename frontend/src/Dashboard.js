@@ -3,7 +3,7 @@ import { AutoSizer } from 'react-virtualized';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Line } from 'nivo';
-import { getSite, getKpis } from './redux/selectors.js';
+import { getLidar, getKpis } from './redux/selectors.js';
 import { 
   CardGrid,
   Card,
@@ -277,7 +277,7 @@ function DashboardGrid(props){
 }
 
 function SiteInfo(props){
-  let site = useSelector(state => getSite(state, props.siteId));  
+  const site = useSelector(state => getLidar(state, props.siteId));  
   return (
     <Card>
       <CardHeaderFull>

@@ -5,6 +5,8 @@ import { tokens } from './tokens.js';
 import { credentials } from './credentials.js';
 import { team } from './team.js';
 import { org } from './org.js';
+import { lidars } from './lidars.js';
+import { kpis } from './kpis.js';
 
 const appReducer = combineReducers({
   sites,
@@ -12,6 +14,8 @@ const appReducer = combineReducers({
   credentials,
   team,
   org,
+  lidars,
+  kpis,
 });
 
 export default (state, action) => {

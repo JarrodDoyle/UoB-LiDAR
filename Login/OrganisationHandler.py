@@ -35,6 +35,13 @@ def getTeamMembers():
     closeDBCon()
     return genSuccessResponse("team_members", res)
 
+@organisationBlueprint.route('/updateTeamPerms', methods=['POST'])
+def updateTeamPerms():
+    if not request.is_json:
+        return notJsonError
+    data = request.get_json()
+    token = data["masterToken"]
+    # TODO implement this
 
 if __name__ == "__main__":
     print("Not to be run directly")

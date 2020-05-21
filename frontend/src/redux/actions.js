@@ -20,6 +20,13 @@ import {
   ORG_SET,
   TEAM_FETCHING,
   TEAM_ERROR,
+  TEAM_MEMBER_ERROR,
+  TEAM_MEMBER_UPDATE,
+  TEAM_MEMBER_UPDATING,
+  ADD_LIDAR,
+  LIDAR_FETCH,
+  LIDAR_ERROR,
+  LIDAR_FETCH_FIN,
 } from './actionTypes.js'
 
 const domain = "http://localhost:6000"
@@ -32,6 +39,47 @@ export const addSite = site => ({
   totalComplete: site.totalComplete,
   location: site.location,
 });
+
+export const addLidar = site => ({
+  type: ADD_LIDAR,
+  id: site.id,
+  name: site.name,
+  desc: site.desc,
+  totalComplete: 75,
+  location: site.location,
+});
+
+const lidarsFetching = () => ({
+  type: LIDAR_FETCH,
+});
+
+const lidarsFetchFin = () => ({
+  type: LIDAR_FETCH_FIN,
+})
+
+const lidarsError = () => ({
+  type: LIDAR_ERROR,
+})
+
+export const fetchLidars = token => {
+  return (dispatch) => {
+    dispatch(lidarsFetching())
+    fetch(`${domain}/lidars/get?token=${token}`)
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(r => {
+            r.data.map(lidar => dispatch(addLidar(lidar)));
+            dispatch(lidarsFetchFin());
+          });
+        } else {
+          dispatch(lidarsError());
+        }
+      })
+      .catch(error => {
+        dispatch(lidarsError());
+      });
+  }
+};
 
 // Will toggle site open/close but also close all others
 export const toggleSiteMapOpen = id => ({
@@ -220,6 +268,38 @@ export const fetchTeamMembers = masterToken => {
       })
       .catch(error => {
         dispatch(teamError());
+      });
+  }
+}
+
+const teamMemberUpdate = () => ({
+  type: TEAM_MEMBER_UPDATING,
+});
+
+const teamMemberError = () => ({
+  type: TEAM_MEMBER_ERROR,
+});
+
+const updateMember = member => ({
+  type: TEAM_MEMBER_UPDATE,
+  member
+});
+
+export const updateSitePerm = site => {
+  return (dispatch) => {
+    dispatch(teamMemberUpdate());
+    fetch(`${domain}/?token=${site.masterToken}`)
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(r => {
+            dispatch(updateMember(site.member));
+          });
+        } else {
+          dispatch(teamMemberError());
+        }
+      })
+      .catch(error => {
+        dispatch(teamMemberError());
       });
   }
 }
