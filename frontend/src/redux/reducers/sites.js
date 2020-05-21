@@ -48,7 +48,7 @@ export const sites = (state = [], action) => {
           ]
         }
       ]
-    case TOGGLE_SITE_MAP_OPEN:
+    /*case TOGGLE_SITE_MAP_OPEN:
       return state.map((site, index) => {
         if (site.id === action.id) {
           return Object.assign({}, site, {
@@ -58,7 +58,7 @@ export const sites = (state = [], action) => {
         return Object.assign({}, site, {
           map_open: false,
         })
-      });
+      });*/
     default:
       return state
   }

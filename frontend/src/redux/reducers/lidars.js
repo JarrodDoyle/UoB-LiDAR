@@ -44,7 +44,7 @@ export const lidars = (state = {
               {
                 id: "kpiMaintinanceVisits",
                 name: "Maintinance visits",
-                description: "Visits to perform maintinance tasks", 
+                description: "Visits to perform maintinance tasks",
                 percentComplete: 100,
                 data: [
                   {
@@ -72,14 +72,16 @@ export const lidars = (state = {
         ]
       });
     case TOGGLE_SITE_MAP_OPEN:
-      return state.map((site, index) => {
-        if (site.id === action.id) {
+      return Object.assign({}, state, {
+        lidars: state.lidars.map((site, index) => {
+          if (site.id === action.id) {
+            return Object.assign({}, site, {
+              map_open: !site.map_open,
+            })
+          }
           return Object.assign({}, site, {
-            map_open: !site.map_open,
+            map_open: false,
           })
-        }
-        return Object.assign({}, site, {
-          map_open: false,
         })
       });
     default:
