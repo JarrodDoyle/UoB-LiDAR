@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getLidars, getMasterKey } from './redux/selectors.js';
 import { fetchLidars } from './redux/actions.js';
 import turbine from "./res/turbine-clear-bold.gif";
-import { 
+import {
   CardGrid,
   Card,
   CardHeaderFull,
@@ -31,7 +31,6 @@ function SiteCard(props) {
         <h3>{props.name}</h3>
         <PercentageIndicator percentage={props.totalComplete}/>
       </CardRow>
-      
       <p>{props.desc}</p>
       <CardFooter>
         <h4>Go to dash</h4>
@@ -45,7 +44,7 @@ function SiteCard(props) {
 
 function Map(props) {
   return(
-    <GoogleMap 
+    <GoogleMap
       defaultZoom={6}
       defaultCenter={props.location}
       defaultOptions={{
@@ -106,7 +105,7 @@ export default function Sites() {
   const sites = useSelector(getLidars);
   const token = useSelector(getMasterKey);
   const dispatch = useDispatch();
-  useEffect(() => dispatch(fetchLidars(token)), [token]);
+  useEffect(() => dispatch(fetchLidars(token)), [token, dispatch]);
   return (
     <main>
       <CardGrid>

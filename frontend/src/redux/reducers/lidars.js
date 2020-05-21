@@ -104,7 +104,7 @@ export const lidars = (state = {
     {
       id: ,
       name: ,
-      description: , 
+      description: ,
       percentComplete: ,
       data: [
         {

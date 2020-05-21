@@ -17,6 +17,7 @@ export const getOrg = ( state, ) => state.org;
 export const getLidar        = ( state, id ) => state.lidars.lidars.filter(a => a.id === id)[0];
 export const getLidars       = ( state,    ) => state.lidars.lidars;
 
-export const getKpis        = ( state, ) => state.kpis;
+export const getKpis        = ( state, ) => state.kpis.kpis;
 export const getKpi         = ( state, kpiId ) => state.kpis.kpis.filter(a => a.id === kpiId)[0];
-
+export const isKpisFetching = ( state, ) => state.kpis.fetching;
+export const isKpisError    = ( state, ) => state.kpis.error;
