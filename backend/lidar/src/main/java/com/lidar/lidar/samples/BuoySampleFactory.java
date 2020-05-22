@@ -7,7 +7,7 @@ import org.json.simple.parser.*;
 import com.jayway.jsonpath.*;
 
 public class BuoySampleFactory {
-    public static BuoySample fromCSVLine(String serial, String line) throws IllegalArgumentException {
+    public static BuoySample fromCSVLine(String line) throws IllegalArgumentException {
         String[] entries = line.split(",");
 
         List<Double> directions = new ArrayList<Double>();   

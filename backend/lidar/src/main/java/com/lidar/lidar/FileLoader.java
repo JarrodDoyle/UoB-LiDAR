@@ -73,7 +73,7 @@ public class FileLoader {
                                 List<BuoySample> samples = new ArrayList<BuoySample>();
                                 for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                                     try {
-                                        samples.add(BuoySampleFactory.fromCSVLine(serial, line));
+                                        samples.add(BuoySampleFactory.fromCSVLine(line));
                                     }
                                     catch (IllegalArgumentException e) {
                                         
