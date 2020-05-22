@@ -42,6 +42,10 @@ public class GraphManager implements InitializingBean {
 
         File graphs = new File("../../graphs");
 
+        if (!graphs.exists()) {
+            graphs.mkdir();
+        }
+
         for (final File serialFile : graphs.listFiles()) {
             Map<String, BufferedWriter> serialMap = new HashMap<String, BufferedWriter>();
             Map<String, List<String>> serialNameMap = new HashMap<String, List<String>>();
