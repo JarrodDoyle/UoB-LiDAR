@@ -215,7 +215,7 @@ public class LidarDBServer {
     }
 
     @PostMapping("/database/{serial}/sendjson") @Transactional
-    public String sendSample(@PathVariable String serial, @RequestBody String body) {
+    public String sendJSONSample(@PathVariable String serial, @RequestBody String body) {
         Optional<Buoy> maybeBuoy = buoys.findById(serial);
         if (maybeBuoy.isPresent()) {
             JSONParser parser = new JSONParser();
@@ -254,6 +254,53 @@ public class LidarDBServer {
                 }
                 catch (ParseException e) {
                     return "Could not parse json.";
+                }
+            }
+            else {
+                return "Device not found.";
+            }
+        }
+    }
+
+    @PostMapping("/database/{serial}/sendcsv") @Transactional
+    public String sendCSVSample(@PathVariable String serial, @RequestBody String body) {
+        String[] csvLines = body.split("\n");
+        Optional<Buoy> maybeBuoy = buoys.findById(serial);
+        if (maybeBuoy.isPresent()) {
+            try {
+                List<BuoySample> samples = new ArrayList<BuoySample>();
+                for (Integer i = 3; i < csvLines.length; i++) {
+                    samples.add(BuoySampleFactory.fromCSVLine(csvLines[i]));
+                }
+
+                if (samples.size() > 0) {
+                    kpiManager.addBuoySamples(serial,samples);
+                }
+
+                return "Samples added successfully.";
+            }
+            catch (IllegalArgumentException e) {
+                return "Could not parse csv.";
+            }
+
+        }
+        else {
+            Optional<Mast> maybeMast = masts.findById(serial);
+            if (maybeMast.isPresent()) {
+                try {
+                    List<MastSample> samples = new ArrayList<MastSample>();
+                    for (Integer i = 3; i < csvLines.length; i++) {
+                        samples.add(MastSampleFactory.fromCSVLine(csvLines[i]));
+                    }
+
+                    if (samples.size() > 0) {
+                        kpiManager.addMastSamples(serial, samples);
+                    }
+
+                    return "Samples added successfully.";
+                }
+                catch (IllegalArgumentException e) {
+                    return "Could not parse csv.";
                 }
             }
             else {
