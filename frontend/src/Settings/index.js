@@ -4,10 +4,8 @@ import { Formik, Form } from "formik";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import {
   getEmail,
   getMasterKey,
@@ -18,6 +16,7 @@ import { MaterialText } from "../Components/Material-Inp.js";
 import { CardColumn, Card } from "../Components/Cards.js";
 import Popup from "reactjs-popup";
 import { OrgCard, TeamMembersCard } from './Org.js';
+import { SitesCard, LidarsCard } from './Sites.js';
 
 function CredsCard(props){
   const [success, setSuccess] = useState(false);
@@ -122,7 +121,6 @@ function ApiKeysCard(props) {
   return (
     <Card>
       <h1>API Keys</h1>
-      <TableContainer component={Paper}>
       <Table  aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -162,7 +160,6 @@ function ApiKeysCard(props) {
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
     <div align="center">
       <div className="elipticle-btn" style={{width: 200, margin: 10}}>
         <h5>Add an API Key</h5>
@@ -234,22 +231,15 @@ function APIModalPopup(props){
   );
 }
 
-function SitesCard(props) {
-  return (
-    <Card>
-      <h1>Organisation's sites</h1>
-    </Card>
-  );
-}
-
 export default function Settings(props) {
   return (
   <main>
     <CardColumn>
       <CredsCard/>
       <ApiKeysCard/>
-      <SitesCard/>
       <OrgCard/>
+      <SitesCard/>
+      <LidarsCard/>
       <TeamMembersCard/>
       <MasterCard/>
     </CardColumn>

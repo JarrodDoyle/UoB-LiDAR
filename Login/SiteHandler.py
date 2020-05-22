@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 from flask import Blueprint, request, g
 from ResponseFactory import *
-from DatabaseHandler import getLiDARS
+from DatabaseHandler import getLiDARS, getSites
+from itertools import chain
 import requests
 
 siteBlueprint = Blueprint('Sites', __name__)
@@ -26,6 +27,9 @@ def get():
     if g.type == "lidars":
         return genSuccessResponse("lidars", getLiDARS(token))
 
+    if g.type == "sites":
+        return genSuccessResponse("sites", getSites(token))
+
     return genErrorResponse("Not Implemented")
 
 def kpiDataText(key, text):
@@ -43,12 +47,19 @@ def kpiDataNumber(key, text, number):
         "data": number,
     }
 
-def kpiDataGraph(graphType, data):
+def kpiDataGraph(key, graphType, data):
     return {
         "id": key,
         "type": "graph",
         "graphType": graphType,
         "data": data,
+    }
+
+def kpiDataTable(key, rows):
+    return {
+        "id": key,
+        "type": "table",
+        "data": rows,
     }
 
 @siteBlueprint.route('/getKPIs', methods=['GET'])
@@ -65,13 +76,24 @@ def getKPIs():
             summary.append(
                 kpiDataNumber(hight, hight, vals["rSqr"]["a"] if type(vals["rSqr"]) is dict else vals["rSqr"]),
             )
+
+        data = []
+        rows = [list(chain.from_iterable([(x + "_a", x + "_b") for x in vals.keys()])) if type(list(vals.values())[0]) is dict else list(vals.keys())]
+        for hight, vals in v.items():
+            rows.append(list(map(lambda x: float(x),
+                list(vals.values())
+                if type(list(vals.values())[0]) is not dict
+                else [x for y in vals.values() for x in y.values()]
+            )))
+
+        data.append(kpiDataTable(f'{k}-details',rows))
         kpis.append({
             "id": k,
             "name": k,
             "description": k,
             "percentComplete": 100,
             "summary": summary,
-            "data": [],
+            "data": data,
         })
     kpis.append({
         "id": "maintinanceVisits",

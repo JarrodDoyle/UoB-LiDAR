@@ -87,7 +87,17 @@ function Popup(props) {
                   <span>{data.text}</span>
                 </CardRow>
               );
-            } else { 
+            } else if (data.type === "table") {
+              return (
+                <table>
+                  {data.data.map(row =>
+                    <tr>
+                      {row.map(cell => <td>{cell}</td>)}
+                    </tr>
+                  )}
+                </table>
+              );
+            } else {
               return null;
             }
           })}

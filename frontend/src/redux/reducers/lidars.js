@@ -35,6 +35,7 @@ export const lidars = (state = {
             name: action.name,
             desc: action.desc,
             totalComplete: action.totalComplete,
+            site_id: action.site_id,
             location: {
               lat: action.location.lat,
               lng: action.location.lng,

@@ -1,284 +1,77 @@
 import {
   ADD_SITE,
+  SITE_FETCH,
+  SITE_ERROR,
+  SITE_FETCH_FIN,
 } from '../actionTypes.js';
 
-export const sites = (state = [], action) => {
+export const sites = (state = {
+  fetching: false,
+  error: false,
+  sites: [],
+}, action) => {
   switch (action.type) {
+    case SITE_ERROR:
+      return Object.assign({}, state, {
+        fetching: false,
+        error: true,
+      });
+    case SITE_FETCH:
+      return Object.assign({}, state, {
+        fetching: true,
+      });
+    case SITE_FETCH_FIN:
+      return Object.assign({}, state, {
+        fetching: false,
+        error: false,
+      });
     case ADD_SITE:
-      return [
-        ...(state.filter(a => a.id !== action.id)),
-        {
-          id: action.id,
-          name: action.name,
-          desc: action.desc,
-          totalComplete: action.totalComplete,
-          location: {
-            lat: action.location.lat,
-            lng: action.location.lng,
-          },
-
-         /*kpis: [
-            {
-              id: "kpiMaintenanceVisits",
-              name: "Maintenance visits",
-              description: "Visits to perform maintinance tasks",
-              percentComplete: 20,
-              data: [
-                {
-                  id: 45,
-                  cardview: {
-                    type: "number",
-                    text: "Scheduled visits",
-                    description: "Number of visits that where pre organised",
-                    number: 5,
-                  },
-                  detailedview: {
-                    type: "graph",
-                    graphType: "line",
-                    graphData: [
-                      {
-                        "id": "japan",
-                        "color": "hsl(227, 70%, 50%)",
-                        "data": [
-                          {
-                            "x": 0,
-                            "y": 16
-                          },
-                          {
-                            "x": 1,
-                            "y": 32
-                          },
-                          {
-                            "x": 2,
-                            "y": 48
-                          },
-                          {
-                            "x": 3,
-                            "y": 64
-                          },
-                        ]
-                      }
-                    ]
-                  }
-                },
-                {
-                  id: 45,
-                  cardview: {
-                    type: "number",
-                    description: "Number of visits that where not organised",
-                    text: "Uncheduled visits",
-                    number: 25,
-                  },
-                  detailedview: {
-                    type: "graph",
-                    graphType: "line",
-                    graphData: [
-                      {
-                        "id": "japan",
-                        "color": "hsl(227, 70%, 50%)",
-                        "data": [
-                          {
-                            "x": 0,
-                            "y": 80
-                          },
-                          {
-                            "x": 1,
-                            "y": 96
-                          },
-                          {
-                            "x": 2,
-                            "y": 112
-                          },
-                          {
-                            "x": 3,
-                            "y": 128
-                          },
-                        ]
-                      }
-                    ]
-                  }
-                }
-              ]
+      return Object.assign({}, state, {
+        sites: [
+          ...(state.sites.filter(a => a.id !== action.id)),
+          {
+            id: action.id,
+            name: action.name,
+            desc: action.desc,
+            // totalComplete: action.totalComplete,
+            location: {
+              lat: action.location.lat,
+              lng: action.location.lng,
             },
-            {
-              id: "kpiEpicGamer",
-              name: "Epic Gamer",
-              description: "haha",
-              percentComplete: 100,
-              data: [
-                {
-                  id: 45,
-                  cardview: {
-                    type: "number",
-                    text: "Scheduled visits",
-                    description: "Number of visits that where pre organised",
-                    number: 5,
-                  },
-                  detailedview: {
-                    type: "graph",
-                    graphType: "line",
-                    graphData: [
-                      {
-                        "id": "japan",
-                        "color": "hsl(227, 70%, 50%)",
-                        "data": [
-                          {
-                            "x": 0,
-                            "y": 144
-                          },
-                          {
-                            "x": 1,
-                            "y": 160
-                          },
-                          {
-                            "x": 2,
-                            "y": 176
-                          },
-                          {
-                            "x": 3,
-                            "y": 192
-                          },
-                        ]
-                      }
-                    ]
-                  }
-                },
-                {
-                  id: 45,
-                  cardview: {
-                    type: "number",
-                    description: "Number of visits that where not organised",
-                    text: "Uncheduled visits",
-                    number: 25,
-                  },
-                  detailedview: {
-                    type: "graph",
-                    graphType: "line",
-                    graphData: [
-                      {
-                        "id": "japan",
-                        "color": "hsl(227, 70%, 50%)",
-                        "data": [
-                          {
-                            "x": 0,
-                            "y": 208
-                          },
-                          {
-                            "x": 1,
-                            "y": 224
-                          },
-                          {
-                            "x": 2,
-                            "y": 240
-                          },
-                          {
-                            "x": 3,
-                            "y": 256
-                          },
-                        ]
-                      }
-                    ]
-                  }
-                },
-                {
-                  id: 45,
-                  cardview: {
-                    type: "number",
-                    description: "Number of visits that where not organised",
-                    text: "Uncheduled visits",
-                    number: 25,
-                  },
-                  detailedview: {
-                    type: "graph",
-                    graphType: "line",
-                    graphData: [
-                      {
-                        "id": "japan",
-                        "color": "hsl(227, 70%, 50%)",
-                        "data": [
-                          {
-                            "x": 0,
-                            "y": 208
-                          },
-                          {
-                            "x": 1,
-                            "y": 224
-                          },
-                          {
-                            "x": 2,
-                            "y": 240
-                          },
-                          {
-                            "x": 3,
-                            "y": 256
-                          },
-                        ]
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          ]*/
-        }
-      ]
-    /*case TOGGLE_SITE_MAP_OPEN:
-      return state.map((site, index) => {
-        if (site.id === action.id) {
-          return Object.assign({}, site, {
-            map_open: !site.map_open,
-          })
-        }
-        return Object.assign({}, site, {
-          map_open: false,
-        })
-      });*/
+          }
+        ]
+      });
     default:
       return state
   }
 }
 
 /*
-{
-  id: action.id,
-  name: action.name,
-  desc: action.desc,
-  totalComplete: action.totalComplete,
-  location: {
-    lat: action.location.lat,
-    lng: action.location.lng,
-  },
-  map_open: false,
-  kpis: [
-    {
-      id: ,
-      name: ,
-      description: ,
-      percentComplete: ,
-      data: [
-        {
-          id: ,
-          name: ,
-          description: , - hover text
-          cardview: {
-            type: text,
-            text: ,
-            ==== or ====
-            type: numeric,
-            text: ,
-            data: ,
-          }
-          detailedview: {
-            ==== same as card view types plus: ====
-            type: graph,
-            graphType: line,
-            graphData: {
-              graph json
-            }
-          }
-        }
-      ]
+  detailedview: {
+    type: "graph",
+    graphType: "line",
+    graphData: [
+      {
+        "id": "japan",
+        "color": "hsl(227, 70%, 50%)",
+        "data": [
+          {
+            "x": 0,
+            "y": 208
+          },
+          {
+            "x": 1,
+            "y": 224
+          },
+          {
+            "x": 2,
+            "y": 240
+          },
+          {
+            "x": 3,
+            "y": 256
+          },
+        ]
     }
   ]
-}
 */
