@@ -1,6 +1,8 @@
 import {
   ADD_SITE,
-  TOGGLE_SITE_MAP_OPEN,
+  SITE_ERROR,
+  SITE_FETCH,
+  SITE_FETCH_FIN,
   SET_MASTER_API_KEY,
   ADD_API_KEY,
   UPDATE_API_KEY,
@@ -27,6 +29,7 @@ import {
   LIDAR_FETCH,
   LIDAR_ERROR,
   LIDAR_FETCH_FIN,
+  TOGGLE_SITE_MAP_OPEN,
   KPI_FETCH,
   KPI_ERROR,
   KPI_FETCH_FIN,
@@ -34,8 +37,9 @@ import {
 } from './actionTypes.js'
 
 const domain = "http://localhost:6000"
+//const domain = "https://lidar.icedcoffee.dev/api"
 
-export const addSite = site => ({
+const addSite = site => ({
   type: ADD_SITE,
   id: site.id,
   name: site.name,
@@ -44,13 +48,46 @@ export const addSite = site => ({
   location: site.location,
 });
 
-export const addLidar = site => ({
+const sitesFetching = () => ({
+  type: SITE_FETCH,
+});
+
+const sitesFetchFin = () => ({
+  type: SITE_FETCH_FIN,
+})
+
+const sitesError = () => ({
+  type: SITE_ERROR,
+})
+
+export const fetchSites = token => {
+  return (dispatch) => {
+    dispatch(sitesFetching())
+    fetch(`${domain}/sites/get?token=${token}`)
+      .then(response => {
+        if (response.status === 200) {
+          response.json().then(r => {
+            r.data.map(site => dispatch(addSite(site)));
+            dispatch(sitesFetchFin());
+          });
+        } else {
+          dispatch(sitesError());
+        }
+      })
+      .catch(error => {
+        dispatch(sitesError());
+      });
+  }
+};
+
+const addLidar = site => ({
   type: ADD_LIDAR,
   id: site.id,
   name: site.name,
   desc: site.desc,
   totalComplete: 75,
   location: site.location,
+  site_id: site.site_id,
 });
 
 const lidarsFetching = () => ({

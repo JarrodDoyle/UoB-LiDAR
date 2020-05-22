@@ -1,5 +1,3 @@
-export const ADD_SITE = "ADD_SITE";
-export const TOGGLE_SITE_MAP_OPEN = "TOGGLE_SITE_MAP_OPEN";
 export const SET_MASTER_API_KEY = "SET_MASTER_API_KEY";
 export const ADD_API_KEY = "ADD_API_KEY";
 export const UPDATE_API_KEY = "UPDATE_API_KEY";
@@ -31,7 +29,13 @@ export const ADD_LIDAR = "ADD_LIDAR";
 export const LIDAR_FETCH = "LIDAR_FETCH";
 export const LIDAR_ERROR = "LIDAR_ERROR";
 export const LIDAR_FETCH_FIN = "LIDAR_FETCH_FIN";
+export const TOGGLE_SITE_MAP_OPEN = "TOGGLE_SITE_MAP_OPEN";
 
+export const ADD_SITE = "ADD_SITE";
+export const SITE_FETCH = "SITE_FETCH";
+export const SITE_ERROR = "SITE_ERROR";
+export const SITE_FETCH_FIN = "SITE_FETCH_FIN";
+ 
 export const KPI_FETCH = "KPI_FETCH";
 export const KPI_ERROR = "KPI_ERROR";
 export const KPI_ADD = "KPI_ADD";

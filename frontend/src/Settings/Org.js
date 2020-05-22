@@ -6,10 +6,8 @@ import { Selector, Checkbox } from '../Components/Material-Inp.js';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Popup from "reactjs-popup";
 import {
   getMasterKey,
@@ -170,9 +168,8 @@ export function TeamMembersCard(props) {
     return (<></>);
 
   return (
-    <Card>
+    <Card style={{overflowX: 'scroll'}}>
       <h1>Team Members</h1>
-      <TableContainer component={Paper}>
       <Table  aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -198,14 +195,13 @@ export function TeamMembersCard(props) {
               </TableCell>
               { org.can_change_user_perms &&
                 <TableCell align="center">
-                  <TeamMemberModalPopup {...row} />
+                  <i className="fas fa-trash"/>
                 </TableCell>
               }
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
     { org.can_add_user &&
       <div align="center">
           <div className="elipticle-btn" style={{width: 200, margin: 10}}>
@@ -214,59 +210,5 @@ export function TeamMembersCard(props) {
       </div>
     }
     </Card>
-  );
-}
-
-function TeamMemberModalPopup(props){
-  return(
-    <Popup
-      trigger={<button className="elipticle-btn"><h5>Edit</h5></button>}
-      modal
-      closeOnDocumentClick
-      contentStyle = {{borderRadius: 10}}
-    >
-      <h1>Edit Team Member - {props.email}</h1>
-      <Card>
-        <h2>Details</h2>
-        {props.email}
-      </Card>
-      <Card>
-        <h2>Sites</h2>
-          <Table  aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align="right">Read</TableCell>
-                <TableCell align="right">Write</TableCell>
-                <TableCell align="right"></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {props.sites.map((site) => (
-                <TableRow key={site}>
-                  <TableCell component="th" scope="row">
-                    {site.name}
-                  </TableCell>
-
-                  <TableCell align="right"><input type="checkbox" ></input></TableCell>
-                  <TableCell align="right"><input type="checkbox"></input></TableCell>
-                  <TableCell align="right"><i className="fas fa-trash"/></TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <div className="elipticle-btn" align="right" style={{width:150, margin: 10}}>
-              <h5>Add a site</h5>
-          </div>
-        </Card>
-        <div align="center">
-          <div className="elipticle-btn" style={{width: 170, margin: 10}}>
-            <h5>Save Changes</h5>
-          </div>
-          <div className="elipticle-btn" style={{width: 170, margin: 10}}>
-            <h5>Delete Team Member</h5>
-          </div>
-        </div>
-    </Popup>
   );
 }
