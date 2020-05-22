@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from flask import Blueprint, request, g
 from ResponseFactory import *
-from DatabaseHandler import getLiDARS
+from DatabaseHandler import getLiDARS, getSites, hasWritePerms
 from itertools import chain
 import requests
 
@@ -26,6 +26,9 @@ def get():
 
     if g.type == "lidars":
         return genSuccessResponse("lidars", getLiDARS(token))
+
+    if g.type == "sites":
+        return genSuccessResponse("sites", getSites(token))
 
     return genErrorResponse("Not Implemented")
 
@@ -109,6 +112,27 @@ def getKPIs():
 
     return genSuccessResponse(f'{g.type} get', kpis)
 
+@siteBlueprint.route('/<int:key>/sendjson', methods=['POST'])
+def sendjons(key):
+    token = request.args.get('token')
+    if token == None:
+        return genErrorResponse("Token missing", status=401)
+    if not hasWritePerms(token, g.type, key):
+        return genErrorResponse("Insuffient permissions", status=401)
+    requests.post(f"http://localhost:8080/database/{key}/sendjson", data=request.getJson())
+    return genSuccessResponse("uplaod", "success")
+
+@siteBlueprint.route('/<int:key>/sendcsv', methods=['POST'])
+def sendcsv(key):
+    token = request.args.get('token')
+    if token == None:
+        return genErrorResponse("Token missing", status=401)
+    if not hasWritePerms(token, g.type, key):
+        return genErrorResponse("Insuffient permissions", status=401)
+    requests.post(f"http://localhost:8080/database/{key}/sendcsv", data=request.get_data())
+    return genSuccessResponse("uplaod", "success")
+
 if __name__ == "__main__":
     print ("Not to be run directly")
+
     exit(1)

@@ -191,6 +191,41 @@ def getLiDARS(token):
         }
     }, lidars))
 
+def getSites(token):
+    cursor = getCursor()
+    cursor.execute("\
+        SELECT site.*\
+        FROM site\
+        INNER JOIN token_perms_sites ON token_perms_sites.site_id = site.site_id\
+        INNER JOIN tokens ON tokens.token = token_perms_sites.token\
+        WHERE tokens.token = %s;\
+    ",(token,))
+    sites = cursor.fetchall()
+    return list(map(lambda x: {
+        "id": x[0],
+        "name": x[1],
+        "desc": x[2],
+        "location": {
+            "lat": float(x[3]),
+            "lng": float(x[4]),
+        }
+    }, sites))
+
+def hasWritePerms(token, siteType, siteId):
+    cursor = getCursor()
+    if siteType not in ["lidars", "sites"]:
+        return False
+    t = siteType[:-1]
+    stmt = f"\
+        SELECT token_perms_{t}s.write\
+        FROM token_perms_{t}s\
+        INNER JOIN tokens ON tokens.token = token_perms_{t}s.token\
+        WHERE tokens.token = %s AND token_perms_{t}s.{t}_id = %s;\
+    "
+    cursor.execute(stmt, (token, siteId))
+    res = cursor.fetchone()
+    return bool(res[0]) if res is not None else False
+
 if __name__ == "__main__":
     print("Not server file... Run Server.py")
     exit(1)
