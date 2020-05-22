@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from flask import Blueprint, request, g
 from ResponseFactory import *
-from DatabaseHandler import getLiDARS, getSites
+from DatabaseHandler import getLiDARS
 from itertools import chain
 import requests
 
@@ -26,9 +26,6 @@ def get():
 
     if g.type == "lidars":
         return genSuccessResponse("lidars", getLiDARS(token))
-
-    if g.type == "sites":
-        return genSuccessResponse("sites", getSites(token))
 
     return genErrorResponse("Not Implemented")
 

@@ -115,9 +115,6 @@ export default function Sites() {
           )
         })}
       </CardGrid>
-      <Link to="/login" className="circle-btn lidars-add">
-        <i className="fas fa-plus"/>
-      </Link>
     </main>
   );
 }
