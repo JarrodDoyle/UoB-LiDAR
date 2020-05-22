@@ -21,9 +21,11 @@ import {
 import { PercentageIndicator } from "./Components/Indicators.js";
 import "./Dashboard.css";
 import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
+import APopup from "reactjs-popup";
 
 import turbine from "./res/turbine-clear-bold.gif";
 import { Divider } from "@material-ui/core";
+
 function Popup(props) {
   var kpiTitles = []
   var kpiIdx = props.kpiID;
@@ -320,6 +322,23 @@ function Map(props) {
 }
 const WrappedMap = withScriptjs(withGoogleMap(Map))
 
+function Upload() {
+  return (
+    <APopup
+      trigger={<i className="fas fa-plus floating-btn circle-btn"/>}
+      modal
+      closeOnDocumentClick
+      contentStyle = {{borderRadius: 10}}
+    >
+      <h1>Upload data</h1>
+      <input type="file"/>
+      <div className="eliptical-btn" style={{width: 170}}>
+        <button>Upload</button>
+      </div>
+    </APopup>
+  )
+}
+
 export default function Dashboard() {
   let { siteId } = useParams();
   return (
@@ -328,6 +347,7 @@ export default function Dashboard() {
       <h2>Key Performance Indicators:</h2>
       <Divider></Divider>
       <DashboardGrid siteId={Number(siteId)}/>
+      <Upload/>
     </main>
   );
 }
